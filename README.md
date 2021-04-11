@@ -1,2 +1,2 @@
-# research-framework
-A standard framework for scientific research projects in GitHub
+# battery-survival
+Survival analysis of camera trap battery life. Cameras are located around Tasmania.
