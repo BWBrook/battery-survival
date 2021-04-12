@@ -1,4 +1,4 @@
-# research-framework manuscript directory
+# battery-analysis manuscript directory
 This directory is not ignored, documents here will be in version control
 
 Keep documents organised in folders indicating the date they were written or stored.
