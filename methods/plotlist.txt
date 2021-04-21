@@ -1,0 +1,10 @@
+*coxph vs km survival curves
+*coxph vs wb survival curves
+*coxph hazard ratio bb, fpd, dpd
+
+coxph + bb + fpd survival curve
+
+
+tables: bb vs (seas, reg, ft)
+
+varta + procell seasonal hazard ratio
