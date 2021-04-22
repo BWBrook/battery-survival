@@ -31,7 +31,7 @@ get_wb_df <- function(wb_bat, battery_dat) {
 	surv_wb
 }
 
-get_cox_df <- function(cox_bat, battery_dat, cols) {
+get_cox_df <- function(cox_bat, battery_dat, cols = 1) {
 	newdat <- get_newdat(battery_dat, cols)
 	cox_sf <- survfit(cox_bat, data = battery_dat, newdata = newdat, conf.type = "none")
 	surv_cox0 <- surv_summary(cox_sf)
