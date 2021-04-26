@@ -6,15 +6,15 @@ cox_bat <- coxph(Surv(rd, bdead) ~ bb + fpd + dpd, data = battery_dat)
 
 
 varta_dat <- battery_dat %>% 
-	filter(bb %in% c("varta")) %>% 
+	filter(bb %in% c("Varta")) %>% 
 	mutate(bb = fct_drop(bb))
 
 procell_dat <- battery_dat %>% 
-	filter(bb %in% c("procell")) %>% 
+	filter(bb %in% c("Procell")) %>% 
 	mutate(bb = fct_drop(bb))
 
 both_dat <- battery_dat %>% 
-	filter(bb %in% c("varta", "procell")) %>% 
+	filter(bb %in% c("Varta", "Procell")) %>% 
 	mutate(bb = fct_drop(bb))
 
 varta_bat <- coxph(Surv(rd, bdead) ~ seas, data = varta_dat)

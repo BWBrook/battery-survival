@@ -8,6 +8,7 @@ get_data <- function(conffile) {
 	battery_dat <- readr::read_csv(conf$in_dat,
 		col_types = conf$col_types) %>%
 	mutate(bdead = 1 - bok,
+		   bb = str_to_title(bb) %>% factor(),
 		   fpd = (fi + 1) / rd,
 		   dpd = (ti + 1) / rd)
 	#battery_dat$dpd <- zscore(log((battery_dat$ti-battery_dat$fi+1)/battery_dat$rd)) # derived predictor, day images per day (trigger rate), logged and normalised
