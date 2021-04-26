@@ -17,13 +17,20 @@ both_dat <- battery_dat %>%
 	filter(bb %in% c("Varta", "Procell")) %>% 
 	mutate(bb = fct_drop(bb))
 
-varta_bat <- coxph(Surv(rd, bdead) ~ seas, data = varta_dat)
-procell_bat <- coxph(Surv(rd, bdead) ~ seas, data = procell_dat)
+varta_seas <- coxph(Surv(rd, bdead) ~ seas + fpd + dpd, data = varta_dat)
+procell_seas <- coxph(Surv(rd, bdead) ~ seas + fpd + dpd, data = procell_dat)
+both_seas <- coxph(Surv(rd, bdead) ~ bb + seas + fpd + dpd, data = both_dat)
 
-both_bat <- coxph(Surv(rd, bdead) ~ bb + seas, data = both_dat)
+bat_type <- coxph(Surv(rd, bdead) ~ bt + fpd + dpd, data = battery_dat)
 
-ggforest(cox_bat, data = battery_dat)
+varta_reg <- coxph(Surv(rd, bdead) ~ reg + fpd + dpd, data = both_dat)
 
-ggforest(varta_bat, data = varta_dat)
-ggforest(procell_bat, data = procell_dat)
-ggforest(both_bat, data = both_dat)
+plot_for <- ggforest(cox_bat, data = battery_dat)
+
+plot_for_seas_v <- ggforest(varta_seas, data = varta_dat)
+plot_for_seas_p <- ggforest(procell_seas, data = procell_dat)
+plot_for_seas_b <- ggforest(both_seas, data = both_dat)
+
+plot_for_bt <- ggforest(bat_type, data = battery_dat)
+
+plot_for_reg <- ggforest(varta_reg, data = varta_dat)

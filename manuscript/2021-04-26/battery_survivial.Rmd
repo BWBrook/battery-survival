@@ -2,34 +2,141 @@
 title: "Battery Survival Analysis"
 author: "Zach Aandahl"
 date: "26/04/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Initial Methods Exploration
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Data Exploration
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r survival tables} 
+```{r load, include=FALSE}
 setwd("../../methods")
 source("01_battery.R")
+source("02_bbsurvcomp.R")
+source("03_coxph_forest.R")
+```
+
+## Data Exploration
+
+The data used in this markdocument are dated 2021-04-21. The tables below
+summarise the primary variable of interest **Battery** with four 
+categorical covariates to guide experimental design. The battery data will be subset by specific brands for each covariate if the levels across those brands contain enough samples for analysis. 
+
+**Battery - Flash Type**
+
+COXPH - Flash Type, Battery (Procell, Varta)
+
+```{r table - flash type, echo=FALSE} 
 tab_ft
+```
+
+**Battery - Battery Type**
+
+Can examine lithium vs alkaline ignoring battery brand.
+
+```{r table - battery type, echo=FALSE} 
 tab_bt
+```
+
+**Battery - Season**
+
+COXPH - Season, Battery (Procell, Varta)
+
+```{r table - season, echo=FALSE}
 tab_seas
+```
+
+**Battery - Region**
+
+COXPH - Region, Battery (Varta)
+
+```{r table - region, echo=FALSE}
 tab_reg
 ```
 
-## Including Plots
+\newpage
+## Survival Curves
 
-You can also embed plots, for example:
+**Semi-parametric (COXPH) vs Non-Parametric (Kaplan-Meier) Survival**
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r survival curve - coxph vs km bb + fpd + dpd, echo=FALSE}
+plot_surv_svn
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The solid lines show Kaplan-Meier survival estimates. The translucent thick lines show
+Cox Proportional-Hazard survival curves. The Cox curves largely follow the Kaplan-Meier survival curves with Maxell being an exception. Varta is the highest performing brand while Procell is the worst.
+
+\newpage
+**Semi-parametric (COXPH) vs Parametric (Weibull) Survival**
+
+```{r survival curve - coxph vs weibull bb + fpd + dpd, echo=FALSE}
+plot_surv_svp
+```
+
+The dashed lines show Weibull survival curves. The translucent thick lines show
+Cox Proportional-Hazard survival curves. The Weibull curves follow the Cox PH curves for the three lowest performing battery brands but show reduced survival for the four best performing brands.
+
+\newpage
+**Semi-parametric (COXPH) and Daylight Photos per Day (dpd)**
+
+```{r survival curve - coxph bb + dpd, echo=FALSE}
+plot_surv_dpd
+```
+
+The Cox Proportional-Hazard survival curves are stratified by battery brand (colour) 
+and the rate of daylight photos taken. The dotted, dashed and solid lines show five, fifty and ninty-five percent quartiles respectively. Incresing rate of daylight photos shows a small decrese in battery survival. 
+
+\newpage
+**Semi-parametric (COXPH) and Flash Photos per Day (fpd)**
+
+```{r survival curve - coxph bb + fpd, echo=FALSE}
+plot_surv_fpd
+```
+
+The Cox Proportional-Hazard survival curves are stratified by battery brand (colour) 
+and the rate of flash photos taken. The dotted, dashed and solid lines show five, fifty and ninty-five percent quartiles respectively. Incresing rate of flash photos shows a moderate decrese in battery survival. 
+
+
+\newpage
+## COXPH Forest Plots
+
+**COXPH Forest - Battery Brand, Flash Photos per Day, Daylight Photos per Day**
+
+```{r forest plot - bb + fpd + dpd, echo=FALSE}
+plot_for
+```
+
+Battery type has a large significant effect on proportional hazard. There is a small but significant increase in hazard for flash photography. 
+
+\newpage
+**COXPH Forest - Battery Type, Flash Photos per Day, Daylight Photos per Day**
+
+```{r forest plot - bt + fpd + dpd, echo=FALSE}
+plot_for_bt
+```
+
+Unsurprisingly there is a significant and large increase in hazard for 
+akaline batteries. Oddly there is a small but significant reduction in 
+hazard for flash photos when just considering battery type and flash 
+type as covariates.
+
+\newpage
+**COXPH Forest - Seasonal data with Procell and Varta brands**
+
+```{r forest plot - bb + seas - varta and procell, echo=FALSE}
+plot_for_seas_b
+```
+
+There is small but significant reduction in hazard during Autumn.
+
+\newpage
+**COXPH Forest - Regional data with Varta brand**
+
+```{r forest plot - reg + fpd + dpd - varta, echo=FALSE}
+plot_for_reg
+```
+
+Examining regional differences with Varta batteries, there are significant increases in hazard for the central, south east and west regions.

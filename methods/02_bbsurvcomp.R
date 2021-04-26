@@ -23,16 +23,16 @@ cox3_df <- get_cox_df(cox3_bat, battery_dat, cols = c(1, 4)) %>%
 # ggsurvplot(fit = wb_df, color = "bb", legend.title = "Battery Type") 
 # ggsurvplot(fit = cox_df, color = "bb", legend.title = "Battery Type")
 
-ggsurvplot(fit = wb_df, color = "bb", linetype = "dashed", legend.title = "Battery Type") +
-	geom_line(aes(x = time, y = surv, col = bb), size = 2, alpha = 0.5, data = cox_df) + 
-	ggtitle("Semi-parametric (COXPH) vs Parametric (Weibull) survival")
+plot_surv_svp <- ggsurvplot(fit = wb_df, color = "bb", linetype = "dashed", legend.title = "Battery Type") +
+	geom_line(aes(x = time, y = surv, col = bb), size = 2, alpha = 0.5, data = cox_df) #+ 
+	#ggtitle("Semi-parametric (COXPH) vs Parametric (Weibull) survival")
 
-ggsurvplot(fit = km_bat, color = "bb", legend.title = "Battery Type")$plot + 
-	geom_line(aes(x = time, y = surv, col = bb), size = 2, alpha = 0.5, data = cox_df) + 
-	ggtitle("Semi-parametric (COXPH) vs Non-parametric (KM) survival")
+plot_surv_svn <- ggsurvplot(fit = km_bat, color = "bb", legend.title = "Battery Type")$plot + 
+	geom_line(aes(x = time, y = surv, col = bb), size = 2, alpha = 0.5, data = cox_df) #+ 
+	##ggtitle("Semi-parametric (COXPH) vs Non-parametric (KM) survival")
 
-ggsurvplot(fit = cox2_df, color = "bb", linetype = "fpd", conf.int = FALSE, legend.title = "Battery Type") +
+plot_surv_fpd <- ggsurvplot(fit = cox2_df, color = "bb", linetype = "fpd", conf.int = FALSE, legend.title = "Battery Type") +
 	scale_linetype_manual(values = c("dotted", "dashed", "solid"))
 
-ggsurvplot(fit = cox3_df, color = "bb", linetype = "dpd", conf.int = FALSE, legend.title = "Battery Type") +
+plot_surv_dpd <- ggsurvplot(fit = cox3_df, color = "bb", linetype = "dpd", conf.int = FALSE, legend.title = "Battery Type") +
 	scale_linetype_manual(values = c("dotted", "dashed", "solid"))
