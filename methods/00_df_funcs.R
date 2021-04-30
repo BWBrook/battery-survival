@@ -5,7 +5,8 @@ get_newdat <- function(battery_dat, cols = 1) {
 		bb = levels(battery_dat$bb),
 		seas = levels(battery_dat$seas),
 		fpd = battery_dat$fpd %>% quantile(probs = c(0.05, 0.5, 0.95)) %>% round(2),
-		dpd = battery_dat$dpd %>% quantile(probs = c(0.05, 0.5, 0.95)) %>% round(2)
+		dpd = battery_dat$dpd %>% quantile(probs = c(0.05, 0.5, 0.95)) %>% round(2),
+		ft = levels(battery_dat$ft)
 	)
 	newdat <- expand.grid(var_list[cols])
 	newdat
@@ -33,7 +34,7 @@ get_wb_df <- function(wb_bat, battery_dat) {
 
 get_cox_df <- function(cox_bat, battery_dat, cols = 1) {
 	newdat <- get_newdat(battery_dat, cols)
-	cox_sf <- survfit(cox_bat, data = battery_dat, newdata = newdat, conf.type = "none")
+	cox_sf <- survfit(cox_bat, data = battery_dat, newdata = newdat, conf.type = "plain")
 	surv_cox0 <- surv_summary(cox_sf)
 	if(ncol(get_newdat(battery_dat, cols)) == 1) surv_cox <- cbind(surv_cox0, bb = newdat[as.character(surv_cox0$strata), ])
 	else surv_cox <- cbind(surv_cox0, newdat[as.character(surv_cox0$strata), ]) #%>%

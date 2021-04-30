@@ -13,10 +13,10 @@ cox_tascam_i_df <- get_cox_df(cox_tascam_i, tascam_i_dat, cols = c(1, 3, 4)) %>%
 
 km_tascam_i <- survfit(Surv(rd, bdead) ~ bb, data = tascam_i_dat)
 
-ggsurvplot(fit = km_tascam_i, color = "bb", conf.int = FALSE, legend.title = "Battery")
+plot_tc_i_km <- ggsurvplot(fit = km_tascam_i, palette = "Dark2", color = "bb", conf.int = FALSE, legend.title = "Battery")
 
-ggsurvplot(fit = cox_tascam_i_df, color = "bb", conf.int = FALSE, legend.title = "Battery")  +
-	facet_grid(fpd~dpd)
+plot_tc_i_cox <- ggsurvplot(fit = cox_tascam_i_df, palette = "Dark2", color = "bb", linetype = "fpd", conf.int = FALSE, legend.title = "Battery")  +
+	facet_wrap(~dpd) + scale_linetype_manual(values = c("dotted", "dashed", "solid"))
 
-ggforest(cox_tascam_i, data = tascam_i_dat)
+plot_tc_i_for <- ggforest(cox_tascam_i, data = tascam_i_dat)
 

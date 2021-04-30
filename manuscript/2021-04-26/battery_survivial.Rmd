@@ -1,11 +1,11 @@
 ---
 title: "Battery Survival Analysis"
 author: "Zach Aandahl"
-date: "26/04/2021"
+date: "30/04/2021"
 output:
   pdf_document: default
   html_document: default
-subtitle: Initial Methods Exploration
+subtitle: Initial Methods Exploration v2
 ---
 
 ```{r setup, include=FALSE}
@@ -14,129 +14,131 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load, include=FALSE}
 setwd("../../methods")
-source("01_battery.R")
-source("02_bbsurvcomp.R")
-source("03_coxph_forest.R")
+source("02_sw.R")
+source("03_ne.R")
+source("04_tascam_i.R")
+source("05_tascam_w.R")
+source("06_tascam_v.R")
 ```
 
-## Data Exploration
 
-The data used in this markdocument are dated 2021-04-21. The tables below
-summarise the primary variable of interest **Battery** with four 
-categorical covariates to guide experimental design. The battery data will be subset by specific brands for each covariate if the levels across those brands contain enough samples for analysis. 
+## SW Partition 
 
-**Battery - Flash Type**
+The SW partition includes three battery types: Ultra (digital alkaline), Maxell (cheap lithium) and Varta (expensive lithium). Season data is not used in this analysis because batteries were serviced either 6-monthly or annually. All cameras use the _w_ flash type.
 
-COXPH - Flash Type, Battery (Procell, Varta)
+Cameras were left for a year due to Covid and not subject to censoring. The Varta batteries empirically ran for much longer than Varta's in other regions. This may be due to exposed sun locations.
 
-```{r table - flash type, echo=FALSE} 
-tab_ft
+```{r "km sw", echo=FALSE, fig.height = 4}
+plot_sw_km
 ```
+Figure 1: Kaplan-Meier survival curves for the SW partition stratified by battery type. The Maxell and Ultra curves are almost indistinguishable. 
 
-**Battery - Battery Type**
-
-Can examine lithium vs alkaline ignoring battery brand.
-
-```{r table - battery type, echo=FALSE} 
-tab_bt
+```{r "cox sw", echo=FALSE, fig.height = 3}
+plot_sw_cox
 ```
+Figure 2: COXPH survival curves for the SW partition showing the effect of flash photos per day (fpd) and daylight photos per day (dpd). The facet panels show the 5th, 50th and 95th percentile values for dpd while the linetype in each plot shows the 5th, 50th and 95th percentile values for fpd. The rate of dpd only has a small effect on the survival curves while fpd has a noticable effect.
 
-**Battery - Season**
-
-COXPH - Season, Battery (Procell, Varta)
-
-```{r table - season, echo=FALSE}
-tab_seas
+```{r "for sw", echo=FALSE, fig.height = 3.5}
+plot_sw_for
 ```
+Figure 3: COXPH forest plot for SW partition. There is a large significant effect with Varta batteries against Maxell and Ultra batteries. Both fpd and dpd are significant covariates with fpd having a larger effect size (worse survival).
 
-**Battery - Region**
+\newpage 
 
-COXPH - Region, Battery (Varta)
+## NE Partition
 
-```{r table - region, echo=FALSE}
-tab_reg
+The NE partition is exclusively Varta with the _w_ flash type. The cameras were serviced every 4 months and heavily censored. Two data entries for Procell batteries were removed prior to analysis. Note that one camera (69_1) was omitted from analysis because it used an _i_ flash for security reasons.
+
+```{r "km ne", echo=FALSE, fig.height = 4}
+plot_ne_km
 ```
+Figure 4: Kaplan-Meier survival curves for the NE partition stratified by season. The K-M curves show that the data are heavily censored and give little information about overall survival for the Varta batteries. 
+
+```{r "cox ne", echo=FALSE, fig.height = 3}
+plot_ne_cox
+```
+Figure 5: COXPH survival curves for the NE partition showing the effect of flash photos per day (fpd) and daylight photos per day (dpd). The facet panels show the 5th, 50th and 95th percentile values for dpd while the linetype in each plot shows the 5th, 50th and 95th percentile values for fpd. There is large overlap across the survival curves with Autumn appearing to have the highest survival. 
+
+```{r "for ne", echo=FALSE, fig.height = 3.5}
+plot_ne_for
+```
+Figure 6: COXPH forest plot for NE partition. None of the covariates are significant. 
 
 \newpage
-## Survival Curves
 
-**Semi-parametric (COXPH) vs Non-Parametric (Kaplan-Meier) Survival**
+## TAS-CAM Partition (i flash type)
 
-```{r survival curve - coxph vs km bb + fpd + dpd, echo=FALSE}
-plot_surv_svn
+The TAS-CAM partition (SE, NW, CT and WT) with _i_ flash type used Procell (bulk alkaline) and Varta batteries. 
+
+```{r "km tc-i", echo=FALSE, fig.height = 4}
+plot_tc_i_km
 ```
+Figure 7: Kaplan-Meier survival curves for the TAS-CAM partition stratified by battery type for cameras with the _i_ flash type. The plot appears largely censored (with a low number of samples for Procell).
 
-The solid lines show Kaplan-Meier survival estimates. The translucent thick lines show
-Cox Proportional-Hazard survival curves. The Cox curves largely follow the Kaplan-Meier survival curves with Maxell being an exception. Varta is the highest performing brand while Procell is the worst.
 
-\newpage
-**Semi-parametric (COXPH) vs Parametric (Weibull) Survival**
-
-```{r survival curve - coxph vs weibull bb + fpd + dpd, echo=FALSE}
-plot_surv_svp
+```{r "cox tc-i", echo=FALSE, fig.height = 3}
+plot_tc_i_cox
 ```
+Figure 8: COXPH survival curves for the TAS-CAM partition with _i_ flash type showing the effect of flash photos per day (fpd) and daylight photos per day (dpd). The facet panels show the 5th, 50th and 95th percentile values for dpd while the linetype in each plot shows the 5th, 50th and 95th percentile values for fpd. Interestingly both fpd and dpd have almost no effect.
 
-The dashed lines show Weibull survival curves. The translucent thick lines show
-Cox Proportional-Hazard survival curves. The Weibull curves follow the Cox PH curves for the three lowest performing battery brands but show reduced survival for the four best performing brands.
-
-\newpage
-**Semi-parametric (COXPH) and Daylight Photos per Day (dpd)**
-
-```{r survival curve - coxph bb + dpd, echo=FALSE}
-plot_surv_dpd
+```{r "for tc-i", echo=FALSE, fig.height = 3.5}
+plot_tc_i_for
 ```
-
-The Cox Proportional-Hazard survival curves are stratified by battery brand (colour) 
-and the rate of daylight photos taken. The dotted, dashed and solid lines show five, fifty and ninty-five percent quartiles respectively. Incresing rate of daylight photos shows a small decrese in battery survival. 
-
-\newpage
-**Semi-parametric (COXPH) and Flash Photos per Day (fpd)**
-
-```{r survival curve - coxph bb + fpd, echo=FALSE}
-plot_surv_fpd
-```
-
-The Cox Proportional-Hazard survival curves are stratified by battery brand (colour) 
-and the rate of flash photos taken. The dotted, dashed and solid lines show five, fifty and ninty-five percent quartiles respectively. Incresing rate of flash photos shows a moderate decrese in battery survival. 
+Figure 8: COXPH forest plot for TAS-CAM partition with _i_ flash type. Varta batteries have an effect, but it is not significant (due to the low sample size of Procell).
 
 
 \newpage
-## COXPH Forest Plots
 
-**COXPH Forest - Battery Brand, Flash Photos per Day, Daylight Photos per Day**
+## TAS-CAM Partition (w flash type)
 
-```{r forest plot - bb + fpd + dpd, echo=FALSE}
-plot_for
+```{r "km tc-w", echo=FALSE, fig.height = 4}
+plot_tc_w_km
 ```
+Figure 9: Kaplan-Meier survival curves for the TAS-CAM partition stratified by battery type for cameras with the _w_ flash type. 
 
-Battery type has a large significant effect on proportional hazard. There is a small but significant increase in hazard for flash photography. 
+```{r "cox tc-w-pd", echo=FALSE, fig.height = 3}
+plot_tc_w_pd_cox
+```
+Figure 10: COXPH survival curves for the TAS-CAM partition with _w_ flash type showing the effect of flash photos per day (fpd) and daylight photos per day (dpd). The facet panels show the 5th, 50th and 95th percentile values for dpd while the linetype in each plot shows the 5th, 50th and 95th percentile values for fpd. 
+
+
+```{r "cox tc-w-seas", echo=FALSE, fig.height = 3}
+plot_tc_w_seas_cox
+```
+Figure 11: COXPH survival curves for the TAS-CAM partition with _w_ flash type showing seasonal effects. The facet panels show battery survival for each season. Shaded areas show confidence intervals for the survival curves.
+
+```{r "for tc-w", echo=FALSE, fig.height = 4.5}
+plot_tc_w_for
+```
+Figure 11: COXPH forest plot for TAS-CAM partition with _w_ flash type. Energizer batteries have the lowest hazard but are not significiantly different than Varta batteries. There are significant positive effects to hazard from flash photos per day and Winter. The Autumn season has a significant negative effect on hazard. Overall, battery type has the largest effect size on hazard.
 
 \newpage
-**COXPH Forest - Battery Type, Flash Photos per Day, Daylight Photos per Day**
 
-```{r forest plot - bt + fpd + dpd, echo=FALSE}
-plot_for_bt
+I examined the interaction between battery type and season and found a (barely) significant effect between battery type (alkaline vs lithium) and Winter.
+```{r "tc-w inter", echo=FALSE}
+cox_tascam_w_i
 ```
-
-Unsurprisingly there is a significant and large increase in hazard for 
-akaline batteries. Oddly there is a small but significant reduction in 
-hazard for flash photos when just considering battery type and flash 
-type as covariates.
 
 \newpage
-**COXPH Forest - Seasonal data with Procell and Varta brands**
 
-```{r forest plot - bb + seas - varta and procell, echo=FALSE}
-plot_for_seas_b
+## TAS-CAM Partition (flash comparison)
+
+```{r "km tc-v", echo=FALSE, fig.height = 4}
+plot_tc_v_km
 ```
+Figure 12: Kaplan-Meier survival curves for the TAS-CAM partition stratified by flash type for cameras with Varta batteries.
 
-There is small but significant reduction in hazard during Autumn.
-
-\newpage
-**COXPH Forest - Regional data with Varta brand**
-
-```{r forest plot - reg + fpd + dpd - varta, echo=FALSE}
-plot_for_reg
+```{r "cox tc-v", echo=FALSE, fig.height = 3}
+plot_tc_v_cox
 ```
+Figure 10: COXPH survival curves for the TAS-CAM partition with Varta batteries stratified by flash type showing the effect of flash photos per day (fpd) and daylight photos per day (dpd). The facet panels show the 5th, 50th and 95th percentile values for dpd while the linetype in each plot shows the 5th, 50th and 95th percentile values for fpd. The model includes an interaction between flash type and flashes per day.
 
-Examining regional differences with Varta batteries, there are significant increases in hazard for the central, south east and west regions.
+```{r "for tc-v", echo=FALSE, fig.height = 4.5}
+plot_tc_v_for
+```
+Figure 13: COXPH forest plot for TAS-CAM partition with Varta batteries comparing flash types. Cameras with flash type _i_ have a significant negative effect on hazard.
+
+Model output for the Cox PH model with Varta batteries and an interaction term between flash type and flashes per day. The interaction does not have a significant effect (perhaps leave out?).
+```{r "tc-v inter", echo=FALSE}
+cox_tascam_v
+```

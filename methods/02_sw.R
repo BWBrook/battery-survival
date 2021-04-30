@@ -11,9 +11,9 @@ cox_sw_int <- coxph(Surv(rd, bdead) ~ bb + bb*fpd + bb*dpd, data = sw_dat)
 cox_sw_df <- get_cox_df(cox_sw, sw_dat, cols = c(1, 3, 4)) %>%
 	mutate(fpd = factor(fpd), dpd = factor(dpd))
 
-ggsurvplot(fit = km_sw, color = "bb", conf.int = FALSE, legend.title = "Battery Type")
+plot_sw_km <- ggsurvplot(fit = km_sw, palette = "Dark2", color = "bb", conf.int = FALSE, legend.title = "Battery Type")
 
-ggsurvplot(fit = cox_sw_df, color = "bb", conf.int = FALSE, legend.title = "Battery Type")  +
-	facet_grid(fpd~dpd)
+plot_sw_cox <- ggsurvplot(fit = cox_sw_df, palette = "Dark2", color = "bb", linetype = "fpd", conf.int = FALSE, legend.title = "Battery Type")  +
+	facet_wrap(~dpd) + scale_linetype_manual(values = c("dotted", "dashed", "solid"))
 
-ggforest(cox_sw, data = sw_dat)
+plot_sw_for <- ggforest(cox_sw, data = sw_dat)
