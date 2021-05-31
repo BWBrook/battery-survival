@@ -1,3 +1,13 @@
 default:
   in_dat	    : "../data/2021-05-21/batt_life_may21.csv"
   col_types   : "fiiiifffff"
+sw: 
+  region: "sw"
+ne:
+  region: "ne"
+tascam_i:
+  region: "se","nw","ct","wt"
+tascam_w:
+  region: "se","nw","ct","wt"
+tascam_v:
+  region: "se","nw","ct","wt"
