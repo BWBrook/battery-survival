@@ -2,6 +2,8 @@ source("00_dependencies.R")
 source("00_data.R")
 source("00_df_funcs.R")
 
+options(mc.cores = 8)
+
 sw_dat <- get_data("config.yml") %>%
 	filter(reg == "sw") %>% droplevels()
 km_sw <- survfit(Surv(rd, bdead) ~ bb, data = sw_dat)
@@ -40,3 +42,9 @@ ps_sw %>%
 		geom_ribbon(aes(ymin = ci_lb, ymax = ci_ub, fill = bb), alpha = 0.2) +
 		theme_minimal() + 
 		facet_grid(fpd ~ dpd)
+
+plot_sw_km$plot +
+    geom_line(aes(x = time, y = median, color = bb),
+    	data = ps_sw %>% filter(fpd == 1.3, dpd == 1.63)) +
+    geom_ribbon(aes(x = time, y = median, ymin = ci_lb, ymax = ci_ub, fill = bb), alpha = 0.2,
+    	data = ps_sw %>% filter(fpd == 1.3, dpd == 1.63))
