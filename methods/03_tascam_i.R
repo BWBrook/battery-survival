@@ -2,6 +2,8 @@ source("00_dependencies.R")
 source("00_data.R")
 source("00_df_funcs.R")
 
+options(mc.cores = 8)
+
 tascam_dat <- get_data("config.yml") %>%
 	filter(reg %in% c("se", "nw", "ct", "wt")) %>% droplevels()
 tascam_i_dat <- tascam_dat %>% 
@@ -20,3 +22,6 @@ plot_tc_i_cox <- ggsurvplot(fit = cox_tascam_i_df, palette = "Dark2", color = "b
 
 plot_tc_i_for <- ggforest(cox_tascam_i, data = tascam_i_dat)
 
+stan_tc_i <- stan_surv(Surv(rd, bdead) ~ bb + fpd + dpd, data = tascam_i_dat) 
+new_dat <- get_newdat(tascam_i_dat, cols = c(1, 3, 4))
+ps_tascam_i <- posterior_survfit(stan_tascam_i, newdata = new_dat, times = 0, extrapolate = TRUE, control = list(edist = 600))
