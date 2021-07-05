@@ -37,7 +37,8 @@ get_cox_df <- function(cox_bat, battery_dat, cols = 1) {
 	cox_sf <- survfit(cox_bat, data = battery_dat, newdata = newdat, conf.type = "plain")
 	surv_cox0 <- surv_summary(cox_sf)
 	if(ncol(get_newdat(battery_dat, cols)) == 1) surv_cox <- cbind(surv_cox0, bb = newdat[as.character(surv_cox0$strata), ])
-	else surv_cox <- cbind(surv_cox0, newdat[as.character(surv_cox0$strata), ]) #%>%
-		#mutate(fpd = factor(fpd))
+	else surv_cox <- cbind(surv_cox0, newdat[as.character(surv_cox0$strata), ]) 
+	if("fpd" %in% names(surv_cox)) surv_cox <- surv_cox %>% mutate(fpd = factor(fpd))
+	if("dpd" %in% names(surv_cox)) surv_cox <- surv_cox %>% mutate(dpd = factor(dpd))
 	surv_cox
 }

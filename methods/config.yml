@@ -1,6 +1,7 @@
 default:
-  in_dat	    : "../data/2021-06-28/batt_life_final.csv"
-  col_types   : "fiiiifffff"
+  in_dat: "../data/2021-06-28/batt_life_final.csv"
+  col_types: "fiiiifffff"
+  lhs: "Surv(rd, bdead) ~"
   region: "*"
   ftype: "*"
   btype: "*"
