@@ -4,7 +4,7 @@ source("00_functions.R")
 
 options(mc.cores = 8)
 
-ne_dat <- get_data("config.yml") %>%
+ne_dat <- get_data(conf) %>%
 	filter(reg == "ne") %>% droplevels()
 
 km_ne <- survfit(Surv(rd, bdead) ~ seas, data = ne_dat)

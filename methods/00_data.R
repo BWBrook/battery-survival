@@ -1,7 +1,6 @@
 source("00_dependencies.R")
 
-get_data <- function(conffile, part = "ALL") {
-	conf <- config::get(file = conffile)                            
+get_data <- function(conf, part = "ALL") {                           
 	battery_dat <- readr::read_csv(conf$in_dat,
 		col_types = conf$col_types) %>%
 	mutate(bdead = as.integer(1 - bok),

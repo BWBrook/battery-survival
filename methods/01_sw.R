@@ -1,12 +1,13 @@
 # Variables are loaded from config.yml by setting environment. 
-# Sys.setenv(R_CONFIG_ACTIVE = "mod_sw_km")
+# Sys.setenv(R_CONFIG_ACTIVE = "sw")
 source("00_dependencies.R")
 source("00_data.R")
 source("00_functions.R")
 
 options(mc.cores = 8)
+conf <- config::get(file = conffile)
 
-sw_dat <- get_data("config.yml") %>%
+sw_dat <- get_data(conf) %>%
 	filter(reg == "sw") %>% droplevels()
 km_sw <- survfit(Surv(rd, bdead) ~ bb, data = sw_dat)
 cox_sw <- coxph(Surv(rd, bdead) ~ bb + fpd + dpd, data = sw_dat)

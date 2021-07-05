@@ -3,8 +3,9 @@ source("00_data.R")
 source("00_functions.R")
 
 options(mc.cores = 8)
+conf <- config::get(file = conffile)
 
-tascam_dat <- get_data("config.yml") %>%
+tascam_dat <- get_data(conf) %>%
 	filter(reg %in% c("se", "nw", "ct", "wt")) %>% droplevels()
 tascam_w_dat <- tascam_dat %>%
 	filter(ft == "w") %>% droplevels()
