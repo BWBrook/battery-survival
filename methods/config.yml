@@ -6,6 +6,8 @@ default:
 #------------------
 sw: 
   region: "sw"
+  ftype: "*"
+  btype: "*"
   basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
@@ -14,6 +16,8 @@ sw:
 #------------------
 ne:
   region: "ne"
+  ftype: "*"
+  btype: "*"
   basic: "seas"
   form: "seas + fpd + dpd"
   colv: !expr c(2, 3, 4)
@@ -21,13 +25,13 @@ ne:
 # TASCAM Region
 #--------------
 tascam: 
-  region: !expr c("se","nw","ct","wt")
+  region: "se|nw|ct|wt"
 # TASCAM i experiments
 #---------------------
 tascam_i:
   inherits: tascam
   ftype: "i"
-  btype: !expr c("Procell", "Varta")
+  btype: "Procell|Varta"
   basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
@@ -36,7 +40,7 @@ tascam_i:
 tascam_w:
   inherits: tascam
   ftype: "w"
-  btype: !expr all()
+  btype: "*"
   basic: "bb"
   form: "bb + seas + fpd + dpd"
   colv: !expr c(1, 2, 3, 4)
@@ -44,6 +48,6 @@ tascam_w:
 #---------------------
 tascam_v:
   inherits: tascam
-  ftype: !expr all()
+  ftype: "*"
   btype: "Varta"
 
