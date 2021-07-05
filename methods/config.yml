@@ -1,6 +1,8 @@
 default:
   in_dat: "../data/2021-06-28/batt_life_final.csv"
   col_types: "fiiiifffff"
+  out_dir: "../results/"
+  run_date: "2021-07-09"
   lhs: "Surv(rd, bdead) ~"
   region: "*"
   ftype: "*"
@@ -9,6 +11,7 @@ default:
 # Test Bench Data
 #------------------
 tb:
+  name: "tb"
   region: "tb"
   ftype: "*"
   btype: "*"
@@ -16,7 +19,8 @@ tb:
 #------------------
 # South West Region 
 #------------------
-sw: 
+sw:
+  name: "sw" 
   region: "sw"
   ftype: "*"
   btype: "*"
@@ -27,6 +31,7 @@ sw:
 # North East Region 
 #------------------
 ne:
+  name: "ne"
   region: "ne"
   ftype: "*"
   btype: "*"
@@ -42,6 +47,7 @@ tascam:
 #---------------------
 tascam_i:
   inherits: tascam
+  name: "tascam_i"
   ftype: "i"
   btype: "Procell|Varta"
   basic: "bb"
@@ -51,6 +57,7 @@ tascam_i:
 #---------------------
 tascam_w:
   inherits: tascam
+  name: "tascam_w"
   ftype: "w"
   btype: "*"
   basic: "bb"
@@ -60,6 +67,7 @@ tascam_w:
 #---------------------
 tascam_v:
   inherits: tascam
+  name: "tascam_v"
   ftype: "*"
   btype: "Varta"
 
