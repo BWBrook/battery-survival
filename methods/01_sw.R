@@ -1,3 +1,5 @@
+# Variables are loaded from config.yml by setting environment. 
+# Sys.setenv(R_CONFIG_ACTIVE = "mod_sw_km")
 source("00_dependencies.R")
 source("00_data.R")
 source("00_functions.R")

@@ -6,13 +6,7 @@ default:
 #------------------
 sw: 
   region: "sw"
-mod_sw_kw: 
-  inherits: sw
-  type: "kw"
-  form: "bb"
-mod_sw_cox:
-  inherits: sw
-  type: "cox"
+  basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
 #------------------
@@ -20,13 +14,7 @@ mod_sw_cox:
 #------------------
 ne:
   region: "ne"
-mod_ne_kw: 
-  inherits: ne
-  type: "kw"
-  form: "seas"
-mod_ne_cox:
-  inherits: ne
-  type: "cox"
+  basic: "seas"
   form: "seas + fpd + dpd"
   colv: !expr c(2, 3, 4)
 #--------------
@@ -40,11 +28,7 @@ tascam_i:
   inherits: tascam
   ftype: "i"
   btype: !expr c("Procell", "Varta")
-mod_tci_kw:
-  inherits: tascam_i
-  form: "bb"
-mod_tci_cox:
-  inherits: tascam_i
+  basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
 # TASCAM w experiments
@@ -53,11 +37,7 @@ tascam_w:
   inherits: tascam
   ftype: "w"
   btype: !expr all()
-mod_tcw_kw:
-  inherits: tascam_w
-  form: "bb"
-mod_tcw_cox:
-  inherits: tascam_w
+  basic: "bb"
   form: "bb + seas + fpd + dpd"
   colv: !expr c(1, 2, 3, 4)
 # TASCAM v experiments
