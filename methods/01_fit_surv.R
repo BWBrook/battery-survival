@@ -9,5 +9,7 @@ conf <- config::get(file = "config.yml")
 
 dat <- get_data(conf) 
 km_fit <- survfit(formula(paste(conf$lhs, conf$basic)), data = dat)
-cox_fit <- coxph(formula(paste(conf$lhs, conf$form)), data = dat)
-cox_df <- get_cox_df(cox_fit, dat, cols = conf$colv) 
+if(conf$basic != "1") {
+    cox_fit <- coxph(formula(paste(conf$lhs, conf$form)), data = dat)
+    cox_df <- get_cox_df(cox_fit, dat, cols = conf$colv) 
+}

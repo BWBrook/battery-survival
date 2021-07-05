@@ -12,6 +12,7 @@ tb:
   region: "tb"
   ftype: "*"
   btype: "*"
+  basic: "1"
 #------------------
 # South West Region 
 #------------------
