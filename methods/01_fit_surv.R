@@ -4,9 +4,7 @@ source("00_dependencies.R")
 source("00_data.R")
 source("00_functions.R")
 
-options(mc.cores = 8)
-
-run_fit <- function(configfile) {
+fit_surv <- function(configfile) {
     conf <- config::get(file = configfile)
     dat <- get_data(conf)
     out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
@@ -29,4 +27,4 @@ run_fit <- function(configfile) {
     }
 }
 
-run_fit("config.yml")
+fit_surv("config.yml")

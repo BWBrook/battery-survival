@@ -1,19 +1,27 @@
 # Variables are loaded from config.yml by setting environment. 
-# Sys.setenv(R_CONFIG_ACTIVE = "sw")
+# Sys.setenv(R_CONFIG_ACTIVE = "sw_wb")
 source("00_dependencies.R")
 source("00_dependencies_gh.R")
 source("00_data.R")
 source("00_functions.R")
 
-options(mc.cores = 8)
-conf <- config::get(file = "config.yml")
+options(mc.cores = 4)
 
-dat <- get_data(conf) 
+fit_stan <- function(configfile) {
+    conf <- config::get(file = configfile)
+    dat <- get_data(conf) 
+    out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
+    stan_out <- paste0(out_pre, "stan.rds")
+    if(is.null(conf$form)) form <- conf$basic
+    else form <- conf$form
 
-bayes_fit <- rstanarm::stan_surv(formula(paste(conf$lhs, conf$form)),
-    basehaz = conf$haz,
-    data = dat) 
-bayes_fit_weibull  <- update(bayes_fit, basehaz = "weibull")
-bayes_fit_bspline  <- update(bayes_fit, basehaz = "bs")
-bayes_fit_mspline1 <- update(bayes_fit, basehaz = "ms")
-bayes_fit_mspline2 <- update(bayes_fit, basehaz = "ms", basehaz_ops = list(df = 10))
+    if(!file.exists(stan_out)) {
+        stan_fit <- rstanarm::stan_surv(formula(paste(conf$lhs, form)),
+            basehaz = conf$haz,
+            basehaz_ops = conf$opts,
+            data = dat) 
+    write_rds(stan_fit, stan_out)
+    }
+}
+
+fit_stan("config.yml")

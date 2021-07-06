@@ -16,6 +16,47 @@ tb:
   ftype: "*"
   btype: "*"
   basic: "1"
+  form: !expr NULL
+tb_wb:
+  name: "tb_wb"
+  inherits: tb
+  haz: "weibull"
+  opts: !expr NULL
+tb_bs:
+  name: "tb_bs_5"
+  inherits: tb
+  haz: "bs"
+  opts: !expr list(df = 5)
+tb_bs_7:
+  name: "tb_bs_7"
+  inherits: tb_bs
+  opts: !expr list(df = 7)
+tb_bs_9:
+  name: "tb_bs_9"
+  inherits: tb_bs
+  opts: !expr list(df = 9)
+tb_bs_11:
+  name: "tb_bs_11"
+  inherits: tb_bs
+  opts: !expr list(df = 11)
+tb_ms:
+  name: "tb_ms_5"
+  inherits: tb
+  haz: "ms"
+  opts: !expr list(df = 5)
+tb_ms_7:
+  name: "tb_ms_7"
+  inherits: tb_ms
+  opts: !expr list(df = 7)
+tb_ms_9:
+  name: "tb_ms_9"
+  inherits: tb_ms
+  opts: !expr list(df = 9)
+tb_ms_11:
+  name: "tb_ms_11"
+  inherits: tb_ms
+  opts: !expr list(df = 11)
+
 #------------------
 # South West Region 
 #------------------
