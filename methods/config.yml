@@ -162,6 +162,29 @@ tascam_w:
   basic: "bb"
   form: "bb + seas + fpd + dpd"
   colv: !expr c(1, 2, 3, 4)
+tascam_w_wb:
+  name: "tascam_w_wb"
+  inherits: tascam_w
+  haz: "weibull"
+  opts: !expr NULL
+tascam_w_bs_5:
+  name: "tascam_w_bs_5"
+  inherits: tascam_w
+  haz: "bs"
+  opts: !expr list(df = 5)
+tascam_w_bs_7:
+  name: "tascam_w_bs_7"
+  inherits: tascam_w_bs_5
+  opts: !expr list(df = 7)
+tascam_w_ms_5:
+  name: "tascam_w_ms_5"
+  inherits: tascam_w
+  haz: "ms"
+  opts: !expr list(df = 5)
+tascam_w_ms_7:
+  name: "tascam_w_ms_7"
+  inherits: tascam_w_ms_5
+  opts: !expr list(df = 7)
 # TASCAM v experiments
 #---------------------
 tascam_v:
@@ -169,4 +192,30 @@ tascam_v:
   name: "tascam_v"
   ftype: "*"
   btype: "Varta"
+  basic: "ft"
+  form: "ft*fpd + dpd"
+  colv: !expr c(3, 4, 5)
+tascam_v_wb:
+  name: "tascam_v_wb"
+  inherits: tascam_v
+  haz: "weibull"
+  opts: !expr NULL
+tascam_v_bs_5:
+  name: "tascam_v_bs_5"
+  inherits: tascam_v
+  haz: "bs"
+  opts: !expr list(df = 5)
+tascam_v_bs_7:
+  name: "tascam_v_bs_7"
+  inherits: tascam_v_bs_5
+  opts: !expr list(df = 7)
+tascam_v_ms_5:
+  name: "tascam_v_ms_5"
+  inherits: tascam_v
+  haz: "ms"
+  opts: !expr list(df = 5)
+tascam_v_ms_7:
+  name: "tascam_v_ms_7"
+  inherits: tascam_v_ms_5
+  opts: !expr list(df = 7)
 
