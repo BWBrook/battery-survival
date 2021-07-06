@@ -7,6 +7,10 @@ default:
   region: "*"
   ftype: "*"
   btype: "*"
+  chains: 4
+  cores: 4
+  seed: 1337
+  iter: 4000
 #------------------
 # Test Bench Data
 #------------------
@@ -31,14 +35,6 @@ tb_bs_7:
   name: "tb_bs_7"
   inherits: tb_bs
   opts: !expr list(df = 7)
-tb_bs_9:
-  name: "tb_bs_9"
-  inherits: tb_bs
-  opts: !expr list(df = 9)
-tb_bs_11:
-  name: "tb_bs_11"
-  inherits: tb_bs
-  opts: !expr list(df = 11)
 tb_ms:
   name: "tb_ms_5"
   inherits: tb
@@ -48,14 +44,6 @@ tb_ms_7:
   name: "tb_ms_7"
   inherits: tb_ms
   opts: !expr list(df = 7)
-tb_ms_9:
-  name: "tb_ms_9"
-  inherits: tb_ms
-  opts: !expr list(df = 9)
-tb_ms_11:
-  name: "tb_ms_11"
-  inherits: tb_ms
-  opts: !expr list(df = 11)
 
 #------------------
 # South West Region 

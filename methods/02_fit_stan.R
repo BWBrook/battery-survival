@@ -16,10 +16,15 @@ fit_stan <- function(configfile) {
     else form <- conf$form
 
     if(!file.exists(stan_out)) {
-        stan_fit <- rstanarm::stan_surv(formula(paste(conf$lhs, form)),
+        stanform <- formula(paste(conf$lhs, form))
+        stan_fit <- rstanarm::stan_surv(stanform,
             basehaz = conf$haz,
             basehaz_ops = conf$opts,
-            data = dat) 
+            data = dat,
+            chains = conf$chains,
+            cores = conf$cores,
+            seed = conf$seed,
+            iter = conf$iter) 
     write_rds(stan_fit, stan_out)
     }
 }
