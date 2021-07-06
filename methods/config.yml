@@ -56,6 +56,30 @@ sw:
   basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
+sw_wb:
+  name: "sw_wb"
+  inherits: sw
+  haz: "weibull"
+  opts: !expr NULL
+sw_bs_5:
+  name: "sw_bs_5"
+  inherits: sw
+  haz: "bs"
+  opts: !expr list(df = 5)
+sw_bs_7:
+  name: "sw_bs_7"
+  inherits: sw_bs_5
+  opts: !expr list(df = 7)
+sw_ms_5:
+  name: "sw_ms_5"
+  inherits: sw
+  haz: "ms"
+  opts: !expr list(df = 5)
+sw_ms_7:
+  name: "sw_ms_7"
+  inherits: sw_ms_5
+  opts: !expr list(df = 7)
+
 #------------------
 # North East Region 
 #------------------
@@ -67,6 +91,29 @@ ne:
   basic: "seas"
   form: "seas + fpd + dpd"
   colv: !expr c(2, 3, 4)
+ne_wb:
+  name: "ne_wb"
+  inherits: ne
+  haz: "weibull"
+  opts: !expr NULL
+ne_bs_5:
+  name: "ne_bs_5"
+  inherits: ne
+  haz: "bs"
+  opts: !expr list(df = 5)
+ne_bs_7:
+  name: "ne_bs_7"
+  inherits: ne_bs_5
+  opts: !expr list(df = 7)
+ne_ms_5:
+  name: "ne_ms_5"
+  inherits: ne
+  haz: "ms"
+  opts: !expr list(df = 5)
+ne_ms_7:
+  name: "ne_ms_7"
+  inherits: ne_ms_5
+  opts: !expr list(df = 7)
 #--------------
 # TASCAM Region
 #--------------
@@ -82,6 +129,29 @@ tascam_i:
   basic: "bb"
   form: "bb + fpd + dpd"
   colv: !expr c(1, 3, 4)
+tascam_i_wb:
+  name: "tascam_i_wb"
+  inherits: tascam_i
+  haz: "weibull"
+  opts: !expr NULL
+tascam_i_bs_5:
+  name: "tascam_i_bs_5"
+  inherits: tascam_i
+  haz: "bs"
+  opts: !expr list(df = 5)
+tascam_i_bs_7:
+  name: "tascam_i_bs_7"
+  inherits: tascam_i_bs_5
+  opts: !expr list(df = 7)
+tascam_i_ms_5:
+  name: "tascam_i_ms_5"
+  inherits: tascam_i
+  haz: "ms"
+  opts: !expr list(df = 5)
+tascam_i_ms_7:
+  name: "tascam_i_ms_7"
+  inherits: tascam_i_ms_5
+  opts: !expr list(df = 7)
 # TASCAM w experiments
 #---------------------
 tascam_w:
