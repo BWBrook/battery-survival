@@ -9,6 +9,7 @@ get_data <- function(conf) {
 		   dpd = (ti + 1) / rd) %>%
 	filter(!(reg == "ne" & bb == "Procell")) %>% # no Procell data in NE
 	filter(grepl(conf$region, reg), grepl(conf$ftype, ft), grepl(conf$btype, bb)) %>%
-	droplevels() 
+	droplevels() %>%
+	drop_na()
 	battery_dat
 }
