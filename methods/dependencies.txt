@@ -2,3 +2,4 @@ tidyverse
 config
 survival
 survminer
+loo
