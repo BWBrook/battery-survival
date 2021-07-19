@@ -7,6 +7,8 @@ source("00_functions.R")
 
 options(mc.cores = 4)
 
+print(normal())
+
 fit_stan <- function(configfile) {
     conf <- config::get(file = configfile)
     dat <- get_data(conf) 
@@ -20,6 +22,7 @@ fit_stan <- function(configfile) {
         stan_fit <- rstanarm::stan_surv(stanform,
             basehaz = conf$haz,
             basehaz_ops = conf$opts,
+            prior = conf$prior,
             data = dat,
             chains = conf$chains,
             cores = conf$cores,

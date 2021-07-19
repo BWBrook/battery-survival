@@ -4,6 +4,7 @@ default:
   out_dir: "../results/"
   run_date: "2021-07-09"
   lhs: "Surv(rd, bdead) ~"
+  prior: !expr normal(location = 0, scale = 1.5)
   region: "*"
   ftype: "*"
   btype: "*"
