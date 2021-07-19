@@ -11,8 +11,8 @@ default:
   btype: "*"
   chains: 4
   cores: 4
-  seed: 1337
-  iter: 1000
+  seed: 2313
+  iter: 4000
 #------------------
 # Test Bench Data
 #------------------
