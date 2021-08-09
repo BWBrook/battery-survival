@@ -1,7 +1,7 @@
 default:
   in_dat: "../data/2021-06-28/batt_life_final.csv"
   col_types: "fiiiifffff"
-  out_dir: "../results/"
+  out_dir: "../results/2021-07-09/"
   run_date: "2021-07-09"
   lhs: "Surv(rd, bdead) ~"
   prior_location: 0

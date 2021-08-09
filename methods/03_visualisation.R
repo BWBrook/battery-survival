@@ -4,21 +4,19 @@ source("00_dependencies.R")
 source("00_data.R")
 source("00_functions.R")
 
-# stupid way for now, will make pretty later
+# load km.rds, cox.rds, cox_df.rds or stan.rds
+get_survdat <- function(conf_active, type = "km.rds", conf_file = "config.yml") {
+	Sys.setenv(R_CONFIG_ACTIVE = conf_active)
+	conf <- config::get(file = conf_file)
+	out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
+	surv_out <- paste0(out_pre, type)
+	surv_dat <- read_rds(surv_out)
+	surv_dat
+}
 
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v")
-
-conf <- config::get(file = "config.yml")
-dat <- get_data(conf)
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-km_out <- paste0(out_pre, "km.rds")
-cox_out <- paste0(out_pre, "cox.rds") 
-cox_df_out <- paste0(out_pre, "cox_df.rds")
-
-km_dat <- read_rds(km_out)
-cox_dat <- read_rds(cox_out)
-cox_df <- read_rds(cox_df_out)
-
+km_dat <- get_survdat("tascam_v", type = "km.rds")
+cox_dat <- get_survdat("tascam_v", type = "cox.rds")
+cox_df <- get_survdat("tascam_v", type = "cox_df.rds")
 
 plot_tc_v_km <- ggsurvplot(fit = km_dat, color = "ft", conf.int = FALSE, legend.title = "Flash Type")
 
@@ -27,41 +25,11 @@ plot_tc_v_cox <- ggsurvplot(fit = cox_df, palette = "Dark2", color = "ft", linet
 
 plot_tc_v_for <- ggforest(cox_dat, data = dat)
 
-
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_wb")
-conf <- config::get(file = "config.yml")
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-stan_out <- paste0(out_pre, "stan.rds")
-print(stan_out)
-tc_wb_dat <- read_rds(stan_out)
-
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_bs_5")
-conf <- config::get(file = "config.yml")
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-stan_out <- paste0(out_pre, "stan.rds")
-print(stan_out)
-tc_bs_5_dat <- read_rds(stan_out)
-
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_bs_7")
-conf <- config::get(file = "config.yml")
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-stan_out <- paste0(out_pre, "stan.rds")
-print(stan_out)
-tc_bs_7_dat <- read_rds(stan_out)
-
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_ms_5")
-conf <- config::get(file = "config.yml")
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-stan_out <- paste0(out_pre, "stan.rds")
-print(stan_out)
-tc_ms_5_dat <- read_rds(stan_out)
-
-Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_ms_7")
-conf <- config::get(file = "config.yml")
-out_pre <- paste0(conf$out_dir, conf$run_date, "_", conf$name, "_") 
-stan_out <- paste0(out_pre, "stan.rds")
-print(stan_out)
-tc_ms_7_dat <- read_rds(stan_out)
+tc_wb_dat <- get_survdat("tascam_v_wb", type = "stan.rds")
+tc_bs_5_dat <- get_survdat("tascam_v_bs_5", type = "stan.rds")
+tc_bs_7_dat <- get_survdat("tascam_v_bs_7", type = "stan.rds")
+tc_ms_5_dat <- get_survdat("tascam_v_ms_5", type = "stan.rds")
+tc_ms_7_dat <- get_survdat("tascam_v_ms_7", type = "stan.rds")
 
 # # # LOO
 
@@ -96,7 +64,7 @@ model_comp <- function(loo_comp) {
 			theme_minimal()
 }
 
-mod_plot <- model_comp(loo_comp)
+# mod_plot <- model_comp(loo_comp)
 
 Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_wb")
 conf <- config::get(file = "config.yml")
@@ -154,10 +122,10 @@ plot_ms7 <- plot_tc_v_km$plot +
     guides(fill = "none")
 
 
-seven_plot <- cowplot::plot_grid(plot_tc_v_for, mod_plot, plot_bs5, plot_bs7, plot_wb, plot_ms7, plot_ms5,
-	labels = c("COX PH", "LOO", "BSpline 5df", "BSpline 7df", "Weibull", "MSpline 7df", "MSpline 5df"),
-	hjust = -1,
-	ncol = 2)
+# seven_plot <- cowplot::plot_grid(plot_tc_v_for, mod_plot, plot_bs5, plot_bs7, plot_wb, plot_ms7, plot_ms5,
+# 	labels = c("COX PH", "LOO", "BSpline 5df", "BSpline 7df", "Weibull", "MSpline 7df", "MSpline 5df"),
+# 	hjust = -1,
+# 	ncol = 2)
 
 #panel_labels <- c('1' = "Maxell", '2' = "Ultra", '3' = "Varta")
 # plot(ps_sw) + 
