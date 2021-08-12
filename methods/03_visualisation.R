@@ -99,6 +99,29 @@ model_comp <- function(loo_comp) {
 
 # mod_plot <- model_comp(loo_comp)
 
+
+get_post_surv <- function(conf_active, vcols = c(3, 4, 5)) {
+	conf <- get_conf(conf_active)
+	dat <- get_data(conf)
+	new_dat <- get_newdat(dat, cols = vcols)
+	surv_dat <- get_survdat(conf, type = "stan.rds")
+	post_surv <- rstanarm::posterior_survfit(surv_dat, newdata = new_dat, times = 0, extrapolate = TRUE, control = list(edist = 400))
+	#post_surv <- post_surv %>% mutate(fpd = new_dat[id, 1], dpd = new_dat[id, 2], ft = new_dat[id, 3])
+	post_surv
+}
+
+plot_stan <- function(conf_stan) {
+	post_surv <- get_post_surv(conf_stan)
+	stan_plot <- ggplot() + 
+		geom_line(aes(x = time, y = median, color = ft),
+			data = post_surv %>% filter(fpd == 0.7, dpd == 1.44)) +
+		geom_ribbon(aes(x = time, y = median, ymin = ci_lb, ymax = ci_ub, fill = ft), alpha = 0.2,
+			data = post_surv %>% filter(fpd == 0.7, dpd == 1.44)) +
+		guides(fill = "none") + 
+		theme_minimal()
+	stan_plot
+}
+
 # Sys.setenv(R_CONFIG_ACTIVE = "tascam_v_wb")
 # conf <- config::get(file = "config.yml")
 # new_dat <- get_newdat(dat, cols = c(3, 4, 5))
