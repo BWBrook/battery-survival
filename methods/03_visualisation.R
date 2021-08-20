@@ -22,7 +22,7 @@ plot_km <- function(conf_active, color = "ft", conf.int = FALSE, legend.title = 
 	conf <<- get_conf(conf_active)
 	dat <- get_data(conf)
 	km_dat <- get_survdat(conf, type = "km.rds")
-	km_plot <- ggsurvplot(fit = km_dat, data = dat, color = color, conf.int = conf.int, legend.title = legend.title)
+	km_plot <- ggsurvplot(fit = km_dat, data = dat, color = color, alpha = 0.2, conf.int = conf.int, legend.title = legend.title)
 	rm(conf, pos = ".GlobalEnv")
 	km_plot
 }
@@ -118,6 +118,31 @@ plot_stan <- function(conf_stan, vcols = c(3, 4, 5)) {
 		geom_line(aes(x = time, y = median, color = var),
 			data = post_surv %>% filter(fpd == fpd_med, dpd == dpd_med)) +
 		geom_ribbon(aes(x = time, y = median, ymin = ci_lb, ymax = ci_ub, fill = var), alpha = 0.2,
+			data = post_surv %>% filter(fpd == fpd_med, dpd == dpd_med)) +
+		guides(fill = "none") + 
+		theme_minimal()
+	stan_plot
+}
+
+get_tcw_surv <- function(conf_active, vcols = c(3, 4, 1, 2)) {
+	conf <- get_conf(conf_active)
+	dat <- get_data(conf)
+	new_dat <- get_newdat(dat, cols = vcols)
+	surv_dat <- get_survdat(conf, type = "stan.rds")
+	post_surv <- rstanarm::posterior_survfit(surv_dat, newdata = new_dat, times = 0, extrapolate = TRUE, control = list(edist = 400))
+	post_surv <- post_surv %>% mutate(fpd = new_dat[id, 1], dpd = new_dat[id, 2], battery = new_dat[id, 3], season = new_dat[id, 4])
+	post_surv
+}
+
+plot_tcw <- function(conf_stan, vcols = c(3, 4, 1, 2)) {
+	km_plot <- plot_km("tascam_w", color = "bb", legend.title = "Battery")
+	post_surv <- get_tcw_surv(conf_stan, vcols) %>% filter(season == "summer")
+	fpd_med <- post_surv %>% pull(fpd) %>% median()
+	dpd_med <- post_surv %>% pull(dpd) %>% median()
+	stan_plot <- km_plot$plot + 
+		geom_line(aes(x = time, y = median, color = battery),
+			data = post_surv %>% filter(fpd == fpd_med, dpd == dpd_med)) +
+		geom_ribbon(aes(x = time, y = median, ymin = ci_lb, ymax = ci_ub, fill = battery), alpha = 0.2,
 			data = post_surv %>% filter(fpd == fpd_med, dpd == dpd_med)) +
 		guides(fill = "none") + 
 		theme_minimal()
