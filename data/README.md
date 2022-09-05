@@ -13,5 +13,5 @@ Update this README.md file with information about the data files and where to fi
     2021-04-21/batt_life_apr21.csv - updated battery data (completed Ansmann)
     2021-05-21/batt_life_may21.csv - updated with more Energizer data
     2021-06-28/batt_life_final.csv - final version with workbench data - note line 831 has FI = NA - correct to FI = 107
-
+    2022-08-22/batt_life_aug22.csv - update version with recent services
 
