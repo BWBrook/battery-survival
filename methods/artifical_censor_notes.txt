@@ -1,0 +1,8 @@
+test <- get_data(get_conf("sw"))
+
+> centest <- test %>% mutate(bok = ifelse(rd > 120, 1, bok), bdead = ifelse(rd > 120, 0, bdead), rd = ifelse(rd > 120, 120, rd))
+> censurvfit <- survfit(Surv(rd, bdead) ~ bb, dat = centest)
+> ggsurvplot(censurvfit, data = centest)
+> centest <- test %>% mutate(bok = ifelse(rd > 180, 1, bok), bdead = ifelse(rd > 180, 0, bdead), rd = ifelse(rd > 180, 180, rd))
+> censurvfit <- survfit(Surv(rd, bdead) ~ bb, dat = centest)
+> ggsurvplot(censurvfit, data = centest)
