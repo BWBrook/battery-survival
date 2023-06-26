@@ -1,0 +1,15 @@
+services:
+  rstudio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8787:8787"
+    environment:
+      PASSWORD: password
+      DISABLE_AUTH: "true"
+    volumes:
+      - ./.rstudio_config:/home/rstudio/.config/rstudio
+      - ./methods:/home/rstudio/methods
+      - ./data:/home/rstudio/data
+      - ./results:/home/rstudio/results
