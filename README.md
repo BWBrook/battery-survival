@@ -85,6 +85,10 @@ Exclusion governance:
 1. Configure in `config/exclusions.csv`.
 2. Applied exclusions and reason summaries are written to `outputs/qc/`.
 
+Economics assumptions:
+1. Service cost scenarios: `config/cost_scenarios.csv`
+2. Battery set costs: `config/battery_costs.csv`
+
 ## Manuscript Output
 
 Source:
@@ -93,6 +97,13 @@ Source:
 Generated outputs:
 1. `outputs/manuscript/paper.html`
 2. `outputs/manuscript/paper.pdf`
+
+Additional phase-1 economics outputs:
+1. `outputs/tables/service_interval_economics.csv`
+2. `outputs/tables/service_interval_optima.csv`
+3. `outputs/figures/cost_per_active_day_vs_interval.png`
+4. `outputs/figures/downtime_fraction_vs_interval.png`
+5. `outputs/figures/optimal_service_interval.png`
 
 ## Legacy Scripts
 

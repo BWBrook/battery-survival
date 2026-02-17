@@ -9,12 +9,18 @@ default:
   models_dir: "outputs/models"
   manuscript_qmd: "manuscript/paper.qmd"
   manuscript_output_dir: "outputs/manuscript"
+  cost_scenarios_file: "config/cost_scenarios.csv"
+  battery_costs_file: "config/battery_costs.csv"
   render_manuscript: false
   render_formats:
     - html
+  economics:
+    interval_min: 30
+    interval_max: 365
+    interval_by: 7
   model:
     cox_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + strata(reg)"
-    aft_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + reg"
+    aft_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd"
     aft_distributions:
       - weibull
       - lognormal

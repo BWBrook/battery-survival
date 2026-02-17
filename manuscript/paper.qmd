@@ -84,7 +84,7 @@ The phase-1 pipeline fits:
 Current covariate specification:
 1. Battery brand (`bb`), flash type (`ft`), season (`seas`).
 2. Flash-photo rate (`log_fi_pd`) and daylight-photo rate (`log_day_pd`).
-3. Region handled as strata in Cox and as an explicit covariate in AFT models.
+3. Region handled as strata in Cox; AFT is fitted without region to stabilize predictive service-interval calculations across pooled conditions.
 
 ### Assumption Checks
 
@@ -157,6 +157,43 @@ if (file.exists(cox_tbl_path)) {
 }
 ```
 
+## Service-Interval Economics
+
+The economics layer evaluates service-interval tradeoffs using the best AFT model from the phase-1 model comparison. For each battery brand and flash type profile, we compute:
+1. Expected active camera-days within service interval `T`: `E[min(X, T)]`
+2. Expected downtime: `T - E[min(X, T)]`
+3. Cost per active day: `(C_s + C_b) / E[min(X, T)]`
+
+where \(C_s\) is scenario-specific service cost and \(C_b\) is battery-set cost.
+
+```{r}
+econ_opt_path <- "../outputs/tables/service_interval_optima.csv"
+if (file.exists(econ_opt_path)) {
+  econ_opt <- read_csv(econ_opt_path, show_col_types = FALSE)
+  kable(
+    econ_opt,
+    digits = 3,
+    caption = "Cost-optimal service interval by scenario, flash type, and battery brand."
+  )
+}
+```
+
+```{r}
+fig_cost <- "../outputs/figures/cost_per_active_day_vs_interval.png"
+fig_down <- "../outputs/figures/downtime_fraction_vs_interval.png"
+fig_opt <- "../outputs/figures/optimal_service_interval.png"
+
+if (file.exists(fig_cost)) {
+  knitr::include_graphics(fig_cost)
+}
+if (file.exists(fig_down)) {
+  knitr::include_graphics(fig_down)
+}
+if (file.exists(fig_opt)) {
+  knitr::include_graphics(fig_opt)
+}
+```
+
 ## Discussion
 
 Phase-1 results provide a reproducible baseline for final scientific interpretation. The immediate value is structural: consistent model fitting, transparent QC/exclusion governance, and manuscript-linked artifacts suitable for iterative refinement.
@@ -164,7 +201,7 @@ Phase-1 results provide a reproducible baseline for final scientific interpretat
 Key remaining scientific tasks include:
 1. Final narrative interpretation of effect directions and magnitudes.
 2. Explicit handling of regional confounding strategy in prose (training/validation framing where needed).
-3. Integration of service-interval and economic trade-off outputs in the next phase.
+3. Replace the current indicative service and battery cost assumptions with finalized field-budget values.
 
 ## Reproducibility
 

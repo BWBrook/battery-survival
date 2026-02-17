@@ -95,3 +95,8 @@ Canonical execution through `_targets.R`:
 1. Finalized phase-1 covariate framing to use flash-rate and daylight-rate terms (`log_fi_pd`, `log_day_pd`).
 2. Added dataset and model diagnostics artifacts (overview tables, KM median table, Cox PH diagnostics table, region event-rate figure).
 3. Upgraded manuscript from generic scaffold to structured phase-1 draft with linked diagnostic and summary outputs.
+
+2026-02-17 (Step 3 service-interval economics):
+1. Added economic assumption inputs (`config/cost_scenarios.csv`, `config/battery_costs.csv`).
+2. Implemented AFT-driven service-interval tradeoff engine producing active-day, downtime, and cost-per-active-day outputs.
+3. Added economics figures and tables to DAG and manuscript (`paper.qmd`).

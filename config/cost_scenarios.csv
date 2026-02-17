@@ -1,0 +1,4 @@
+scenario_id,scenario_label,service_cost,notes
+accessible,Accessible site,80,Single-day local service trip
+remote,Remote site,450,Remote field visit with substantial travel
+very_remote,Very remote deployment,900,Multi-day remote servicing context
