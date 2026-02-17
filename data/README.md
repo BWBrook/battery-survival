@@ -1,17 +1,13 @@
-# battery-survival data directory
-This folder is *not* in version control! Use it on your local repo to store your data.
+# Data Directory
 
-Store data files in cloud-based storage (e.g. Dropbox, AWS S3).
+This directory stores tracked analysis inputs used by the reproducible pipeline.
 
-Backup important data files to a separate location!
+## Primary input
+1. `batt_life_aug22.csv`: baseline camera-trap battery survival dataset used in phase-1 analyses.
 
-Keep data files organised in folders indicating the date of inclusion into the project.
+## Documentation
+1. `data_dictionary.md`: schema definitions and derived variable contracts.
 
-Update this README.md file with information about the data files and where to find them.
-
-    2021-02-03/batt_life_2021-2-3.csv - main battery data, stored in Dropbox
-    2021-04-21/batt_life_apr21.csv - updated battery data (completed Ansmann)
-    2021-05-21/batt_life_may21.csv - updated with more Energizer data
-    2021-06-28/batt_life_final.csv - final version with workbench data - note line 831 has FI = NA - correct to FI = 107
-    2022-08-22/batt_life_aug22.csv - update version with recent services
-
+## Notes
+1. If a new data release is added, document provenance and schema differences in `data_dictionary.md` and `docs/plan.md`.
+2. Do not overwrite the baseline file in place; add a new dated file and update config explicitly.

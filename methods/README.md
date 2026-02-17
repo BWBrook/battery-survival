@@ -1,23 +1,14 @@
-# research-framework methods directory
-This directory is not ignored, files here will be in version control
+# Legacy Methods Directory
 
-Main research files go in here. 
+This folder contains historical exploratory scripts from the original analysis workflow.
 
-Best practice is the config package and create config.yml 
+## Status
+1. Kept for provenance and comparison only.
+2. Not the canonical execution path for the modern pipeline.
 
-You can then pick different settings based on environment variables:
-
-    Sys.setenv(R_CONFIG_ACTIVE = "model_3")
-
-Number your methods files sequentially in the order they should be run.
-
-    proj_1_fit.R
-    proj_2_cv.R
-    proj_3.ppc.R
-    proj_4_visualisations.R
-
-Store your results in sensible directories in the appropriate results folder.
-
-    ../results/{date}/fitted_models
-    ../results/{date}/cv_objects
-    ../results/{date}/figures
+## Canonical Workflow
+Use the root-level reproducibility stack instead:
+1. `_targets.R` for orchestration.
+2. `R/` for maintained analysis functions.
+3. `config/` for profile and exclusion settings.
+4. `manuscript/paper.qmd` for publication outputs.

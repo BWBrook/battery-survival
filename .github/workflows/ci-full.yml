@@ -1,0 +1,41 @@
+name: ci-full
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  full-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup R
+      uses: r-lib/actions/setup-r@v2
+
+      - name: Setup Quarto
+      uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Install just
+      run: sudo apt-get update && sudo apt-get install -y just
+
+      - name: Restore renv
+      run: |
+        Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
+        Rscript --vanilla -e "renv::restore(prompt = FALSE)"
+
+      - name: Install TinyTeX
+      run: |
+        Rscript --vanilla -e "if (!requireNamespace('tinytex', quietly = TRUE)) install.packages('tinytex', repos='https://cloud.r-project.org')"
+        Rscript --vanilla -e "tinytex::install_tinytex(force = FALSE)"
+
+      - name: Run full DAG
+      run: just full
+
+      - name: Upload outputs
+      uses: actions/upload-artifact@v4
+      with:
+        name: battery-survival-full-artifacts
+        path: outputs/

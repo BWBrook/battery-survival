@@ -1,4 +1,10 @@
-FROM rocker/verse:4.2.2
+FROM rocker/verse:4.5.2
 
-COPY install.R /install.R
-RUN Rscript install.R
+WORKDIR /project
+
+COPY . /project
+
+RUN Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
+RUN Rscript --vanilla -e "if (file.exists('renv.lock')) renv::restore(prompt = FALSE)"
+
+EXPOSE 8787

@@ -1,57 +1,107 @@
 # battery-survival
-Survival analysis of camera trap battery life. Cameras are located around Tasmania.
 
-### Setup Instructions for RStudio on a CPU Instance
+Reproducible survival analysis workflow for camera-trap battery performance in Tasmania.
 
-#### 1. Create a CPU Instance
-- Refer to the repository [mewc-infrastructure](https://github.com/zaandahl/mewc-infrastructure) for guidance on creating a CPU instance suitable for RStudio.
+This repository now uses a modern analysis stack:
+1. `renv` for locked R dependencies.
+2. `targets` for a declarative analysis DAG.
+3. Quarto for manuscript rendering (`html` + `pdf`).
+4. Auditable exclusion and QC reporting.
 
-#### 2. SSH to the Instance and Setup SSH Keys
-- SSH into your instance using your personal public key. Replace `your_personal_public_key_path` and `your_instance_ip` with your specific details.
-  ```bash
-  scp -i your_personal_public_key_path ~/.ssh/id_ed25519.pub user@your_instance_ip:~/.ssh/authorized_keys
-  ```
-- Then SSH into your instance using your personal key:
-  ```bash
-  ssh -i ~/.ssh/id_ed25519 user@your_instance_ip
-  ```
+## Current Analysis Scope
+Phase 1 focuses on:
+1. Kaplan-Meier descriptive curves.
+2. Cox proportional hazards modeling.
+3. AFT model family comparison (Weibull, lognormal, loglogistic).
 
-#### 3. Clone the Development Repository
-- On your Nectar instance, clone the development repository:
-  ```bash
-  git clone git@github.com:zaandahl/battery-survival.git
-  ```
-- Navigate into the cloned directory:
-  ```bash
-  cd battery-survival
-  ```
+Bayesian survival models are intentionally deferred to a later phase.
 
-#### 4. Build and Run the Docker Container
-- Build the Docker container:
-  ```bash
-  sudo docker compose build
-  ```
-- Start the Docker container:
-  ```bash
-  sudo docker compose up -d
-  ```
+## Quick Start
 
-#### 5. Connect to RStudio
-- Access RStudio by connecting to `http://your_instance_ip:8787`.
+### 1) Restore dependencies
 
-#### 6. Lock `rstanarm` to a Specific Commit
-- Within an R session, lock `rstanarm` to a specific commit (TODO cook this into the Docker setup for the repo):
-  ```R
-  pacman::p_install_gh("stan-dev/rstanarm@f9047a095f00a2f3d1d0420059dcf52842ad3c42")
-  ```
+Using `just` (preferred):
 
-#### 7. Transfer Data from Local Machine
-- Copy your dataset from your local machine to the instance. Replace `your_data_directory_path` and `your_instance_ip` with your details.
-  ```bash
-  scp -r -i your_personal_public_key_path your_data_directory_path/* user@your_instance_ip:battery-survival/data
-  ```
-- Similarly, copy any results from your local machine:
-  ```bash
-  scp -r -i your_personal_public_key_path your_results_directory_path/* user@your_instance_ip:battery-survival/results
-  ```
+```bash
+just restore
+```
 
+Or using `make`:
+
+```bash
+make restore
+```
+
+### 2) Run the dev pipeline
+
+```bash
+just dev
+```
+
+This runs a fast profile intended for iteration and CI.
+
+### 3) Run the full pipeline
+
+```bash
+just full
+```
+
+This runs the full dataset analysis and renders manuscript artifacts.
+
+### 4) Render manuscript only
+
+```bash
+just manuscript
+```
+
+### 5) Run tests and checks
+
+```bash
+just test
+just check
+```
+
+## Repository Structure
+
+1. `R/`: reusable analysis and reporting functions.
+2. `_targets.R`: canonical DAG entrypoint.
+3. `config/`: profile config and exclusion rules.
+4. `data/`: tracked data and dictionary.
+5. `outputs/`: generated figures, tables, QC, model objects, manuscript outputs.
+6. `manuscript/`: Quarto manuscript source.
+7. `scripts/`: script entrypoints for `dev`, `full`, and manuscript render.
+8. `tests/`: `testthat` tests.
+9. `methods/`: legacy provenance scripts from the previous workflow.
+
+## Data and Exclusions
+
+Primary data:
+1. `data/batt_life_aug22.csv`
+
+Data definitions:
+1. `data/data_dictionary.md`
+
+Exclusion governance:
+1. Configure in `config/exclusions.csv`.
+2. Applied exclusions and reason summaries are written to `outputs/qc/`.
+
+## Manuscript Output
+
+Source:
+1. `manuscript/paper.qmd`
+
+Generated outputs:
+1. `outputs/manuscript/paper.html`
+2. `outputs/manuscript/paper.pdf`
+
+## Legacy Scripts
+
+Historic exploratory scripts remain in `methods/` for reference and provenance. They are not the canonical execution path.
+
+## Development Notes
+
+Project governance and agent instructions:
+1. `AGENTS.md`
+
+Execution plan tracker:
+1. `docs/plan.md`

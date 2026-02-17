@@ -38,9 +38,25 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# Data files and results files (except for README.md)
+# Project outputs and local build artifacts
 .DS_Store
-data/*
-!data/README.md
 results/*
 !results/README.md
+outputs/*
+!outputs/.gitkeep
+!outputs/figures/.gitkeep
+!outputs/tables/.gitkeep
+!outputs/qc/.gitkeep
+!outputs/models/.gitkeep
+!outputs/manuscript/.gitkeep
+_targets/
+.quarto/
+_freeze/
+
+# renv local state (keep lockfile + activate script tracked)
+renv/library/
+renv/python/
+renv/staging/
+
+/.quarto/
+**/*.quarto_ipynb

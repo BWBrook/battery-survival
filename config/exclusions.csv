@@ -1,0 +1,2 @@
+scope,id,reason_code,reason_detail,active,source
+camera,EXAMPLE_CAMERA,template,Template row; set active=TRUE to apply,FALSE,repo-bootstrap

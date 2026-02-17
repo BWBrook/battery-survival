@@ -1,0 +1,32 @@
+default:
+  seed: 20260217
+  data_file: "data/batt_life_aug22.csv"
+  exclusions_file: "config/exclusions.csv"
+  outputs_dir: "outputs"
+  figures_dir: "outputs/figures"
+  tables_dir: "outputs/tables"
+  qc_dir: "outputs/qc"
+  models_dir: "outputs/models"
+  manuscript_qmd: "manuscript/paper.qmd"
+  manuscript_output_dir: "outputs/manuscript"
+  render_manuscript: false
+  render_formats:
+    - html
+  model:
+    cox_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + strata(reg)"
+    aft_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + reg"
+    aft_distributions:
+      - weibull
+      - lognormal
+      - loglogistic
+dev:
+  sample_n: 1200
+  render_manuscript: false
+  render_formats:
+    - html
+full:
+  sample_n: null
+  render_manuscript: true
+  render_formats:
+    - html
+    - pdf
