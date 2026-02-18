@@ -4,6 +4,10 @@ if (!requireNamespace("targets", quietly = TRUE)) {
   stop("Package `targets` is required. Run `just restore` first.", call. = FALSE)
 }
 
-Sys.setenv(ANALYSIS_PROFILE = "full")
+profile <- Sys.getenv("ANALYSIS_PROFILE", "full")
+if (!nzchar(profile)) {
+  profile <- "full"
+}
+Sys.setenv(ANALYSIS_PROFILE = profile)
 targets::tar_invalidate("render_manuscript")
 targets::tar_make(names = "render_manuscript")

@@ -11,10 +11,10 @@ This repository now uses a modern analysis stack:
 ## Current Analysis Scope
 Phase 1 focuses on:
 1. Kaplan-Meier descriptive curves.
-2. Cox proportional hazards modeling.
-3. AFT model family comparison (Weibull, lognormal, loglogistic).
-
-Bayesian survival models are intentionally deferred to a later phase.
+2. Cox proportional hazards modeling on TAS-CAM training regions (`ct`, `se`, `nw`, `wt`).
+3. AFT model family comparison (Weibull, lognormal, loglogistic) with SW (`sw`) validation outputs.
+4. Separate descriptive handling for NE (`ne`) and testbench (`tb`) cohorts.
+5. Optional Bayesian survival models (`brms` + `cmdstanr`) via config/profile.
 
 ## Quick Start
 
@@ -48,13 +48,22 @@ just full
 
 This runs the full dataset analysis and renders manuscript artifacts.
 
-### 4) Render manuscript only
+### 4) Run the Bayesian-enabled profile (optional)
+
+```bash
+just bayes
+```
+
+This enables the Bayesian branch in the DAG. It requires `brms` plus a working Stan backend (configured as `cmdstanr`).
+Parallel settings (chains, cores, optional threads per chain) are controlled in `config/analysis.yml` under `bayesian:`.
+
+### 5) Render manuscript only
 
 ```bash
 just manuscript
 ```
 
-### 5) Run tests and checks
+### 6) Run tests and checks
 
 ```bash
 just test
@@ -104,6 +113,19 @@ Additional phase-1 economics outputs:
 3. `outputs/figures/cost_per_active_day_vs_interval.png`
 4. `outputs/figures/downtime_fraction_vs_interval.png`
 5. `outputs/figures/optimal_service_interval.png`
+
+Partition + validation outputs:
+1. `outputs/tables/partition_summary.csv`
+2. `outputs/tables/validation_survival_summary.csv`
+3. `outputs/figures/validation_observed_vs_predicted.png`
+4. `outputs/tables/testbench_summary.csv`
+5. `outputs/figures/testbench_km_by_brand.png`
+
+Bayesian status outputs:
+1. `outputs/tables/bayesian_status.csv`
+2. `outputs/tables/bayesian_model_comparison.csv`
+3. `outputs/tables/bayesian_coefficients.csv`
+4. `outputs/figures/bayesian_time_ratios.png`
 
 ## Legacy Scripts
 

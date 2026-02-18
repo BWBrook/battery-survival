@@ -100,3 +100,103 @@ Canonical execution through `_targets.R`:
 1. Added economic assumption inputs (`config/cost_scenarios.csv`, `config/battery_costs.csv`).
 2. Implemented AFT-driven service-interval tradeoff engine producing active-day, downtime, and cost-per-active-day outputs.
 3. Added economics figures and tables to DAG and manuscript (`paper.qmd`).
+
+## Next Work Packages (Post-Step-3)
+
+### WP4: Regional Partitioning + Validation Framework
+Purpose:
+1. Establish a defensible design for confounding and censoring across regions by separating model-fitting and validation cohorts.
+
+Deliverables:
+1. Config-driven partition definitions:
+   - TAS-CAM training: `ct`, `se`, `nw`, `wt`
+   - SW validation: `sw`
+   - NE descriptive-only: `ne`
+   - Testbench descriptive: `tb`
+2. Pipeline targets that produce:
+   - Partitioned analysis datasets.
+   - Partition summary table (rows, events, event-rate, camera count).
+3. Validation artifacts comparing AFT-predicted survival against observed SW survival at fixed horizons.
+
+Definition of Done:
+1. `just full` writes partition + validation outputs under `outputs/tables/` and `outputs/figures/`.
+2. Manuscript includes Methods + Results text that references these outputs.
+3. Tests cover partition assignment and validation artifact generation.
+
+### WP5: Bayesian Survival Track (Phase 2 Readiness)
+Purpose:
+1. Add Bayesian survival analysis alongside frequentist models while preserving stable default runtime.
+
+Deliverables:
+1. Optional Bayesian pipeline branch using `brms` + `cmdstanr`.
+2. Config flags for:
+   - enable/disable behavior,
+   - backend and sampler settings,
+   - Bayesian model family list.
+3. Status/model-summary outputs generated even when Bayesian fitting is disabled or dependencies are missing.
+
+Definition of Done:
+1. Default profiles (`dev`, `full`) complete without requiring Stan stack.
+2. Bayesian targets are in DAG and produce auditable status tables.
+3. Documentation explains how to enable Bayesian fitting when toolchain is available.
+
+### WP6: Testbench (TB) Integration
+Purpose:
+1. Treat TB as a complementary experiment with explicit separation from field inference.
+
+Deliverables:
+1. TB summary table and basic survival display generated from the same DAG.
+2. Manuscript subsection clarifying TB’s role as descriptive/contrastive evidence.
+
+Definition of Done:
+1. TB outputs are generated automatically in `full` profile.
+2. Manuscript references TB outputs without mixing TB into primary field model fitting.
+
+### WP7: Main Results Manuscript Completion
+Purpose:
+1. Convert current scaffold into a coherent draft aligned with paper-outline requirements.
+
+Deliverables:
+1. Main Results includes:
+   - Frequentist model comparison,
+   - SW validation performance,
+   - Service-interval economics,
+   - Bayesian status or Bayesian estimates (when enabled).
+2. Discussion updated with practical recommendations and scope statements (camera-model specific calibration guidance).
+
+Definition of Done:
+1. `just manuscript` builds `html` and `pdf` from one source.
+2. Core claims in manuscript are tied to generated artifacts, not hand-entered values.
+
+### WP8: Reproducibility + Release Hygiene
+Purpose:
+1. Ensure final paper workflow is robust to reruns and CI usage.
+
+Deliverables:
+1. Updated `README.md` and command docs for partitioned + Bayesian workflow.
+2. Build Report evidence recorded for each substantial package.
+3. CI-safe artifact policy maintained (`*.html` and `*.pdf` untracked in source tree).
+
+Definition of Done:
+1. Canonical commands pass locally:
+   - `just test`
+   - `just dev`
+   - `just full`
+   - `just manuscript`
+   - `just check`
+2. Repository remains clean after runs except expected ignored outputs.
+
+## Post-Step-3 Status (Current Session)
+2026-02-17:
+1. WP4 completed:
+   - Added config-driven regional partitions and SW validation artifacts.
+   - Frequentist fitting now runs on TAS-CAM training subset.
+2. WP5 completed (scaffold phase):
+   - Added optional `brms` + `cmdstanr` branch with auditable status/model-summary outputs.
+   - Added `bayes` profile and `just bayes`/`make bayes` entrypoints.
+3. WP6 completed:
+   - Added TB summary table and TB KM display as explicit descriptive outputs.
+4. WP7 in progress:
+   - Manuscript updated with partition, validation, TB, and Bayesian sections.
+5. WP8 in progress:
+   - Canonical commands passing locally; CI rerun expected on push.

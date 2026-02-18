@@ -10,6 +10,9 @@ dev:
 full:
   ANALYSIS_PROFILE=full Rscript scripts/run_full.R
 
+bayes:
+  ANALYSIS_PROFILE=bayes Rscript scripts/run_full.R
+
 manuscript:
   ANALYSIS_PROFILE=full Rscript scripts/render_paper.R
 

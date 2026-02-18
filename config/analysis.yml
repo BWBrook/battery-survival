@@ -18,6 +18,40 @@ default:
     interval_min: 30
     interval_max: 365
     interval_by: 7
+  partitions:
+    train_regions:
+      - ct
+      - se
+      - nw
+      - wt
+    validation_regions:
+      - sw
+    descriptive_regions:
+      - ne
+    testbench_regions:
+      - tb
+  validation:
+    horizons_days:
+      - 90
+      - 180
+      - 270
+      - 365
+  bayesian:
+    enabled: false
+    backend: cmdstanr
+    formula: "rd | cens(cens) ~ bb + ft + seas + log_fi_pd + log_day_pd"
+    chains: 4
+    cores: 4
+    threads_per_chain: 1
+    iter_warmup: 1000
+    iter_sampling: 1000
+    adapt_delta: 0.95
+    max_treedepth: 12
+    refresh: 0
+    families:
+      - weibull
+      - lognormal
+      - loglogistic
   model:
     cox_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + strata(reg)"
     aft_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd"
@@ -36,3 +70,32 @@ full:
   render_formats:
     - html
     - pdf
+bayes:
+  sample_n: null
+  render_manuscript: true
+  render_formats:
+    - html
+    - pdf
+  bayesian:
+    enabled: true
+    chains: 8
+    cores: 8
+    threads_per_chain: 1
+    iter_warmup: 1000
+    iter_sampling: 1000
+bayes_check:
+  sample_n: 1200
+  render_manuscript: false
+  render_formats:
+    - html
+  bayesian:
+    enabled: true
+    chains: 8
+    cores: 8
+    threads_per_chain: 1
+    iter_warmup: 500
+    iter_sampling: 500
+    adapt_delta: 0.9
+    max_treedepth: 10
+    families:
+      - weibull
