@@ -13,6 +13,12 @@ full:
 bayes:
   ANALYSIS_PROFILE=bayes Rscript scripts/run_full.R
 
+bayes-check:
+  ANALYSIS_PROFILE=bayes_check Rscript scripts/run_full.R
+
+bayes-prod:
+  ANALYSIS_PROFILE=bayes_prod Rscript scripts/run_full.R
+
 manuscript:
   ANALYSIS_PROFILE=full Rscript scripts/render_paper.R
 

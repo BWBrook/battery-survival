@@ -4,20 +4,20 @@
 This repository is the canonical, reproducible analysis and manuscript workspace for the camera-trap battery survival project.
 
 Primary outcomes:
-1. Reproducible analyses (Cox + AFT, phase 1) from raw CSV to publication artifacts.
+1. Reproducible analyses (frequentist Cox + AFT plus optional Bayesian AFT) from raw CSV to publication artifacts.
 2. Publication-ready display items (figures, tables, model summaries).
 3. Manuscript source in Quarto with outputs wired directly from generated artifacts.
 
 ## Current Scope
 In scope for this repo:
 1. Data validation, feature engineering, exclusion governance, and quality-control reporting.
-2. Survival analyses (Kaplan-Meier for descriptive displays, Cox PH, AFT model family comparison).
+2. Survival analyses (Kaplan-Meier for descriptive displays, Cox PH, AFT model family comparison, optional Bayesian AFT with Stan backend).
 3. `targets` DAG orchestration with `dev` and `full` profiles.
 4. Reproducibility controls (`renv`, CI checks, deterministic scripts).
 5. Quarto manuscript render (`html` + `pdf`) from one source.
 
 Out of scope for phase 1:
-1. Bayesian survival (`rstanarm::stan_surv`).
+1. Legacy `rstanarm::stan_surv` workflows (superseded by `brms` + `cmdstanr` in this repo).
 2. New data collection, cloud data ingestion, external services.
 
 ## Source-of-Truth Layout
@@ -49,6 +49,7 @@ Primary:
 4. `just manuscript` (or `make manuscript`)
 5. `just test` (or `make test`)
 6. `just check` (or `make check`)
+7. `just bayes-check` / `just bayes-prod` (or `make bayes-check` / `make bayes-prod`) for Bayesian validation and production profiles
 
 Lockfile maintenance:
 1. `just lock` (or `make lock`)

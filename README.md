@@ -57,13 +57,22 @@ just bayes
 This enables the Bayesian branch in the DAG. It requires `brms` plus a working Stan backend (configured as `cmdstanr`).
 Parallel settings (chains, cores, optional threads per chain) are controlled in `config/analysis.yml` under `bayesian:`.
 
-### 5) Render manuscript only
+### 5) Run Bayesian check and production profiles
+
+```bash
+just bayes-check
+just bayes-prod
+```
+
+`bayes-check` is a faster diagnostics-focused run, while `bayes-prod` is the strict-gate production profile across configured Bayesian families.
+
+### 6) Render manuscript only
 
 ```bash
 just manuscript
 ```
 
-### 6) Run tests and checks
+### 7) Run tests and checks
 
 ```bash
 just test
@@ -125,7 +134,8 @@ Bayesian status outputs:
 1. `outputs/tables/bayesian_status.csv`
 2. `outputs/tables/bayesian_model_comparison.csv`
 3. `outputs/tables/bayesian_coefficients.csv`
-4. `outputs/figures/bayesian_time_ratios.png`
+4. `outputs/tables/bayesian_gate_results.csv`
+5. `outputs/figures/bayesian_time_ratios.png`
 
 ## Legacy Scripts
 

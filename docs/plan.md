@@ -200,3 +200,32 @@ Definition of Done:
    - Manuscript updated with partition, validation, TB, and Bayesian sections.
 5. WP8 in progress:
    - Canonical commands passing locally; CI rerun expected on push.
+
+## WP9: Bayesian Production Hardening and Strict-Gate Runs
+Purpose:
+1. Harden Bayesian diagnostics and run controls so production Bayesian results are decision-ready for manuscript interpretation.
+
+Deliverables:
+1. Extend Bayesian model comparison outputs with:
+   - divergence counts,
+   - tree-depth saturation counts,
+   - BFMI minimum,
+   - elapsed runtime.
+2. Add strict-gate evaluation table (`outputs/tables/bayesian_gate_results.csv`) with explicit pass/fail criteria.
+3. Add `bayes_prod` profile and run command entrypoints for production Bayesian runs.
+4. Ensure manuscript and README include strict-gate outputs and run guidance.
+
+Strict Gate Criteria:
+1. `fit_status == "ok"`.
+2. `rhat_max <= 1.01`.
+3. `bulk_ess_min >= 400`.
+4. `divergences <= 0`.
+
+Definition of Done:
+1. `ANALYSIS_PROFILE=bayes_check` run completes and writes gate table.
+2. `ANALYSIS_PROFILE=bayes_prod` run path is fully configured and executable.
+3. Bayesian diagnostics and gate status are visible in manuscript-linked outputs.
+4. Tests pass and include gate logic coverage.
+
+2026-02-18 (WP9 execution):
+1. In progress.

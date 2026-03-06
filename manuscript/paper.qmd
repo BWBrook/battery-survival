@@ -212,6 +212,7 @@ if (file.exists(tb_fig)) {
 bayes_status_path <- "../outputs/tables/bayesian_status.csv"
 bayes_cmp_path <- "../outputs/tables/bayesian_model_comparison.csv"
 bayes_coef_path <- "../outputs/tables/bayesian_coefficients.csv"
+bayes_gate_path <- "../outputs/tables/bayesian_gate_results.csv"
 bayes_fig <- "../outputs/figures/bayesian_time_ratios.png"
 
 if (file.exists(bayes_status_path)) {
@@ -222,6 +223,11 @@ if (file.exists(bayes_status_path)) {
 if (file.exists(bayes_cmp_path)) {
   bayes_cmp <- read_csv(bayes_cmp_path, show_col_types = FALSE)
   kable(bayes_cmp, digits = 3, caption = "Bayesian model diagnostics/comparison summary.")
+}
+
+if (file.exists(bayes_gate_path)) {
+  bayes_gate <- read_csv(bayes_gate_path, show_col_types = FALSE)
+  kable(bayes_gate, digits = 3, caption = "Bayesian strict-gate diagnostics status by model family.")
 }
 
 if (file.exists(bayes_coef_path)) {

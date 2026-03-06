@@ -56,3 +56,58 @@ testthat::test_that("bayesian enabled path reports non-ok status without forcing
     "ok"
   )))
 })
+
+testthat::test_that("bayesian gate evaluation applies strict pass/fail thresholds", {
+  cmp <- tibble::tibble(
+    model_family = c("weibull", "lognormal"),
+    fit_status = c("ok", "ok"),
+    looic = c(100, 102),
+    rhat_max = c(1.005, 1.02),
+    bulk_ess_min = c(1200, 200),
+    divergences = c(0L, 2L),
+    treedepth_saturated = c(0L, 0L),
+    bfmi_min = c(0.8, 0.7),
+    elapsed_seconds = c(20, 22),
+    message = c("fit completed", "fit completed")
+  )
+
+  cfg <- list(
+    bayesian = list(
+      gate = list(
+        rhat_max = 1.01,
+        bulk_ess_min = 400,
+        max_divergences = 0
+      )
+    )
+  )
+
+  gate <- evaluate_bayesian_gate(cmp, cfg)
+
+  testthat::expect_true(all(c(
+    "gate_status", "fail_reasons", "all_families_pass",
+    "criterion_rhat", "criterion_ess", "criterion_divergences"
+  ) %in% names(gate)))
+  testthat::expect_equal(gate$gate_status[gate$model_family == "weibull"], "pass")
+  testthat::expect_equal(gate$gate_status[gate$model_family == "lognormal"], "fail")
+  testthat::expect_false(any(gate$all_families_pass))
+})
+
+testthat::test_that("bayesian comparison with no fits includes diagnostics columns", {
+  bayesian_result <- list(
+    status = tibble::tibble(
+      model_family = c("weibull", "lognormal"),
+      fit_status = c("disabled", "disabled"),
+      message = c("off", "off"),
+      backend = c("cmdstanr", "cmdstanr")
+    ),
+    fits = list()
+  )
+
+  cfg <- list(bayesian = list(max_treedepth = 12L))
+  out <- summarize_bayesian_model_comparison(bayesian_result, cfg)
+
+  testthat::expect_true(all(c(
+    "divergences", "treedepth_saturated", "bfmi_min", "elapsed_seconds"
+  ) %in% names(out)))
+  testthat::expect_true(all(is.na(out$divergences)))
+})

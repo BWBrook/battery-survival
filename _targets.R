@@ -69,7 +69,8 @@ list(
     fit_bayesian_models(analysis_train, cfg)
   ),
   tar_target(bayesian_status_tbl, bayesian_result$status),
-  tar_target(bayesian_comparison_tbl, summarize_bayesian_model_comparison(bayesian_result)),
+  tar_target(bayesian_comparison_tbl, summarize_bayesian_model_comparison(bayesian_result, cfg)),
+  tar_target(bayesian_gate_tbl, evaluate_bayesian_gate(bayesian_comparison_tbl, cfg)),
   tar_target(bayesian_coef_tbl, tidy_bayesian_coefficients(bayesian_result)),
   tar_target(
     econ_grid,
@@ -122,7 +123,13 @@ list(
   tar_target(tb_table_files, write_testbench_tables(tb_summary, cfg), format = "file"),
   tar_target(
     bayesian_table_files,
-    write_bayesian_tables(bayesian_status_tbl, bayesian_comparison_tbl, bayesian_coef_tbl, cfg),
+    write_bayesian_tables(
+      bayesian_status_tbl,
+      bayesian_comparison_tbl,
+      bayesian_coef_tbl,
+      bayesian_gate_tbl,
+      cfg
+    ),
     format = "file"
   ),
   tar_target(econ_table_files, write_economics_tables(econ_grid, econ_optima, cfg), format = "file"),

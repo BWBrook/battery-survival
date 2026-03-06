@@ -48,10 +48,15 @@ default:
     adapt_delta: 0.95
     max_treedepth: 12
     refresh: 0
+    init: 0
+    gate:
+      rhat_max: 1.01
+      bulk_ess_min: 400
+      max_divergences: 0
     families:
       - weibull
       - lognormal
-      - loglogistic
+      - gamma
   model:
     cox_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd + strata(reg)"
     aft_formula: "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd"
@@ -83,6 +88,24 @@ bayes:
     threads_per_chain: 1
     iter_warmup: 1000
     iter_sampling: 1000
+bayes_prod:
+  sample_n: null
+  render_manuscript: false
+  render_formats:
+    - html
+  bayesian:
+    enabled: true
+    chains: 32
+    cores: 32
+    threads_per_chain: 1
+    iter_warmup: 1000
+    iter_sampling: 1000
+    adapt_delta: 0.95
+    max_treedepth: 12
+    families:
+      - weibull
+      - lognormal
+      - gamma
 bayes_check:
   sample_n: 1200
   render_manuscript: false
