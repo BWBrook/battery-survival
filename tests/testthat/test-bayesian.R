@@ -111,3 +111,36 @@ testthat::test_that("bayesian comparison with no fits includes diagnostics colum
   ) %in% names(out)))
   testthat::expect_true(all(is.na(out$divergences)))
 })
+
+testthat::test_that("missing backend Bayesian status produces stable comparison and gate outputs", {
+  bayesian_result <- list(
+    status = tibble::tibble(
+      model_family = "weibull",
+      fit_status = "missing_cmdstan",
+      message = "cmdstanr backend requested, but cmdstanr/cmdstan is unavailable.",
+      backend = "cmdstanr"
+    ),
+    fits = list()
+  )
+
+  cfg <- list(
+    bayesian = list(
+      max_treedepth = 12L,
+      gate = list(
+        rhat_max = 1.01,
+        bulk_ess_min = 400,
+        max_divergences = 0L
+      )
+    )
+  )
+
+  comparison <- summarize_bayesian_model_comparison(bayesian_result, cfg)
+  gate <- evaluate_bayesian_gate(comparison, cfg)
+
+  testthat::expect_equal(comparison$fit_status, "missing_cmdstan")
+  testthat::expect_true(all(is.na(comparison$looic)))
+  testthat::expect_true(all(is.na(comparison$divergences)))
+  testthat::expect_equal(gate$gate_status, "fail")
+  testthat::expect_match(gate$fail_reasons, "fit_status_not_ok")
+  testthat::expect_false(gate$all_families_pass)
+})

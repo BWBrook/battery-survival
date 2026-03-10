@@ -3,8 +3,8 @@ R = Rscript
 .PHONY: restore dev full bayes bayes-check bayes-prod manuscript test check lock
 
 restore:
-	$(R) -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
-	$(R) -e "renv::restore(prompt = FALSE)"
+	$(R) --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
+	$(R) --vanilla -e "source('renv/activate.R'); renv::restore(prompt = FALSE)"
 
 dev:
 	ANALYSIS_PROFILE=dev $(R) scripts/run_dev.R

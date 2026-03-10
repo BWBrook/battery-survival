@@ -1,0 +1,2 @@
+model_family,fit_status,looic,rhat_max,bulk_ess_min,divergences,treedepth_saturated,bfmi_min,elapsed_seconds,message
+weibull,missing_cmdstan,NA,NA,NA,NA,NA,NA,NA,"cmdstanr backend requested, but cmdstanr/cmdstan is unavailable."

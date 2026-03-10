@@ -1,0 +1,2 @@
+all_families_pass,model_family,fit_status,looic,rhat_max,bulk_ess_min,divergences,treedepth_saturated,bfmi_min,elapsed_seconds,message,gate_type,criterion_fit_ok,criterion_rhat,criterion_ess,criterion_divergences,gate_pass,gate_status,warning_treedepth,warning_bfmi,fail_reasons
+FALSE,weibull,missing_cmdstan,NA,NA,NA,NA,NA,NA,NA,"cmdstanr backend requested, but cmdstanr/cmdstan is unavailable.",strict,FALSE,FALSE,FALSE,FALSE,FALSE,fail,FALSE,FALSE,fit_status_not_ok;rhat_threshold;bulk_ess_threshold;divergence_threshold

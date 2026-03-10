@@ -229,3 +229,26 @@ Definition of Done:
 
 2026-02-18 (WP9 execution):
 1. In progress.
+
+## WP10: Scientific Contract Hardening + Module Boundary Cleanup
+Purpose:
+1. Make the most science-bearing helpers easier to test and safer to refactor without changing current numerical behavior.
+
+Deliverables:
+1. Characterization tests covering:
+   - economics interpolation bounds and interval invariants,
+   - current prediction-profile mode/median contract,
+   - explicit unsupported-row accounting in SW validation,
+   - stable Bayesian missing-backend comparison/gate behavior.
+2. Repo-local restore hardening so canonical entrypoints do not depend on user-level R startup preferences.
+3. Internal module split for Bayesian, economics, and validation logic separating numerical core from artifact emission while preserving current public function names and output paths.
+
+Definition of Done:
+1. `just test`, `just check`, and `just bayes-check` pass unchanged.
+2. No target names, output filenames, or manuscript-linked artifact paths change.
+3. High-risk scientific redesigns are documented but not implemented without explicit approval.
+
+2026-03-10 (WP10 execution):
+1. Added characterization tests for economics, validation, and Bayesian missing-backend behavior.
+2. Hardened restore/CI entrypoints with repo-local `renv` activation and documented `missing_cmdstan` behavior.
+3. Split Bayesian, economics, and validation code into cohesive submodules without changing public interfaces or artifact paths.

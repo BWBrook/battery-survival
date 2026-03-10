@@ -1,8 +1,8 @@
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 
 restore:
-  Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
-  Rscript -e "renv::restore(prompt = FALSE)"
+  Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
+  Rscript --vanilla -e "source('renv/activate.R'); renv::restore(prompt = FALSE)"
 
 dev:
   ANALYSIS_PROFILE=dev Rscript scripts/run_dev.R

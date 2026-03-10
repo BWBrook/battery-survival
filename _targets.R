@@ -65,8 +65,13 @@ list(
   tar_target(tb_summary, summarize_testbench_data(analysis_testbench)),
   tar_target(tb_km_fit, fit_tb_km(analysis_testbench)),
   tar_target(
+    bayesian_dependency_status,
+    check_bayesian_dependencies(cfg),
+    cue = tar_cue(mode = "always")
+  ),
+  tar_target(
     bayesian_result,
-    fit_bayesian_models(analysis_train, cfg)
+    fit_bayesian_models(analysis_train, cfg, dependency_status = bayesian_dependency_status)
   ),
   tar_target(bayesian_status_tbl, bayesian_result$status),
   tar_target(bayesian_comparison_tbl, summarize_bayesian_model_comparison(bayesian_result, cfg)),

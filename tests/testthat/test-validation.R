@@ -34,6 +34,46 @@ testthat::test_that("validate_aft_predictions returns detail and summary tables"
   testthat::expect_true(all(c("horizon_days", "mae", "rmse") %in% names(out$summary)))
 })
 
+testthat::test_that("unsupported validation rows are retained and counted explicitly", {
+  dat <- make_validation_test_data(n = 400, seed = 7)
+  train <- dat[dat$reg != "sw", , drop = FALSE] %>%
+    dplyr::filter(bb != "Energizer") %>%
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::where(is.factor),
+        .fns = droplevels
+      )
+    )
+  validation <- dat[dat$reg == "sw", , drop = FALSE] %>%
+    dplyr::slice(1:4) %>%
+    dplyr::mutate(
+      bb = factor(c("Varta", "Varta", "Energizer", "Energizer")),
+      ft = factor(c("w", "w", "w", "w"))
+    )
+
+  fit <- survival::survreg(
+    survival::Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd,
+    data = train,
+    dist = "weibull"
+  )
+
+  pred <- predict_group_survival(fit, validation, c(90, 180))
+  unsupported <- dplyr::filter(pred, bb == "Energizer", ft == "w")
+  supported <- dplyr::filter(pred, bb == "Varta", ft == "w")
+
+  testthat::expect_true(all(is.na(unsupported$predicted_survival)))
+  testthat::expect_true(all(unsupported$supported_rows == 0))
+  testthat::expect_true(all(unsupported$n_pred_rows == 2))
+  testthat::expect_true(all(supported$supported_rows == supported$n_pred_rows))
+
+  out <- validate_aft_predictions(fit, validation, list(validation = list(horizons_days = c(90, 180))))
+  unsupported_detail <- dplyr::filter(out$detail, bb == "Energizer", ft == "w")
+
+  testthat::expect_equal(nrow(unsupported_detail), 2)
+  testthat::expect_true(all(is.na(unsupported_detail$predicted_survival)))
+  testthat::expect_true(all(unsupported_detail$supported_rows == 0))
+})
+
 testthat::test_that("testbench summary handles empty inputs", {
   empty <- tibble::tibble(
     camera = character(),

@@ -22,11 +22,14 @@ jobs:
 
       - name: Restore renv
         run: |
-          Rscript -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
-          Rscript -e "renv::restore(prompt = FALSE)"
+          Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
+          Rscript --vanilla -e "source('renv/activate.R'); renv::restore(prompt = FALSE)"
 
       - name: Run tests
         run: just test
 
       - name: Run dev DAG
         run: just dev
+
+      - name: Run Bayesian check DAG
+        run: just bayes-check

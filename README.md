@@ -32,6 +32,8 @@ Or using `make`:
 make restore
 ```
 
+The restore entrypoints run in a repo-local `renv` context and do not rely on user-level R startup preferences.
+
 ### 2) Run the dev pipeline
 
 ```bash
@@ -65,6 +67,11 @@ just bayes-prod
 ```
 
 `bayes-check` is a faster diagnostics-focused run, while `bayes-prod` is the strict-gate production profile across configured Bayesian families.
+
+CmdStan backend notes:
+1. The repo installs the `cmdstanr` R package through `renv`, but `CmdStan` itself must be installed separately.
+2. Typical setup is `Rscript --vanilla -e "cmdstanr::install_cmdstan()"` followed by `cmdstanr::set_cmdstan_path()` if needed.
+3. When `cmdstanr` is available but `CmdStan` is not configured, Bayesian runs emit `missing_cmdstan` status/gate rows instead of fitting models.
 
 ### 6) Render manuscript only
 
