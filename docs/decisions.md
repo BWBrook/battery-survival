@@ -48,3 +48,39 @@ Rationale:
 Evidence:
 1. Before the fix, `just bayes-check` reused stale `missing_cmdstan` outputs after CmdStan became available.
 2. After the fix, `bayesian_dependency_status` reran and `bayes-check` executed a real CmdStan fit.
+
+### D-004: Keep `bayes_prod` to production-ready families on this server
+Status: accepted
+
+Decision:
+1. Narrow the `bayes_prod` profile family set to `weibull` and `lognormal`.
+2. Leave `gamma` available only for exploratory Bayesian runs until it is re-parameterized or otherwise demonstrated to complete reliably on the full dataset.
+
+Rationale:
+1. `bayes_prod` is a reproducibility command, so it must complete end-to-end on the target server rather than depend on an aspirational family set.
+2. The current full-data censored gamma formulation is an operational outlier and blocks downstream artifact review without improving the strict-gate evidence available for sign-off.
+
+Evidence:
+1. On `deep-server`, the `weibull` and `lognormal` `bayes_prod` families completed 32-chain fits in seconds, while the `gamma` family remained active across all 32 chains for more than 35 minutes with no completed chain output written.
+2. Interrupting the stalled gamma run was necessary to proceed with the canonical `bayes_prod` -> `full` -> `manuscript` verification sequence.
+
+Follow-up:
+1. Revisit gamma only with an explicit profiling/reparameterization pass and record the outcome in `docs/log/`.
+
+### D-005: Preserve current Bayesian artifact paths during onboarding verification
+Status: accepted
+
+Decision:
+1. Keep the existing Bayesian output paths unchanged for now, even though `full`/`manuscript` regenerate those paths in disabled mode.
+2. Use a final `just bayes-prod` refresh after `just manuscript` when both the full-manuscript render and standalone production Bayesian artifacts need to be reviewed in the same session.
+
+Rationale:
+1. The current priority is reproducible execution on this server without changing public artifact schemas or manuscript-linked filenames.
+2. Renaming or splitting Bayesian output paths would ripple through targets, documentation, tests, and manuscript references.
+
+Evidence:
+1. `just full` and `just manuscript` rewrote `outputs/tables/bayesian_*.csv` and `outputs/figures/bayesian_time_ratios.png` into disabled-state artifacts under the `full` profile.
+2. A final `just bayes-prod` rerun restored the production Bayesian diagnostics and figure for explicit review without changing output contracts.
+
+Follow-up:
+1. If concurrent preservation of full-manuscript and production Bayesian artifacts becomes a recurring need, evaluate profile-specific artifact snapshots or output segregation as a separately approved work package.

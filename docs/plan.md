@@ -229,6 +229,7 @@ Definition of Done:
 
 2026-02-18 (WP9 execution):
 1. In progress.
+2. Production-family narrowing remains allowed when needed to keep `bayes_prod` executable and strict-gate evidence reviewable on the target server, provided the choice is logged in `docs/decisions.md` and `docs/log/`.
 
 ## WP10: Scientific Contract Hardening + Module Boundary Cleanup
 Purpose:
@@ -252,3 +253,5 @@ Definition of Done:
 1. Added characterization tests for economics, validation, and Bayesian missing-backend behavior.
 2. Hardened restore/CI entrypoints with repo-local `renv` activation and documented `missing_cmdstan` behavior.
 3. Split Bayesian, economics, and validation code into cohesive submodules without changing public interfaces or artifact paths.
+4. Added characterization coverage for SW validation summary aggregation semantics and narrowed `bayes_prod` to the production-ready Bayesian family set after a full-data gamma run proved operationally impractical.
+5. Verified `just restore`, `just test`, `just bayes-check`, `just bayes-prod`, `just full`, and `just manuscript` on `deep-server`, with a documented post-manuscript `bayes-prod` refresh to restore standalone Bayesian review artifacts under the unchanged shared output paths.

@@ -74,6 +74,49 @@ testthat::test_that("unsupported validation rows are retained and counted explic
   testthat::expect_true(all(unsupported_detail$supported_rows == 0))
 })
 
+testthat::test_that("validation summary keeps all observed strata but errors use finite predictions only", {
+  dat <- make_validation_test_data(n = 400, seed = 7)
+  train <- dat[dat$reg != "sw", , drop = FALSE] %>%
+    dplyr::filter(bb != "Energizer") %>%
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::where(is.factor),
+        .fns = droplevels
+      )
+    )
+  validation <- dat[dat$reg == "sw", , drop = FALSE] %>%
+    dplyr::slice(1:4) %>%
+    dplyr::mutate(
+      bb = factor(c("Varta", "Varta", "Energizer", "Energizer")),
+      ft = factor(c("w", "w", "w", "w"))
+    )
+
+  fit <- survival::survreg(
+    survival::Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd,
+    data = train,
+    dist = "weibull"
+  )
+
+  out <- validate_aft_predictions(fit, validation, list(validation = list(horizons_days = c(90, 180))))
+
+  detail_90 <- dplyr::filter(out$detail, horizon_days == 90)
+  summary_90 <- dplyr::filter(out$summary, horizon_days == 90)
+
+  testthat::expect_equal(nrow(detail_90), 2)
+  testthat::expect_equal(sum(is.finite(detail_90$predicted_survival)), 1)
+  testthat::expect_equal(summary_90$groups, 2)
+  testthat::expect_equal(summary_90$mean_observed, mean(detail_90$observed_survival))
+  testthat::expect_equal(
+    summary_90$mean_predicted,
+    mean(detail_90$predicted_survival, na.rm = TRUE)
+  )
+  testthat::expect_equal(summary_90$mae, mean(detail_90$abs_error, na.rm = TRUE))
+  testthat::expect_equal(
+    summary_90$rmse,
+    sqrt(mean(detail_90$sq_error, na.rm = TRUE))
+  )
+})
+
 testthat::test_that("testbench summary handles empty inputs", {
   empty <- tibble::tibble(
     camera = character(),

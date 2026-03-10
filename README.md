@@ -66,7 +66,7 @@ just bayes-check
 just bayes-prod
 ```
 
-`bayes-check` is a faster diagnostics-focused run, while `bayes-prod` is the strict-gate production profile across configured Bayesian families.
+`bayes-check` is a faster diagnostics-focused run, while `bayes-prod` is the strict-gate production profile across the production family set (currently Weibull + lognormal). The gamma family remains available for exploratory Bayesian profiling, but is not part of the default production run because its current censored-data formulation is materially slower on the full dataset.
 
 CmdStan backend notes:
 1. The repo installs the `cmdstanr` R package through `renv`, but `CmdStan` itself must be installed separately.

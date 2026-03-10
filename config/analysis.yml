@@ -105,7 +105,6 @@ bayes_prod:
     families:
       - weibull
       - lognormal
-      - gamma
 bayes_check:
   sample_n: 1200
   render_manuscript: false

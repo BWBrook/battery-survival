@@ -168,7 +168,7 @@ if (file.exists(cox_tbl_path)) {
 
 ### SW Validation Performance
 
-SW validation is reported for brand/flash strata that are supported by TAS-CAM training data (see `supported_rows` versus `total_rows` in the summary table). SW-only brands are retained in descriptive reporting but treated as out-of-support for model-based prediction.
+SW validation is reported for brand/flash strata that are supported by TAS-CAM training data (see `supported_rows` versus `total_rows` in the summary table). SW-only brands are retained in descriptive reporting but treated as out-of-support for model-based prediction. In the summary table, `mean_observed` averages over all observed SW strata, whereas `mean_predicted`, `mae`, and `rmse` average over strata with finite predictions only, so unsupported strata can leave `mean_observed` nonzero even when the error metrics are zero.
 
 ```{r}
 val_sum_path <- "../outputs/tables/validation_survival_summary.csv"
@@ -177,7 +177,7 @@ val_fig <- "../outputs/figures/validation_observed_vs_predicted.png"
 
 if (file.exists(val_sum_path)) {
   val_sum <- read_csv(val_sum_path, show_col_types = FALSE)
-  kable(val_sum, digits = 3, caption = "SW validation summary by horizon (observed vs AFT-predicted survival).")
+  kable(val_sum, digits = 3, caption = "SW validation summary by horizon (observed vs AFT-predicted survival; observed means use all SW strata, prediction/error columns use finite-prediction strata only).")
 }
 
 if (file.exists(val_detail_path)) {
@@ -222,17 +222,51 @@ if (file.exists(bayes_status_path)) {
 
 if (file.exists(bayes_cmp_path)) {
   bayes_cmp <- read_csv(bayes_cmp_path, show_col_types = FALSE)
-  kable(bayes_cmp, digits = 3, caption = "Bayesian model diagnostics/comparison summary.")
+  bayes_cmp_display <- bayes_cmp %>%
+    transmute(
+      family = model_family,
+      status = fit_status,
+      looic = looic,
+      rhat = rhat_max,
+      ess_bulk = bulk_ess_min,
+      divergences = divergences,
+      bfmi = bfmi_min,
+      elapsed_s = elapsed_seconds
+    )
+  kable(bayes_cmp_display, digits = 3, caption = "Bayesian model diagnostics/comparison summary.")
 }
 
 if (file.exists(bayes_gate_path)) {
   bayes_gate <- read_csv(bayes_gate_path, show_col_types = FALSE)
-  kable(bayes_gate, digits = 3, caption = "Bayesian strict-gate diagnostics status by model family.")
+  bayes_gate_display <- bayes_gate %>%
+    transmute(
+      family = model_family,
+      status = fit_status,
+      gate = gate_status,
+      rhat = rhat_max,
+      ess_bulk = bulk_ess_min,
+      divergences = divergences,
+      fail_reasons = fail_reasons
+    )
+  kable(bayes_gate_display, digits = 3, caption = "Bayesian strict-gate diagnostics status by model family.")
 }
 
 if (file.exists(bayes_coef_path)) {
   bayes_coef <- read_csv(bayes_coef_path, show_col_types = FALSE)
-  kable(head(bayes_coef, 20), digits = 3, caption = "Bayesian coefficient summary (first 20 rows).")
+  if (nrow(bayes_coef) > 0) {
+    bayes_coef_display <- bayes_coef %>%
+      transmute(
+        family = model_family,
+        term = term,
+        estimate = estimate,
+        q2.5 = q2.5,
+        q97.5 = q97.5,
+        time_ratio = time_ratio
+      )
+    kable(head(bayes_coef_display, 20), digits = 3, caption = "Bayesian coefficient summary (first 20 rows).")
+  } else {
+    cat("Bayesian coefficient table omitted in this run.")
+  }
 }
 
 if (file.exists(bayes_fig)) {
@@ -253,8 +287,18 @@ where \(C_s\) is scenario-specific service cost and \(C_b\) is battery-set cost.
 econ_opt_path <- "../outputs/tables/service_interval_optima.csv"
 if (file.exists(econ_opt_path)) {
   econ_opt <- read_csv(econ_opt_path, show_col_types = FALSE)
+  econ_opt_display <- econ_opt %>%
+    transmute(
+      scenario = scenario_label,
+      bb = bb,
+      ft = ft,
+      interval_days = interval_days,
+      expected_active_days = expected_active_days,
+      downtime_fraction = downtime_fraction,
+      cost_per_active_day = cost_per_active_day
+    )
   kable(
-    econ_opt,
+    econ_opt_display,
     digits = 3,
     caption = "Cost-optimal service interval by scenario, flash type, and battery brand."
   )
