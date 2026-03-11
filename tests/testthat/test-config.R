@@ -10,3 +10,12 @@ testthat::test_that("bayes_prod keeps the conservative production family set", {
   testthat::expect_equal(cfg$profile, "bayes_prod")
   testthat::expect_equal(cfg$bayesian$families, c("weibull", "lognormal"))
 })
+
+testthat::test_that("default config exposes additive review paths", {
+  cfg <- read_analysis_config(profile = "full", path = file.path(repo_root, "config", "analysis.yml"))
+  review <- review_paths(cfg)
+
+  testthat::expect_equal(review$output_dir, "outputs/review")
+  testthat::expect_equal(review$bayesian_snapshot_dir, "outputs/review/bayesian_snapshot")
+  testthat::expect_equal(review$manuscript_output_dir, "outputs/review/manuscript")
+})

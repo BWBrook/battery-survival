@@ -255,3 +255,23 @@ Definition of Done:
 3. Split Bayesian, economics, and validation code into cohesive submodules without changing public interfaces or artifact paths.
 4. Added characterization coverage for SW validation summary aggregation semantics and narrowed `bayes_prod` to the production-ready Bayesian family set after a full-data gamma run proved operationally impractical.
 5. Verified `just restore`, `just test`, `just bayes-check`, `just bayes-prod`, `just full`, and `just manuscript` on `deep-server`, with a documented post-manuscript `bayes-prod` refresh to restore standalone Bayesian review artifacts under the unchanged shared output paths.
+
+## WP11: Additive Bayesian Production Review Workflow
+Purpose:
+1. Preserve the meaning of the standard `full` / `manuscript` outputs while adding a review workflow that combines canonical frequentist outputs with a production Bayesian snapshot.
+
+Deliverables:
+1. Production Bayesian snapshot under `outputs/review/bayesian_snapshot/`.
+2. Additive review manuscript render under `outputs/review/manuscript/`.
+3. Logged review commands that do not overwrite the canonical output paths.
+
+Definition of Done:
+1. Existing commands continue to work unchanged.
+2. `just bayes-prod` snapshots authoritative Bayesian production artifacts for later review.
+3. `just manuscript-prod-bayes` renders a manuscript whose Bayesian section reads from the review snapshot instead of the shared disabled-state `outputs/` files.
+4. `just review-prod-bayes` executes the full additive review sequence end-to-end with real logs.
+
+2026-03-11 (WP11 execution):
+1. Added an additive production Bayesian snapshot writer under `outputs/review/bayesian_snapshot/`.
+2. Added a review-manuscript render path under `outputs/review/manuscript/` that reuses standard non-Bayesian outputs but reads Bayesian tables/figure from the snapshot via render-time environment overrides.
+3. Added logged `just manuscript-prod-bayes` and `just review-prod-bayes` entrypoints without changing the semantics of `just full` or `just manuscript`.

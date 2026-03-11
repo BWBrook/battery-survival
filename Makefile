@@ -1,6 +1,6 @@
 R = Rscript
 
-.PHONY: restore dev full bayes bayes-check bayes-prod manuscript test check lock
+.PHONY: restore dev full bayes bayes-check bayes-prod manuscript manuscript-prod-bayes review-prod-bayes test check lock
 
 restore:
 	$(R) --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
@@ -23,6 +23,12 @@ bayes-prod:
 
 manuscript:
 	ANALYSIS_PROFILE=full $(R) scripts/render_paper.R
+
+manuscript-prod-bayes:
+	bash scripts/run_with_log.sh manuscript-prod-bayes env ANALYSIS_PROFILE=full $(R) scripts/render_paper_prod_bayes.R
+
+review-prod-bayes:
+	bash scripts/run_with_log.sh review-prod-bayes bash scripts/review_prod_bayes.sh
 
 test:
 	$(R) -e "testthat::test_dir('tests/testthat')"

@@ -79,7 +79,25 @@ CmdStan backend notes:
 just manuscript
 ```
 
-### 7) Run tests and checks
+### 7) Render production-Bayesian review outputs
+
+```bash
+just manuscript-prod-bayes
+just review-prod-bayes
+```
+
+`manuscript-prod-bayes` renders an additive review manuscript under `outputs/review/manuscript/` using:
+1. The canonical frequentist/full outputs already present under `outputs/`.
+2. The production Bayesian snapshot written by `just bayes-prod` under `outputs/review/bayesian_snapshot/`.
+
+`review-prod-bayes` is a composite convenience command that runs:
+1. `just bayes-prod`
+2. `just full`
+3. `just manuscript-prod-bayes`
+
+Both additive review commands write real command logs under `logs/`.
+
+### 8) Run tests and checks
 
 ```bash
 just test
@@ -143,6 +161,15 @@ Bayesian status outputs:
 3. `outputs/tables/bayesian_coefficients.csv`
 4. `outputs/tables/bayesian_gate_results.csv`
 5. `outputs/figures/bayesian_time_ratios.png`
+
+Additive production-review outputs:
+1. `outputs/review/bayesian_snapshot/tables/bayesian_status.csv`
+2. `outputs/review/bayesian_snapshot/tables/bayesian_model_comparison.csv`
+3. `outputs/review/bayesian_snapshot/tables/bayesian_coefficients.csv`
+4. `outputs/review/bayesian_snapshot/tables/bayesian_gate_results.csv`
+5. `outputs/review/bayesian_snapshot/figures/bayesian_time_ratios.png`
+6. `outputs/review/manuscript/paper.html`
+7. `outputs/review/manuscript/paper.pdf`
 
 ## Legacy Scripts
 

@@ -84,3 +84,24 @@ Evidence:
 
 Follow-up:
 1. If concurrent preservation of full-manuscript and production Bayesian artifacts becomes a recurring need, evaluate profile-specific artifact snapshots or output segregation as a separately approved work package.
+
+## 2026-03-11
+
+### D-006: Add a production-review workflow instead of redefining `full` / `manuscript`
+Status: accepted
+
+Decision:
+1. Keep the existing standard outputs and commands unchanged.
+2. Add a production Bayesian snapshot under `outputs/review/bayesian_snapshot/`.
+3. Add a separate review-manuscript render under `outputs/review/manuscript/` that reuses canonical non-Bayesian outputs and reads Bayesian tables/figure from the snapshot.
+
+Rationale:
+1. This was the explicitly chosen implementation direction for resolving the workflow inconsistency without breaking the current public contract.
+2. A snapshot plus additive render path keeps the standard manuscript semantics stable while making production Bayesian review self-consistent.
+
+Evidence:
+1. `just bayes-prod` now snapshots the authoritative production Bayesian tables, figure, and model objects under `outputs/review/bayesian_snapshot/`.
+2. `just manuscript-prod-bayes` renders `outputs/review/manuscript/paper.html` and `paper.pdf` with Bayesian sections showing `fit completed` / `pass` rows from the snapshot rather than the disabled-state standard outputs.
+
+Follow-up:
+1. If a future release needs the review manuscript to be fully targets-managed without any direct render helper, revisit a dedicated review target graph as a separate work package.

@@ -9,6 +9,14 @@ default:
   models_dir: "outputs/models"
   manuscript_qmd: "manuscript/paper.qmd"
   manuscript_output_dir: "outputs/manuscript"
+  review:
+    output_dir: "outputs/review"
+    bayesian_snapshot_dir: "outputs/review/bayesian_snapshot"
+    bayesian_tables_dir: "outputs/review/bayesian_snapshot/tables"
+    bayesian_figures_dir: "outputs/review/bayesian_snapshot/figures"
+    bayesian_models_dir: "outputs/review/bayesian_snapshot/models"
+    bayesian_manifest_path: "outputs/review/bayesian_snapshot/manifest.csv"
+    manuscript_output_dir: "outputs/review/manuscript"
   cost_scenarios_file: "config/cost_scenarios.csv"
   battery_costs_file: "config/battery_costs.csv"
   render_manuscript: false

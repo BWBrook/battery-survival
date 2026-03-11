@@ -209,11 +209,21 @@ if (file.exists(tb_fig)) {
 ### Bayesian Analysis Track
 
 ```{r}
-bayes_status_path <- "../outputs/tables/bayesian_status.csv"
-bayes_cmp_path <- "../outputs/tables/bayesian_model_comparison.csv"
-bayes_coef_path <- "../outputs/tables/bayesian_coefficients.csv"
-bayes_gate_path <- "../outputs/tables/bayesian_gate_results.csv"
-bayes_fig <- "../outputs/figures/bayesian_time_ratios.png"
+bayes_tables_dir <- Sys.getenv("MANUSCRIPT_BAYES_TABLES_DIR", unset = "../outputs/tables")
+if (!nzchar(bayes_tables_dir)) {
+  bayes_tables_dir <- "../outputs/tables"
+}
+
+bayes_figures_dir <- Sys.getenv("MANUSCRIPT_BAYES_FIGURES_DIR", unset = "../outputs/figures")
+if (!nzchar(bayes_figures_dir)) {
+  bayes_figures_dir <- "../outputs/figures"
+}
+
+bayes_status_path <- file.path(bayes_tables_dir, "bayesian_status.csv")
+bayes_cmp_path <- file.path(bayes_tables_dir, "bayesian_model_comparison.csv")
+bayes_coef_path <- file.path(bayes_tables_dir, "bayesian_coefficients.csv")
+bayes_gate_path <- file.path(bayes_tables_dir, "bayesian_gate_results.csv")
+bayes_fig <- file.path(bayes_figures_dir, "bayesian_time_ratios.png")
 
 if (file.exists(bayes_status_path)) {
   bayes_status <- read_csv(bayes_status_path, show_col_types = FALSE)

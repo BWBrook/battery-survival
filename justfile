@@ -22,6 +22,12 @@ bayes-prod:
 manuscript:
   ANALYSIS_PROFILE=full Rscript scripts/render_paper.R
 
+manuscript-prod-bayes:
+  bash scripts/run_with_log.sh manuscript-prod-bayes env ANALYSIS_PROFILE=full Rscript scripts/render_paper_prod_bayes.R
+
+review-prod-bayes:
+  bash scripts/run_with_log.sh review-prod-bayes bash scripts/review_prod_bayes.sh
+
 test:
   Rscript -e "testthat::test_dir('tests/testthat')"
 

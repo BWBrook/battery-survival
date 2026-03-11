@@ -137,6 +137,16 @@ list(
     ),
     format = "file"
   ),
+  tar_target(
+    bayesian_review_snapshot_files,
+    snapshot_bayesian_review_artifacts(
+      table_files = bayesian_table_files,
+      figure_file = fig_bayes,
+      model_files = bayesian_object_files,
+      cfg = cfg
+    ),
+    format = "file"
+  ),
   tar_target(econ_table_files, write_economics_tables(econ_grid, econ_optima, cfg), format = "file"),
   tar_target(
     artifact_manifest,
