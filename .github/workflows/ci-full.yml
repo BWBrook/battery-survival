@@ -17,6 +17,10 @@ jobs:
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tinytex: true
 
       - name: Install just
         run: sudo apt-get update && sudo apt-get install -y just
@@ -25,11 +29,6 @@ jobs:
         run: |
           Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
           Rscript --vanilla -e "source('renv/activate.R'); renv::restore(prompt = FALSE)"
-
-      - name: Install TinyTeX
-        run: |
-          Rscript -e "if (!requireNamespace('tinytex', quietly = TRUE)) install.packages('tinytex', repos='https://cloud.r-project.org')"
-          Rscript -e "tinytex::install_tinytex(force = FALSE)"
 
       - name: Run full DAG
         run: just full
