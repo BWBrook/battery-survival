@@ -1,0 +1,276 @@
++ profile_name dispatched
+✔ profile_name completed [2s, 63 B]
++ cfg dispatched
+✔ cfg completed [1ms, 965 B]
++ raw_data_file dispatched
+✔ raw_data_file completed [0ms, 221.72 kB]
++ output_dirs_ready dispatched
+✔ output_dirs_ready completed [31ms, 162 B]
++ bayesian_dependency_status dispatched
+✔ bayesian_dependency_status completed [1.4s, 175 B]
++ exclusion_file dispatched
+✔ exclusion_file completed [0ms, 140 B]
++ battery_costs_file dispatched
+✔ battery_costs_file completed [0ms, 236 B]
++ cost_scenarios_file dispatched
+✔ cost_scenarios_file completed [0ms, 246 B]
++ analysis_input dispatched
+✔ analysis_input completed [0ms, 177.16 kB]
++ qc_summary dispatched
+✔ qc_summary completed [161ms, 351 B]
++ partition_result dispatched
+✔ partition_result completed [175ms, 562.20 kB]
++ qc_files dispatched
+✔ qc_files completed [149ms, 222 B]
++ cox_fit dispatched
+✔ cox_fit completed [95ms, 330.21 kB]
++ aft_models dispatched
+✔ aft_models completed [148ms, 912.20 kB]
++ bayesian_result dispatched
+Start sampling
+Running MCMC with 32 parallel chains...
+
+Chain 1 finished in 14.3 seconds.
+Chain 10 finished in 14.1 seconds.
+Chain 2 finished in 14.5 seconds.
+Chain 4 finished in 14.5 seconds.
+Chain 3 finished in 14.8 seconds.
+Chain 23 finished in 14.2 seconds.
+Chain 14 finished in 14.7 seconds.
+Chain 21 finished in 14.5 seconds.
+Chain 22 finished in 14.5 seconds.
+Chain 29 finished in 14.3 seconds.
+Chain 9 finished in 15.0 seconds.
+Chain 7 finished in 15.2 seconds.
+Chain 6 finished in 15.4 seconds.
+Chain 16 finished in 15.1 seconds.
+Chain 12 finished in 15.3 seconds.
+Chain 13 finished in 15.2 seconds.
+Chain 8 finished in 15.5 seconds.
+Chain 20 finished in 15.2 seconds.
+Chain 27 finished in 14.9 seconds.
+Chain 19 finished in 15.3 seconds.
+Chain 28 finished in 15.0 seconds.
+Chain 31 finished in 14.9 seconds.
+Chain 17 finished in 15.4 seconds.
+Chain 24 finished in 15.3 seconds.
+Chain 15 finished in 15.6 seconds.
+Chain 18 finished in 15.5 seconds.
+Chain 11 finished in 15.8 seconds.
+Chain 5 finished in 16.4 seconds.
+Chain 26 finished in 15.7 seconds.
+Chain 30 finished in 15.7 seconds.
+Chain 25 finished in 16.0 seconds.
+Chain 32 finished in 15.8 seconds.
+
+All 32 chains finished successfully.
+Mean chain execution time: 15.1 seconds.
+Total execution time: 17.0 seconds.
+
+Start sampling
+Running MCMC with 32 parallel chains...
+
+Chain 1 finished in 9.9 seconds.
+Chain 2 finished in 9.9 seconds.
+Chain 6 finished in 10.0 seconds.
+Chain 7 finished in 10.2 seconds.
+Chain 8 finished in 10.2 seconds.
+Chain 10 finished in 10.2 seconds.
+Chain 13 finished in 10.1 seconds.
+Chain 14 finished in 9.9 seconds.
+Chain 17 finished in 9.9 seconds.
+Chain 3 finished in 10.5 seconds.
+Chain 4 finished in 10.4 seconds.
+Chain 9 finished in 10.2 seconds.
+Chain 16 finished in 10.3 seconds.
+Chain 18 finished in 10.2 seconds.
+Chain 19 finished in 10.2 seconds.
+Chain 5 finished in 10.7 seconds.
+Chain 11 finished in 10.6 seconds.
+Chain 23 finished in 10.3 seconds.
+Chain 25 finished in 10.1 seconds.
+Chain 26 finished in 10.1 seconds.
+Chain 21 finished in 10.5 seconds.
+Chain 24 finished in 10.3 seconds.
+Chain 28 finished in 10.1 seconds.
+Chain 12 finished in 10.9 seconds.
+Chain 15 finished in 10.7 seconds.
+Chain 20 finished in 10.6 seconds.
+Chain 29 finished in 10.2 seconds.
+Chain 32 finished in 10.1 seconds.
+Chain 22 finished in 10.6 seconds.
+Chain 27 finished in 10.4 seconds.
+Chain 30 finished in 10.7 seconds.
+Chain 31 finished in 10.6 seconds.
+
+All 32 chains finished successfully.
+Mean chain execution time: 10.3 seconds.
+Total execution time: 11.9 seconds.
+
+✔ bayesian_result completed [1m 38.1s, 8.71 MB]
++ partition_table_files dispatched
+✔ partition_table_files completed [9ms, 740 B]
++ fig_region_events dispatched
+✔ fig_region_events completed [690ms, 63.86 kB]
++ fig_cox dispatched
+✔ fig_cox completed [588ms, 103.04 kB]
++ cox_diag dispatched
+✔ cox_diag completed [14ms, 73.14 kB]
++ cox_terms dispatched
+✔ cox_terms completed [20ms, 921 B]
++ model_comparison dispatched
+✔ model_comparison completed [17ms, 380 B]
++ aft_terms dispatched
+✔ aft_terms completed [29ms, 2.06 kB]
++ fig_km dispatched
+✔ fig_km completed [573ms, 166.56 kB]
++ bayesian_object_files dispatched
+✔ bayesian_object_files completed [183ms, 20.17 MB]
++ bayesian_coef_tbl dispatched
+✔ bayesian_coef_tbl completed [1.8s, 1.61 kB]
++ bayesian_comparison_tbl dispatched
+✔ bayesian_comparison_tbl completed [2m 54.2s, 399 B]
++ bayesian_status_tbl dispatched
+✔ bayesian_status_tbl completed [1ms, 218 B]
++ tb_table_files dispatched
+✔ tb_table_files completed [5ms, 106 B]
++ fig_tb_km dispatched
+✔ fig_tb_km completed [732ms, 89.01 kB]
++ model_object_files dispatched
+✔ model_object_files completed [37ms, 5.63 MB]
++ best_aft dispatched
+✔ best_aft completed [9ms, 660.58 kB]
++ fig_aic dispatched
+✔ fig_aic completed [420ms, 60.84 kB]
++ model_table_files dispatched
+✔ model_table_files completed [13ms, 7.44 kB]
++ fig_bayes dispatched
+✔ fig_bayes completed [619ms, 126.80 kB]
++ bayesian_gate_tbl dispatched
+✔ bayesian_gate_tbl completed [54ms, 526 B]
++ analysis_table_files dispatched
+✔ analysis_table_files completed [11ms, 925 B]
++ econ_grid dispatched
+✔ econ_grid completed [893ms, 20.09 kB]
++ validation_result dispatched
+✔ validation_result completed [2s, 693 B]
++ bayesian_table_files dispatched
+✔ bayesian_table_files completed [12ms, 4.50 kB]
++ fig_econ_cost dispatched
+✔ fig_econ_cost completed [838ms, 261.44 kB]
++ fig_econ_down dispatched
+✔ fig_econ_down completed [872ms, 449.21 kB]
++ bayesian_review_snapshot_files dispatched
+✔ bayesian_review_snapshot_files completed [93ms, 20.30 MB]
++ econ_table_files dispatched
+✔ econ_table_files completed [104ms, 200.70 kB]
++ fig_econ_opt dispatched
+✔ fig_econ_opt completed [815ms, 152.87 kB]
++ fig_validation dispatched
+✔ fig_validation completed [916ms, 201.95 kB]
++ validation_table_files dispatched
+✔ validation_table_files completed [8ms, 1.31 kB]
++ artifact_manifest dispatched
+✔ artifact_manifest completed [14ms, 2.99 kB]
++ render_manuscript dispatched
+✔ render_manuscript completed [58ms, 78 B]
+✔ ended pipeline [4m 52.8s, 48 completed, 29 skipped]
++ profile_name dispatched
+✔ profile_name completed [2s, 57 B]
++ cfg dispatched
+✔ cfg completed [1ms, 964 B]
++ raw_data_file dispatched
+✔ raw_data_file completed [0ms, 221.72 kB]
++ output_dirs_ready dispatched
+✔ output_dirs_ready completed [20ms, 162 B]
++ bayesian_dependency_status dispatched
+✔ bayesian_dependency_status completed [1.4s, 175 B]
++ exclusion_file dispatched
+✔ exclusion_file completed [0ms, 140 B]
++ battery_costs_file dispatched
+✔ battery_costs_file completed [0ms, 236 B]
++ cost_scenarios_file dispatched
+✔ cost_scenarios_file completed [1ms, 246 B]
++ analysis_input dispatched
+✔ analysis_input completed [0ms, 177.16 kB]
++ qc_summary dispatched
+✔ qc_summary completed [146ms, 347 B]
++ partition_result dispatched
+✔ partition_result completed [172ms, 562.20 kB]
++ qc_files dispatched
+✔ qc_files completed [141ms, 216 B]
++ cox_fit dispatched
+✔ cox_fit completed [94ms, 330.22 kB]
++ aft_models dispatched
+✔ aft_models completed [142ms, 912.20 kB]
++ bayesian_result dispatched
+✔ bayesian_result completed [78ms, 323 B]
++ partition_table_files dispatched
+✔ partition_table_files completed [8ms, 740 B]
++ fig_region_events dispatched
+✔ fig_region_events completed [625ms, 63.86 kB]
++ fig_cox dispatched
+✔ fig_cox completed [614ms, 103.04 kB]
++ cox_diag dispatched
+✔ cox_diag completed [14ms, 73.14 kB]
++ cox_terms dispatched
+✔ cox_terms completed [18ms, 921 B]
++ model_comparison dispatched
+✔ model_comparison completed [14ms, 380 B]
++ aft_terms dispatched
+✔ aft_terms completed [34ms, 2.06 kB]
++ fig_km dispatched
+✔ fig_km completed [575ms, 166.56 kB]
++ bayesian_object_files dispatched
+✔ bayesian_object_files completed [4ms, 849 B]
++ bayesian_coef_tbl dispatched
+✔ bayesian_coef_tbl completed [24ms, 202 B]
++ bayesian_comparison_tbl dispatched
+✔ bayesian_comparison_tbl completed [44ms, 323 B]
++ bayesian_status_tbl dispatched
+✔ bayesian_status_tbl completed [0ms, 244 B]
++ tb_table_files dispatched
+✔ tb_table_files completed [4ms, 106 B]
++ fig_tb_km dispatched
+✔ fig_tb_km completed [716ms, 89.01 kB]
++ model_object_files dispatched
+✔ model_object_files completed [37ms, 5.63 MB]
++ best_aft dispatched
+✔ best_aft completed [9ms, 660.58 kB]
++ fig_aic dispatched
+✔ fig_aic completed [454ms, 60.84 kB]
++ model_table_files dispatched
+✔ model_table_files completed [13ms, 7.44 kB]
++ fig_bayes dispatched
+✔ fig_bayes completed [299ms, 9.59 kB]
++ bayesian_gate_tbl dispatched
+✔ bayesian_gate_tbl completed [68ms, 473 B]
++ analysis_table_files dispatched
+✔ analysis_table_files completed [10ms, 925 B]
++ econ_grid dispatched
+✔ econ_grid completed [1.2s, 20.09 kB]
++ validation_result dispatched
+✔ validation_result completed [2s, 693 B]
++ bayesian_table_files dispatched
+✔ bayesian_table_files completed [11ms, 1.56 kB]
++ fig_econ_cost dispatched
+✔ fig_econ_cost completed [918ms, 261.44 kB]
++ fig_econ_down dispatched
+✔ fig_econ_down completed [866ms, 449.21 kB]
++ bayesian_review_snapshot_files dispatched
+✔ bayesian_review_snapshot_files completed [36ms, 0 B]
++ econ_table_files dispatched
+✔ econ_table_files completed [105ms, 200.70 kB]
++ fig_econ_opt dispatched
+✔ fig_econ_opt completed [818ms, 152.87 kB]
++ fig_validation dispatched
+✔ fig_validation completed [926ms, 201.95 kB]
++ validation_table_files dispatched
+✔ validation_table_files completed [7ms, 1.31 kB]
++ artifact_manifest dispatched
+✔ artifact_manifest completed [15ms, 2.82 kB]
++ render_manuscript dispatched
+✔ render_manuscript completed [31s, 1.70 MB]
+✔ ended pipeline [48.1s, 48 completed, 29 skipped]
+[1] "outputs/review/manuscript/paper.html"
+[2] "outputs/review/manuscript/paper.pdf" 

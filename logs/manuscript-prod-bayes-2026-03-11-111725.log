@@ -1,0 +1,4 @@
+Using production Bayesian snapshot manifest: outputs/review/bayesian_snapshot/manifest.csv
+Rendering review manuscript to: outputs/review/manuscript
+[1] "outputs/review/manuscript/paper.html"
+[2] "outputs/review/manuscript/paper.pdf" 

@@ -33,7 +33,34 @@ Evidence:
 1. Production Bayesian snapshot exists under `outputs/review/bayesian_snapshot/`.
 2. Review manuscript exists under `outputs/review/manuscript/`.
 3. Review manuscript HTML/PDF show Bayesian `ok` / `fit completed` / `pass` rows from the snapshot instead of disabled rows.
+4. Real workflow logs exist for the additive review path under `logs/`.
+
+## Authoritative review artifacts
+1. `outputs/review/bayesian_snapshot/tables/bayesian_status.csv`
+2. `outputs/review/bayesian_snapshot/tables/bayesian_model_comparison.csv`
+3. `outputs/review/bayesian_snapshot/tables/bayesian_coefficients.csv`
+4. `outputs/review/bayesian_snapshot/tables/bayesian_gate_results.csv`
+5. `outputs/review/bayesian_snapshot/figures/bayesian_time_ratios.png`
+6. `outputs/review/manuscript/paper.html`
+7. `outputs/review/manuscript/paper.pdf`
+
+## Command status
+1. `just test` — pass (`PASS 89`)
+2. `just bayes-check` — pass
+3. `just bayes-prod` — pass
+4. `just full` — pass
+5. `just manuscript` — pass
+6. `just manuscript-prod-bayes` — pass
+7. `just review-prod-bayes` — pass
+
+## Production Bayesian summary
+1. The authoritative production family set is `weibull` + `lognormal`.
+2. Both families have `fit_status = ok` and `gate_status = pass`.
+3. `weibull` has the lower `looic` and therefore remains the stronger production candidate under the current strict-gate comparison.
+4. The review manuscript now reflects those production Bayesian results consistently.
 
 ## Remaining caveats
 1. The standard manuscript under `outputs/manuscript/` remains the canonical `full`-profile render and therefore still reflects the disabled Bayesian state by design.
 2. The review workflow depends on a prior successful `just bayes-prod`.
+3. `gamma` remains deferred from `bayes_prod` pending a separate profiling/reparameterization pass.
+4. Machine-specific parallelism tuning is still desirable on smaller workstations, but it is not a release blocker for the server-side review workflow.

@@ -105,3 +105,22 @@ Evidence:
 
 Follow-up:
 1. If a future release needs the review manuscript to be fully targets-managed without any direct render helper, revisit a dedicated review target graph as a separate work package.
+
+### D-007: Treat the additive review bundle as the authoritative Bayesian release-review surface
+Status: accepted
+
+Decision:
+1. Use `outputs/review/bayesian_snapshot/` and `outputs/review/manuscript/` as the authoritative review surface for production Bayesian evidence.
+2. Keep `outputs/manuscript/` as the canonical full-profile manuscript output and do not reinterpret it as the production-Bayesian review document.
+
+Rationale:
+1. The additive review workflow was introduced specifically to avoid changing the semantics of the standard `full` / `manuscript` path.
+2. The synced review bundle now resolves the previous evidence mismatch: the review manuscript renders Bayesian `ok` / `pass` rows from the production snapshot while the canonical manuscript remains full-profile by design.
+
+Evidence:
+1. `outputs/review/bayesian_snapshot/tables/bayesian_model_comparison.csv` contains only `weibull` and `lognormal` with `fit_status = ok`.
+2. `outputs/review/manuscript/paper.html` renders Bayesian `fit completed` / `pass` rows that match the snapshot tables.
+3. Real workflow logs exist for `review-prod-bayes` and `manuscript-prod-bayes` under `logs/`.
+
+Follow-up:
+1. Use the additive review bundle for release/readiness review until or unless the project intentionally changes the meaning of the standard manuscript path.
