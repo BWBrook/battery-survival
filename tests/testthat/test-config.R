@@ -11,6 +11,15 @@ testthat::test_that("bayes_prod keeps the conservative production family set", {
   testthat::expect_equal(cfg$bayesian$families, c("weibull", "lognormal"))
 })
 
+testthat::test_that("bayesian profiles separate production and gamma exploratory families", {
+  bayes_cfg <- read_analysis_config(profile = "bayes", path = file.path(repo_root, "config", "analysis.yml"))
+  gamma_cfg <- read_analysis_config(profile = "bayes_gamma_check", path = file.path(repo_root, "config", "analysis.yml"))
+
+  testthat::expect_equal(bayes_cfg$bayesian$families, c("weibull", "lognormal"))
+  testthat::expect_equal(gamma_cfg$bayesian$families, "gamma")
+  testthat::expect_lt(gamma_cfg$bayesian$iter_sampling, bayes_cfg$bayesian$iter_sampling)
+})
+
 testthat::test_that("default config exposes additive review paths", {
   cfg <- read_analysis_config(profile = "full", path = file.path(repo_root, "config", "analysis.yml"))
   review <- review_paths(cfg)

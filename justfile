@@ -13,6 +13,9 @@ full:
 bayes:
   ANALYSIS_PROFILE=bayes Rscript scripts/run_full.R
 
+bayes-gamma-check:
+  ANALYSIS_PROFILE=bayes_gamma_check Rscript scripts/run_full.R
+
 bayes-check:
   ANALYSIS_PROFILE=bayes_check Rscript scripts/run_full.R
 

@@ -50,6 +50,7 @@ Primary:
 5. `just test` (or `make test`)
 6. `just check` (or `make check`)
 7. `just bayes-check` / `just bayes-prod` (or `make bayes-check` / `make bayes-prod`) for Bayesian validation and production profiles
+8. `just bayes-gamma-check` for the slower exploratory gamma family smoke profile
 
 Lockfile maintenance:
 1. `just lock` (or `make lock`)

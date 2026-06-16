@@ -32,15 +32,16 @@ review_paths <- function(cfg) {
   review <- cfg$review %||% list()
   review_root <- review$output_dir %||% fs::path(cfg$outputs_dir, "review")
   snapshot_dir <- review$bayesian_snapshot_dir %||% fs::path(review_root, "bayesian_snapshot")
+  path_norm <- function(path) fs::path_norm(path)
 
   list(
-    output_dir = review_root,
-    bayesian_snapshot_dir = snapshot_dir,
-    bayesian_tables_dir = review$bayesian_tables_dir %||% fs::path(snapshot_dir, "tables"),
-    bayesian_figures_dir = review$bayesian_figures_dir %||% fs::path(snapshot_dir, "figures"),
-    bayesian_models_dir = review$bayesian_models_dir %||% fs::path(snapshot_dir, "models"),
-    bayesian_manifest_path = review$bayesian_manifest_path %||% fs::path(snapshot_dir, "manifest.csv"),
-    manuscript_output_dir = review$manuscript_output_dir %||% fs::path(review_root, "manuscript")
+    output_dir = path_norm(review_root),
+    bayesian_snapshot_dir = path_norm(snapshot_dir),
+    bayesian_tables_dir = path_norm(review$bayesian_tables_dir %||% fs::path(snapshot_dir, "tables")),
+    bayesian_figures_dir = path_norm(review$bayesian_figures_dir %||% fs::path(snapshot_dir, "figures")),
+    bayesian_models_dir = path_norm(review$bayesian_models_dir %||% fs::path(snapshot_dir, "models")),
+    bayesian_manifest_path = path_norm(review$bayesian_manifest_path %||% fs::path(snapshot_dir, "manifest.csv")),
+    manuscript_output_dir = path_norm(review$manuscript_output_dir %||% fs::path(review_root, "manuscript"))
   )
 }
 

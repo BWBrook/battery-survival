@@ -92,6 +92,13 @@ testthat::test_that("bayesian gate evaluation applies strict pass/fail threshold
   testthat::expect_false(any(gate$all_families_pass))
 })
 
+testthat::test_that("bayesian cores are capped to available host cores", {
+  testthat::expect_equal(resolve_bayesian_cores(chains = 32, cores_cfg = 32, available_cores = 10), 10)
+  testthat::expect_equal(resolve_bayesian_cores(chains = 4, cores_cfg = 32, available_cores = 10), 4)
+  testthat::expect_equal(resolve_bayesian_cores(chains = 8, cores_cfg = NA_integer_, available_cores = 2), 2)
+  testthat::expect_equal(resolve_bayesian_cores(chains = 8, cores_cfg = NA_integer_, available_cores = NA_integer_), 1)
+})
+
 testthat::test_that("bayesian comparison with no fits includes diagnostics columns", {
   bayesian_result <- list(
     status = tibble::tibble(

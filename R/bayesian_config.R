@@ -23,6 +23,19 @@ default_bayesian_gate <- function(cfg) {
   )
 }
 
+resolve_bayesian_cores <- function(chains, cores_cfg = NA_integer_, available_cores = NULL) {
+  chains <- max(1L, as.integer(chains %||% 1L))
+  cores_cfg <- as.integer(cores_cfg %||% NA_integer_)
+  available_cores <- as.integer(available_cores %||% parallel::detectCores(logical = FALSE))
+
+  if (!is.finite(available_cores) || is.na(available_cores) || available_cores < 1L) {
+    available_cores <- 1L
+  }
+
+  requested_cores <- if (!is.na(cores_cfg) && cores_cfg > 0L) cores_cfg else chains
+  max(1L, min(chains, requested_cores, available_cores))
+}
+
 check_bayesian_dependencies <- function(cfg) {
   backend <- cfg$bayesian$backend %||% "cmdstanr"
   has_brms <- requireNamespace("brms", quietly = TRUE)

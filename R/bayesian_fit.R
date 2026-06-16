@@ -66,15 +66,7 @@ fit_bayesian_models <- function(dat, cfg, dependency_status = NULL) {
   seed <- as.integer(cfg$bayesian$seed %||% cfg$seed %||% 20260217L)
   refresh <- as.integer(cfg$bayesian$refresh %||% 0L)
   init <- cfg$bayesian$init %||% 0
-  auto_cores <- parallel::detectCores(logical = FALSE)
-  if (!is.finite(auto_cores) || is.na(auto_cores)) {
-    auto_cores <- 1L
-  }
-  cores <- if (!is.na(cores_cfg) && cores_cfg > 0L) {
-    min(chains, cores_cfg)
-  } else {
-    max(1L, min(chains, auto_cores))
-  }
+  cores <- resolve_bayesian_cores(chains, cores_cfg)
   threads_per_chain <- max(1L, threads_per_chain)
 
   fit_data <- prepare_bayesian_data(dat)

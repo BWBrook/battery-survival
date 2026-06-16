@@ -56,8 +56,14 @@ This runs the full dataset analysis and renders manuscript artifacts.
 just bayes
 ```
 
-This enables the Bayesian branch in the DAG. It requires `brms` plus a working Stan backend (configured as `cmdstanr`).
+This enables the Bayesian branch in the DAG across the production family set (Weibull + lognormal). It requires `brms` plus a working Stan backend (configured as `cmdstanr`).
 Parallel settings (chains, cores, optional threads per chain) are controlled in `config/analysis.yml` under `bayesian:`.
+
+The gamma family is available as an explicit exploratory smoke profile:
+
+```bash
+just bayes-gamma-check
+```
 
 ### 5) Run Bayesian check and production profiles
 
