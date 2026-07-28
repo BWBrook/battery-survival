@@ -23,6 +23,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y just libglpk-dev
 
       - name: Restore renv
+        env:
+          RENV_CONFIG_REPOS_OVERRIDE: https://packagemanager.posit.co/cran/__linux__/noble/2026-07-20
         run: |
           Rscript --vanilla -e "if (!requireNamespace('renv', quietly = TRUE)) install.packages('renv', repos='https://cloud.r-project.org')"
           Rscript --vanilla -e "source('renv/activate.R'); renv::restore(prompt = FALSE)"
