@@ -40,31 +40,30 @@ Out of scope for phase 1:
 6. Keep manuscript numbers and visuals derived from pipeline outputs only.
 
 ## Canonical Commands
-Use either `just` (preferred) or `make`.
+Use `just`.
 
 Primary:
-1. `just restore` (or `make restore`)
-2. `just dev` (or `make dev`)
-3. `just full` (or `make full`)
-4. `just manuscript` (or `make manuscript`)
-5. `just test` (or `make test`)
-6. `just check` (or `make check`)
-7. `just bayes-check` / `just bayes-prod` (or `make bayes-check` / `make bayes-prod`) for Bayesian validation and production profiles
+1. `just restore`
+2. `just dev`
+3. `just full`
+4. `just manuscript`
+5. `just test`
+6. `just check`
+7. `just bayes-check` / `just bayes-prod` for Bayesian validation and production profiles
 8. `just bayes-gamma-check` for the slower exploratory gamma family smoke profile
 
 Lockfile maintenance:
-1. `just lock` (or `make lock`)
+1. `just lock`
 
 ## Definition of Done (per work package)
 1. Pipeline executes in expected profile (`dev` or `full`) without manual edits.
 2. New/changed logic has tests.
-3. Documentation is updated (`README.md`, `docs/plan.md`, and manuscript notes if relevant).
-4. Reproducibility commands and outputs are listed in the Build Report.
+3. User-facing documentation is updated when the supported workflow changes.
+4. The handoff reports verification performed and material residual risks.
 
-## Build Report Format
+## Handoff Format
 When completing substantial work, report:
 1. Work package/purpose.
 2. Files changed grouped by code/tests/docs/config.
 3. Commands run and pass/fail outcomes.
-4. Generated artifacts with exact output paths.
-5. Risks/caveats and suggested next tasks.
+4. Material risks/caveats and the highest-value next task.

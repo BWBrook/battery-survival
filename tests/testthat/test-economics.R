@@ -81,6 +81,20 @@ testthat::test_that("active-day helpers respect interval bounds", {
   testthat::expect_equal(surv_at_interval, 0.65)
 })
 
+testthat::test_that("interval metrics integrate survival independently of costs", {
+  metrics <- compute_interval_metrics(
+    times = c(0, 10, 20),
+    surv = c(1, 0.5, 0),
+    intervals = c(10, 20)
+  )
+
+  testthat::expect_equal(metrics$expected_active_days, c(7.5, 10))
+  testthat::expect_equal(metrics$expected_downtime_days, c(2.5, 10))
+  testthat::expect_equal(metrics$downtime_fraction, c(0.25, 0.5))
+  testthat::expect_equal(metrics$survival_at_service, c(0.5, 0))
+  testthat::expect_equal(metrics$fail_before_service, c(0.5, 1))
+})
+
 testthat::test_that("economics grid and optima are generated", {
   dat <- make_economics_test_data()
 

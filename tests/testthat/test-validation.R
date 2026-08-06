@@ -117,6 +117,25 @@ testthat::test_that("validation summary keeps all observed strata but errors use
   )
 })
 
+testthat::test_that("supported validation prediction errors are surfaced", {
+  dat <- make_validation_test_data()
+  train <- dat[dat$reg != "sw", , drop = FALSE]
+  validation <- dat[dat$reg == "sw", , drop = FALSE] %>%
+    dplyr::slice(1) %>%
+    dplyr::mutate(log_fi_pd = "not numeric")
+
+  fit <- survival::survreg(
+    survival::Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd,
+    data = train,
+    dist = "weibull"
+  )
+
+  testthat::expect_error(
+    predict_group_survival(fit, validation, c(90, 180)),
+    "AFT prediction failed for supported validation row"
+  )
+})
+
 testthat::test_that("testbench summary handles empty inputs", {
   empty <- tibble::tibble(
     camera = character(),

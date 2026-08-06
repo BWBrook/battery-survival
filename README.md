@@ -20,19 +20,13 @@ Phase 1 focuses on:
 
 ### 1) Restore dependencies
 
-Using `just` (preferred):
+Using `just`:
 
 ```bash
 just restore
 ```
 
-Or using `make`:
-
-```bash
-make restore
-```
-
-The restore entrypoints run in a repo-local `renv` context and do not rely on user-level R startup preferences.
+The restore command runs in a repo-local `renv` context and does not rely on user-level R startup preferences.
 
 ### 2) Run the dev pipeline
 
@@ -185,6 +179,3 @@ Historic exploratory scripts remain in `methods/` for reference and provenance. 
 
 Project governance and agent instructions:
 1. `AGENTS.md`
-
-Execution plan tracker:
-1. `docs/plan.md`

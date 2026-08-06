@@ -42,55 +42,6 @@ summarize_sampler_diagnostics <- function(fit_obj, max_treedepth_threshold = 12L
 
   backend_fit <- fit_obj$fit
 
-  if (inherits(backend_fit, "stanfit")) {
-    if (!requireNamespace("rstan", quietly = TRUE)) {
-      return(out)
-    }
-
-    sp <- tryCatch(
-      rstan::get_sampler_params(backend_fit, inc_warmup = FALSE),
-      error = function(e) NULL
-    )
-
-    if (!is.null(sp) && length(sp) > 0) {
-      divergences <- vapply(
-        sp,
-        function(x) {
-          if (!"divergent__" %in% colnames(x)) NA_real_ else sum(x[, "divergent__"], na.rm = TRUE)
-        },
-        numeric(1)
-      )
-      treedepth_saturated <- vapply(
-        sp,
-        function(x) {
-          if (!"treedepth__" %in% colnames(x)) NA_real_ else {
-            sum(x[, "treedepth__"] >= max_treedepth_threshold, na.rm = TRUE)
-          }
-        },
-        numeric(1)
-      )
-      bfmi_chain <- vapply(
-        sp,
-        function(x) {
-          if (!"energy__" %in% colnames(x)) NA_real_ else compute_chain_bfmi(x[, "energy__"])
-        },
-        numeric(1)
-      )
-
-      out$divergences <- safe_sum_int(divergences)
-      out$treedepth_saturated <- safe_sum_int(treedepth_saturated)
-      out$bfmi_min <- safe_min(bfmi_chain)
-    }
-
-    elapsed <- tryCatch(rstan::get_elapsed_time(backend_fit), error = function(e) NULL)
-    if (!is.null(elapsed)) {
-      elapsed_vals <- as.numeric(elapsed[, "warmup"] + elapsed[, "sample"])
-      out$elapsed_seconds <- if (all(!is.finite(elapsed_vals))) NA_real_ else sum(elapsed_vals, na.rm = TRUE)
-    }
-
-    return(out)
-  }
-
   if (inherits(backend_fit, "CmdStanMCMC")) {
     diag_arr <- tryCatch(
       posterior::as_draws_array(backend_fit$sampler_diagnostics()),

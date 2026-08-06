@@ -36,7 +36,13 @@ predict_group_survival <- function(aft_fit, dat, horizons_days) {
             newdata_row = newdat,
             times = horizons_days
           ),
-          error = function(e) rep(NA_real_, length(horizons_days))
+          error = function(e) {
+            stop(
+              "AFT prediction failed for supported validation row ", i,
+              ": ", conditionMessage(e),
+              call. = FALSE
+            )
+          }
         )
       }
 

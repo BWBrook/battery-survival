@@ -143,6 +143,28 @@ survival_at_interval <- function(times, surv, interval_days) {
   stats::approx(times, surv, xout = interval_days, rule = 2)$y
 }
 
+compute_interval_metrics <- function(times, surv, intervals) {
+  active_days <- vapply(
+    intervals,
+    function(interval_days) expected_active_days(times, surv, interval_days),
+    numeric(1)
+  )
+  survival_at_service <- vapply(
+    intervals,
+    function(interval_days) survival_at_interval(times, surv, interval_days),
+    numeric(1)
+  )
+
+  tibble::tibble(
+    interval_days = intervals,
+    expected_active_days = active_days,
+    expected_downtime_days = intervals - active_days,
+    downtime_fraction = expected_downtime_days / intervals,
+    survival_at_service = survival_at_service,
+    fail_before_service = 1 - survival_at_service
+  )
+}
+
 compute_service_interval_economics <- function(
   aft_fit,
   aft_name,
@@ -168,6 +190,9 @@ compute_service_interval_economics <- function(
     stop("Missing battery costs for brands: ", paste(missing, collapse = ", "), call. = FALSE)
   }
 
+  scenario_costs <- cost_scenarios %>%
+    dplyr::select(scenario_id, scenario_label, service_cost)
+
   out <- purrr::map_dfr(
     seq_len(nrow(profile_costs)),
     function(i) {
@@ -175,34 +200,25 @@ compute_service_interval_economics <- function(
       newdat <- prof %>%
         dplyr::select(bb, ft, seas, reg, log_fi_pd, log_day_pd)
       surv <- predict_survival_from_aft(aft_fit, newdat, time_grid)
+      interval_metrics <- compute_interval_metrics(time_grid, surv, intervals)
 
-      purrr::map_dfr(
-        seq_len(nrow(cost_scenarios)),
-        function(j) {
-          sc <- cost_scenarios[j, ]
-          tibble::tibble(interval_days = intervals) %>%
-            dplyr::rowwise() %>%
-            dplyr::mutate(
-              expected_active_days = expected_active_days(time_grid, surv, interval_days),
-              expected_downtime_days = interval_days - expected_active_days,
-              downtime_fraction = ifelse(interval_days > 0, expected_downtime_days / interval_days, NA_real_),
-              survival_at_service = survival_at_interval(time_grid, surv, interval_days),
-              fail_before_service = 1 - survival_at_service,
-              service_cost = sc$service_cost[[1]],
-              battery_cost = prof$battery_cost[[1]],
-              total_cycle_cost = service_cost + battery_cost,
-              cost_per_active_day = total_cycle_cost / pmax(expected_active_days, 1e-8),
-              scenario_id = sc$scenario_id[[1]],
-              scenario_label = sc$scenario_label[[1]],
-              bb = as.character(prof$bb[[1]]),
-              ft = as.character(prof$ft[[1]]),
-              seas = as.character(prof$seas[[1]]),
-              reg = as.character(prof$reg[[1]]),
-              aft_model = aft_name
-            ) %>%
-            dplyr::ungroup()
-        }
-      )
+      dplyr::cross_join(scenario_costs, interval_metrics) %>%
+        dplyr::mutate(
+          battery_cost = prof$battery_cost[[1]],
+          total_cycle_cost = service_cost + battery_cost,
+          cost_per_active_day = total_cycle_cost / pmax(expected_active_days, 1e-8),
+          bb = as.character(prof$bb[[1]]),
+          ft = as.character(prof$ft[[1]]),
+          seas = as.character(prof$seas[[1]]),
+          reg = as.character(prof$reg[[1]]),
+          aft_model = aft_name
+        ) %>%
+        dplyr::select(
+          interval_days, expected_active_days, expected_downtime_days,
+          downtime_fraction, survival_at_service, fail_before_service,
+          service_cost, battery_cost, total_cycle_cost, cost_per_active_day,
+          scenario_id, scenario_label, bb, ft, seas, reg, aft_model
+        )
     }
   )
 
