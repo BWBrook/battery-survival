@@ -107,13 +107,13 @@ testthat::test_that("economics grid and optima are generated", {
 
   aft_models <- fit_aft_models(dat, cfg)
 
-  model_comparison <- tibble::tibble(
+  aft_model_comparison <- tibble::tibble(
     model = c("aft_weibull", "aft_lognormal"),
     family = c("weibull", "lognormal"),
     aic = c(100, 120)
   )
 
-  best <- choose_best_aft_model(aft_models, model_comparison)
+  best <- choose_best_aft_model(aft_models, aft_model_comparison)
   prof <- build_prediction_profiles(dat)
   costs <- tibble::tibble(
     scenario_id = c("a", "b"),

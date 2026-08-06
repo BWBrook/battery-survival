@@ -14,23 +14,24 @@ make_model_test_data <- function(n = 200, seed = 123) {
   )
 }
 
-testthat::test_that("model comparison includes delta_aic ranking", {
+testthat::test_that("AFT comparison ranks only comparable distributions", {
   dat <- make_model_test_data()
 
   cfg <- list(
     model = list(
-      cox_formula = "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd",
       aft_formula = "Surv(rd, event) ~ bb + ft + seas + log_fi_pd + log_day_pd",
       aft_distributions = c("weibull", "lognormal")
     )
   )
 
-  cox_fit <- fit_cox_model(dat, cfg)
   aft_fits <- fit_aft_models(dat, cfg)
-  cmp <- summarize_model_comparison(cox_fit, aft_fits)
+  cmp <- summarize_aft_model_comparison(aft_fits)
 
+  testthat::expect_setequal(cmp$model, c("aft_weibull", "aft_lognormal"))
+  testthat::expect_true(all(cmp$family %in% c("weibull", "lognormal")))
   testthat::expect_true(all(c("delta_aic", "rank") %in% names(cmp)))
   testthat::expect_equal(min(cmp$delta_aic, na.rm = TRUE), 0)
+  testthat::expect_equal(cmp$rank, seq_len(nrow(cmp)))
 })
 
 testthat::test_that("cox diagnostics tidier returns expected columns", {

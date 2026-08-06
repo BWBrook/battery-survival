@@ -120,3 +120,13 @@ testthat::test_that("review_manuscript_env resolves snapshot paths relative to t
     "../outputs/review/bayesian_snapshot/figures"
   )
 })
+
+testthat::test_that("Quarto manuscript rendering uses the project output interface", {
+  args <- quarto_project_render_args("html", "outputs")
+
+  testthat::expect_equal(
+    args,
+    c("render", "--to", "html", "--output-dir", "outputs", "--no-clean")
+  )
+  testthat::expect_false("--output" %in% args)
+})

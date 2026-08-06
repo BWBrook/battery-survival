@@ -1,9 +1,18 @@
-# battery-survival manuscript directory
-This directory is not ignored, documents here will be in version control
+# Battery Survival Manuscript Directory
 
-Keep documents organised in folders indicating the date they were written or stored.
+## Publication Source
 
-Update this README.md file with information about the documents.
+`text/main.md` and `text/figures.md` are the Makedoc-aligned publication
+manuscript sources. `authors.yaml` contains placeholder metadata pending Barry's
+final authorship decisions.
 
-    2021-03-01/initial_draft.tex - first draft
-    2021-03-02/supp_info.rmd - supplimentary information
+## Analysis/Review Source
+
+`paper.qmd` remains the executable Quarto analysis/review document while the
+Makedoc publication build is inactive. It is not the publication-prose source.
+
+## Makedoc Activation
+
+The external Makedoc build remains template-only. Activate
+`settings/build.yaml` only after `references/refs.yaml`, a real journal CSL,
+and final author metadata are available.

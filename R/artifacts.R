@@ -69,20 +69,20 @@ plot_cox_hazard_ratios <- function(cox_fit, cfg) {
   out_path
 }
 
-plot_model_aic <- function(model_comparison, cfg) {
+plot_aft_model_aic <- function(aft_model_comparison, cfg) {
   ensure_output_dirs(cfg)
 
-  out_path <- fs::path(cfg$figures_dir, "model_aic_comparison.png")
+  out_path <- fs::path(cfg$figures_dir, "aft_model_aic_comparison.png")
 
   p <- ggplot2::ggplot(
-    model_comparison,
+    aft_model_comparison,
     ggplot2::aes(x = stats::reorder(model, aic), y = aic)
   ) +
     ggplot2::geom_col(fill = "#2C7FB8") +
     ggplot2::coord_flip() +
     ggplot2::labs(
-      title = "Model Comparison by AIC",
-      x = "Model",
+      title = "AFT Distribution Comparison by AIC",
+      x = "AFT distribution",
       y = "AIC"
     ) +
     ggplot2::theme_minimal(base_size = 11)
@@ -91,14 +91,14 @@ plot_model_aic <- function(model_comparison, cfg) {
   out_path
 }
 
-write_model_tables <- function(model_comparison, cox_terms, aft_terms, cfg) {
+write_model_tables <- function(aft_model_comparison, cox_terms, aft_terms, cfg) {
   ensure_output_dirs(cfg)
 
-  model_path <- fs::path(cfg$tables_dir, "model_comparison.csv")
+  model_path <- fs::path(cfg$tables_dir, "aft_model_comparison.csv")
   cox_path <- fs::path(cfg$tables_dir, "cox_coefficients.csv")
   aft_path <- fs::path(cfg$tables_dir, "aft_coefficients.csv")
 
-  readr::write_csv(model_comparison, model_path)
+  readr::write_csv(aft_model_comparison, model_path)
   readr::write_csv(cox_terms, cox_path)
   readr::write_csv(aft_terms, aft_path)
 

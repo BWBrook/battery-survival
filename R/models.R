@@ -38,16 +38,8 @@ run_cox_diagnostics <- function(cox_fit) {
   survival::cox.zph(cox_fit, transform = "km")
 }
 
-summarize_model_comparison <- function(cox_fit, aft_models) {
-  cox_row <- tibble::tibble(
-    model = "coxph",
-    family = "coxph",
-    aic = as.numeric(stats::AIC(cox_fit)),
-    loglik = as.numeric(stats::logLik(cox_fit)),
-    n = stats::nobs(cox_fit)
-  )
-
-  aft_rows <- purrr::imap_dfr(
+summarize_aft_model_comparison <- function(aft_models) {
+  purrr::imap_dfr(
     aft_models,
     ~tibble::tibble(
       model = paste0("aft_", .y),
@@ -56,16 +48,12 @@ summarize_model_comparison <- function(cox_fit, aft_models) {
       loglik = as.numeric(stats::logLik(.x)),
       n = stats::nobs(.x)
     )
-  )
-
-  out <- dplyr::bind_rows(cox_row, aft_rows) %>%
+  ) %>%
     dplyr::arrange(aic) %>%
     dplyr::mutate(
       delta_aic = aic - min(aic, na.rm = TRUE),
       rank = dplyr::row_number()
     )
-
-  out
 }
 
 tidy_cox_coefficients <- function(cox_fit) {

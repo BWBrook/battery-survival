@@ -1,0 +1,13 @@
+# Placeholder metadata. Replace only after Barry confirms authorship and order.
+
+title_note: "TODO: optional title note; remove if not needed."
+
+authors:
+  - name: "TODO: Barry-confirmed author 1"
+    affiliations: [aff1]
+    corresponding: true
+    email: "TODO: confirm email or omit"
+    orcid: "TODO: confirm ORCID or omit"
+
+affiliations:
+  aff1: "TODO: confirm institution, department, city, country"

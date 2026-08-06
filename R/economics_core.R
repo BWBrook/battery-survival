@@ -65,9 +65,8 @@ build_prediction_profiles <- function(dat) {
     )
 }
 
-choose_best_aft_model <- function(aft_models, model_comparison) {
-  best <- model_comparison %>%
-    dplyr::filter(stringr::str_starts(model, "aft_")) %>%
+choose_best_aft_model <- function(aft_models, aft_model_comparison) {
+  best <- aft_model_comparison %>%
     dplyr::arrange(aic) %>%
     dplyr::slice(1)
 

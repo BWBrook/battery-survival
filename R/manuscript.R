@@ -10,8 +10,18 @@ review_manuscript_env <- function(cfg) {
   )
 }
 
+quarto_project_render_args <- function(format, output_dir) {
+  c(
+    "render",
+    "--to", format,
+    "--output-dir", output_dir,
+    "--no-clean"
+  )
+}
+
 render_manuscript_qmd <- function(
   cfg,
+  manuscript_source = cfg$manuscript_qmd,
   artifact_files = character(),
   output_dir = cfg$manuscript_output_dir,
   extra_env = character()
@@ -31,8 +41,8 @@ render_manuscript_qmd <- function(
     return(skip_path)
   }
 
-  if (!file.exists(cfg$manuscript_qmd)) {
-    stop("Manuscript source not found: ", cfg$manuscript_qmd, call. = FALSE)
+  if (!file.exists(manuscript_source)) {
+    stop("Manuscript source not found: ", manuscript_source, call. = FALSE)
   }
   if (file.exists(skip_path)) {
     unlink(skip_path)
@@ -60,14 +70,9 @@ render_manuscript_qmd <- function(
   outputs <- character()
 
   for (fmt in formats) {
-    output_name <- paste0(fs::path_ext_remove(fs::path_file(cfg$manuscript_qmd)), ".", fmt)
-    cmd <- c(
-      "render",
-      cfg$manuscript_qmd,
-      "--to", fmt,
-      "--output-dir", output_dir,
-      "--output", output_name
-    )
+    output_name <- paste0(fs::path_ext_remove(fs::path_file(manuscript_source)), ".", fmt)
+    project_output_dir <- fs::path_dir(output_dir)
+    cmd <- quarto_project_render_args(fmt, project_output_dir)
     out <- system2("quarto", args = cmd, stdout = TRUE, stderr = TRUE)
     rc <- attr(out, "status")
     if (is.null(rc)) {
