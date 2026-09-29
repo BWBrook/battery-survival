@@ -28,7 +28,7 @@ testthat::test_that("prediction profiles preserve expected covariate columns", {
   testthat::expect_true(nrow(prof) >= 2)
 })
 
-testthat::test_that("prediction profiles preserve current mode and median contract", {
+testthat::test_that("prediction profiles use a joint cell and an observed workload pair", {
   dat <- tibble::tibble(
     bb = factor(c("Varta", "Varta", "Varta", "Varta", "Procell", "Procell")),
     ft = factor(c("w", "w", "w", "i", "w", "w")),
@@ -43,8 +43,60 @@ testthat::test_that("prediction profiles preserve current mode and median contra
 
   testthat::expect_equal(as.character(varta_w$seas), "summer")
   testthat::expect_equal(as.character(varta_w$reg), "ct")
-  testthat::expect_equal(varta_w$log_fi_pd, stats::median(c(0.1, 0.3, 0.9)))
-  testthat::expect_equal(varta_w$log_day_pd, stats::median(c(0.2, 0.6, 0.8)))
+  testthat::expect_equal(varta_w$log_fi_pd, 0.3)
+  testthat::expect_equal(varta_w$log_day_pd, 0.6)
+  testthat::expect_equal(varta_w$n_rows, 3)
+  testthat::expect_equal(varta_w$n_profile_rows, 2)
+  testthat::expect_equal(varta_w$profile_log_fi_median, 0.2)
+  testthat::expect_true(any(
+    dat$log_fi_pd == varta_w$log_fi_pd &
+      dat$log_day_pd == varta_w$log_day_pd &
+      as.character(dat$reg) == as.character(varta_w$reg) &
+      as.character(dat$seas) == as.character(varta_w$seas)
+  ))
+})
+
+testthat::test_that("joint profile selection cannot combine unobserved marginal modes", {
+  dat <- tibble::tibble(
+    bb = factor(rep("A", 7)), ft = factor(rep("w", 7)),
+    reg = factor(c(rep("West", 3), rep("Central", 2), rep("North", 2))),
+    seas = factor(c(rep("summer", 3), rep("spring", 4))),
+    log_fi_pd = c(1, 2, 3, 4, 5, 6, 7),
+    log_day_pd = c(7, 6, 5, 4, 3, 2, 1)
+  )
+  prof <- build_prediction_profiles(dat)
+  testthat::expect_equal(as.character(prof$reg), "West")
+  testthat::expect_equal(as.character(prof$seas), "summer")
+  testthat::expect_equal(prof$n_profile_rows, 3)
+})
+
+testthat::test_that("joint profile ties are deterministic", {
+  dat <- tibble::tibble(
+    bb = factor(rep("A", 4)), ft = factor(rep("w", 4)),
+    reg = factor(c("b", "b", "a", "a")),
+    seas = factor(c("summer", "summer", "winter", "winter")),
+    log_fi_pd = c(1, 2, 4, 6), log_day_pd = c(1, 2, 8, 10)
+  )
+  prof <- build_prediction_profiles(dat)
+  testthat::expect_equal(as.character(prof$reg), "a")
+  testthat::expect_equal(as.character(prof$seas), "winter")
+  # Both observed pairs are equidistant from the medians; lexical workloads win.
+  testthat::expect_equal(prof$log_fi_pd, 4)
+  testthat::expect_equal(prof$log_day_pd, 8)
+})
+
+testthat::test_that("exact workload minimum beats a nearby lexical candidate", {
+  dat <- tibble::tibble(
+    bb = factor(rep("A", 3)), ft = factor(rep("w", 3)),
+    reg = factor(rep("a", 3)), seas = factor(rep("summer", 3)),
+    log_fi_pd = c(1 - 1e-5, 1, 2),
+    log_day_pd = c(1 - 1e-5, 1, 2)
+  )
+  prof <- build_prediction_profiles(dat)
+  testthat::expect_equal(prof$profile_log_fi_median, 1)
+  testthat::expect_equal(prof$profile_log_day_median, 1)
+  testthat::expect_equal(prof$log_fi_pd, 1)
+  testthat::expect_equal(prof$log_day_pd, 1)
 })
 
 testthat::test_that("AFT survival interpolation stays bounded and non-increasing", {

@@ -57,6 +57,11 @@ _targets/
 .quarto/
 _freeze/
 
+# Compiled executable for the bounded camera-dependence sensitivity.
+/models/stan/camera_aft
+/models/stan/camera_aft.hpp
+/models/stan/camera_aft.o
+
 # renv local state (keep lockfile + activate script tracked)
 renv/library/
 renv/python/

@@ -40,29 +40,71 @@ read_battery_costs <- function(path) {
 }
 
 build_prediction_profiles <- function(dat) {
-  mode_chr <- function(x) {
-    tx <- table(as.character(x))
-    names(tx)[which.max(tx)]
+  required <- c("bb", "ft", "seas", "reg", "log_fi_pd", "log_day_pd")
+  missing <- setdiff(required, names(dat))
+  if (length(missing)) {
+    stop("prediction data missing required columns: ", paste(missing, collapse = ", "),
+         call. = FALSE)
+  }
+  complete <- stats::complete.cases(dat[, required, drop = FALSE]) &
+    is.finite(dat$log_fi_pd) & is.finite(dat$log_day_pd)
+  if (!all(complete)) {
+    stop("prediction profile columns must be complete and workloads finite", call. = FALSE)
   }
 
-  out <- dat %>%
-    dplyr::group_by(bb, ft) %>%
-    dplyr::summarise(
-      seas = mode_chr(seas),
-      reg = mode_chr(reg),
-      log_fi_pd = stats::median(log_fi_pd, na.rm = TRUE),
-      log_day_pd = stats::median(log_day_pd, na.rm = TRUE),
-      n_rows = dplyr::n(),
-      .groups = "drop"
-    )
+  group_id <- interaction(as.character(dat$bb), as.character(dat$ft),
+                          drop = TRUE, lex.order = TRUE)
+  rows <- lapply(split(seq_len(nrow(dat)), group_id), function(index) {
+    group <- dat[index, , drop = FALSE]
+    cells <- as.data.frame(table(
+      reg = as.character(group$reg),
+      seas = as.character(group$seas)
+    ), stringsAsFactors = FALSE)
+    cells <- cells[cells$Freq > 0L, , drop = FALSE]
+    cells <- cells[order(-cells$Freq, cells$reg, cells$seas), , drop = FALSE]
+    selected_cell <- cells[1L, , drop = FALSE]
+    joint <- group[
+      as.character(group$reg) == selected_cell$reg &
+        as.character(group$seas) == selected_cell$seas,
+      , drop = FALSE
+    ]
+    fi_median <- stats::median(joint$log_fi_pd)
+    day_median <- stats::median(joint$log_day_pd)
+    distance <- (joint$log_fi_pd - fi_median)^2 +
+      (joint$log_day_pd - day_median)^2
+    nearest <- which(distance == min(distance))
+    chosen <- nearest[order(joint$log_fi_pd[nearest],
+                            joint$log_day_pd[nearest])[[1L]]]
 
-  out %>%
-    dplyr::mutate(
-      bb = factor(as.character(bb), levels = levels(dat$bb)),
-      ft = factor(as.character(ft), levels = levels(dat$ft)),
-      seas = factor(as.character(seas), levels = levels(dat$seas)),
-      reg = factor(as.character(reg), levels = levels(dat$reg))
+    tibble::tibble(
+      bb = as.character(group$bb[[1L]]),
+      ft = as.character(group$ft[[1L]]),
+      seas = as.character(joint$seas[[chosen]]),
+      reg = as.character(joint$reg[[chosen]]),
+      log_fi_pd = joint$log_fi_pd[[chosen]],
+      log_day_pd = joint$log_day_pd[[chosen]],
+      n_rows = nrow(group),
+      n_profile_rows = nrow(joint),
+      n_profile_cameras = if ("camera" %in% names(joint))
+        dplyr::n_distinct(joint$camera) else NA_integer_,
+      n_profile_events = if ("event" %in% names(joint))
+        sum(joint$event, na.rm = TRUE) else NA_integer_,
+      profile_log_fi_median = fi_median,
+      profile_log_fi_min = min(joint$log_fi_pd),
+      profile_log_fi_max = max(joint$log_fi_pd),
+      profile_log_day_median = day_median,
+      profile_log_day_min = min(joint$log_day_pd),
+      profile_log_day_max = max(joint$log_day_pd)
     )
+  })
+  out <- dplyr::bind_rows(rows)
+
+  for (name in c("bb", "ft", "seas", "reg")) {
+    if (is.factor(dat[[name]])) {
+      out[[name]] <- factor(out[[name]], levels = levels(dat[[name]]))
+    }
+  }
+  out
 }
 
 choose_best_aft_model <- function(aft_models, aft_model_comparison) {
