@@ -1,13 +1,11 @@
-write_economics_tables <- function(econ_grid, econ_optima, cfg) {
+write_economics_tables <- function(econ_grid, cfg) {
   ensure_output_dirs(cfg)
 
   grid_path <- fs::path(cfg$tables_dir, "service_interval_economics.csv")
-  opt_path <- fs::path(cfg$tables_dir, "service_interval_optima.csv")
 
   readr::write_csv(econ_grid, grid_path)
-  readr::write_csv(econ_optima, opt_path)
 
-  c(grid_path, opt_path)
+  grid_path
 }
 
 plot_cost_per_active_day <- function(econ_grid, cfg) {
@@ -50,28 +48,6 @@ plot_downtime_fraction <- function(econ_grid, cfg) {
       color = "Battery brand"
     ) +
     ggplot2::theme_minimal(base_size = 11)
-
-  ggplot2::ggsave(out_path, p, width = 12, height = 6.5, dpi = 300)
-  out_path
-}
-
-plot_optimal_intervals <- function(econ_optima, cfg) {
-  ensure_output_dirs(cfg)
-  out_path <- fs::path(cfg$figures_dir, "optimal_service_interval.png")
-
-  p <- ggplot2::ggplot(
-    econ_optima,
-    ggplot2::aes(x = bb, y = interval_days, fill = bb)
-  ) +
-    ggplot2::geom_col(show.legend = FALSE) +
-    ggplot2::facet_grid(ft ~ scenario_label) +
-    ggplot2::labs(
-      title = "Cost-Optimal Service Interval by Brand",
-      x = "Battery brand",
-      y = "Optimal interval (days)"
-    ) +
-    ggplot2::theme_minimal(base_size = 11) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
 
   ggplot2::ggsave(out_path, p, width = 12, height = 6.5, dpi = 300)
   out_path

@@ -95,7 +95,27 @@ testthat::test_that("interval metrics integrate survival independently of costs"
   testthat::expect_equal(metrics$fail_before_service, c(0.5, 1))
 })
 
-testthat::test_that("economics grid and optima are generated", {
+testthat::test_that("fixed-cycle economics have no interior cost optimum", {
+  metrics <- compute_interval_metrics(
+    times = c(0, 10, 20, 30),
+    surv = c(1, 0.8, 0.5, 0.2),
+    intervals = c(10, 20, 30)
+  )
+
+  battery_cost <- 40
+  cost_per_active_day <- (100 + battery_cost) / metrics$expected_active_days
+  scaled_cost_per_active_day <- (1000 + battery_cost) / metrics$expected_active_days
+
+  testthat::expect_true(all(diff(cost_per_active_day) <= 1e-12))
+  testthat::expect_true(all(diff(metrics$expected_downtime_days) >= -1e-12))
+  testthat::expect_true(all(diff(metrics$downtime_fraction) >= -1e-12))
+  testthat::expect_identical(
+    which.min(cost_per_active_day),
+    which.min(scaled_cost_per_active_day)
+  )
+})
+
+testthat::test_that("economics grid is generated and remains valid", {
   dat <- make_economics_test_data()
 
   cfg <- list(
@@ -136,26 +156,11 @@ testthat::test_that("economics grid and optima are generated", {
     interval_by = 15
   )
 
-  opt <- summarize_economic_optima(grid)
-
   testthat::expect_true(nrow(grid) > 0)
   testthat::expect_true(all(c("cost_per_active_day", "downtime_fraction", "interval_days") %in% names(grid)))
   testthat::expect_true(all(grid$expected_active_days <= grid$interval_days))
   testthat::expect_true(all(grid$expected_active_days >= 0))
   testthat::expect_true(all(grid$downtime_fraction >= 0 & grid$downtime_fraction <= 1))
-  testthat::expect_true(nrow(opt) > 0)
-
-  expected_min <- grid %>%
-    dplyr::group_by(aft_model, scenario_id, scenario_label, bb, ft) %>%
-    dplyr::summarise(min_cost_per_active_day = min(cost_per_active_day), .groups = "drop")
-
-  actual_min <- opt %>%
-    dplyr::select(aft_model, scenario_id, scenario_label, bb, ft, cost_per_active_day)
-
-  testthat::expect_equal(
-    dplyr::left_join(actual_min, expected_min, by = c("aft_model", "scenario_id", "scenario_label", "bb", "ft"))$cost_per_active_day,
-    dplyr::left_join(actual_min, expected_min, by = c("aft_model", "scenario_id", "scenario_label", "bb", "ft"))$min_cost_per_active_day
-  )
 })
 
 testthat::test_that("economics grid errors when battery costs are missing", {

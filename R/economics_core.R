@@ -231,16 +231,3 @@ compute_service_interval_economics <- function(
       is.finite(fail_before_service)
     )
 }
-
-summarize_economic_optima <- function(econ_grid) {
-  econ_grid %>%
-    dplyr::group_by(aft_model, scenario_id, scenario_label, bb, ft) %>%
-    dplyr::arrange(cost_per_active_day, .by_group = TRUE) %>%
-    dplyr::slice(1) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(
-      aft_model, scenario_id, scenario_label, bb, ft,
-      interval_days, expected_active_days, expected_downtime_days,
-      downtime_fraction, cost_per_active_day, total_cycle_cost
-    )
-}

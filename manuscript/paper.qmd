@@ -291,34 +291,15 @@ The economics layer evaluates service-interval tradeoffs using the best AFT mode
 2. Expected downtime: `T - E[min(X, T)]`
 3. Cost per active day: `(C_s + C_b) / E[min(X, T)]`
 
-where \(C_s\) is scenario-specific service cost and \(C_b\) is battery-set cost. These are decision scenarios, not fixed universal prices. Reported minima are the lowest-cost points on the evaluated 30--365-day grid; values at 359 days are near the grid boundary and should not be interpreted as estimated interior optima.
+where \(C_s\) is scenario-specific service cost and \(C_b\) is battery-set cost. These are decision scenarios, not fixed universal prices. A cycle assumes a scheduled visit and replacement battery set, with no intervening rescue visit or restart after failure.
 
-```{r}
-econ_opt_path <- "../outputs/tables/service_interval_optima.csv"
-if (file.exists(econ_opt_path)) {
-  econ_opt <- read_csv(econ_opt_path, show_col_types = FALSE)
-  econ_opt_display <- econ_opt %>%
-    transmute(
-      scenario = scenario_label,
-      bb = bb,
-      ft = ft,
-      interval_days = interval_days,
-      expected_active_days = expected_active_days,
-      downtime_fraction = downtime_fraction,
-      cost_per_active_day = cost_per_active_day
-    )
-  kable(
-    econ_opt_display,
-    digits = 3,
-    caption = "Minimum-cost evaluated service interval by scenario, flash type, and battery brand."
-  )
-}
-```
+Write \(A(T)=\int_0^T S(t)\,dt\) and \(K=C_s+C_b>0\). Then the cost derivative is \(-KS(T)/A(T)^2\leq0\): extending the interval cannot increase this cost metric. Expected downtime fraction, \(1-A(T)/T\), is non-decreasing. The curves therefore describe a cost--downtime trade-off; they do not identify an unconstrained optimal service interval. Changing service cost rescales a profile's cost curve without changing this conclusion.
+
+A manager could specify an acceptable downtime fraction or probability of failure before service, then compare costs within that constraint. No universal tolerance or monetary value of lost observations is assigned here. The evaluated intervals are 30, 37, ..., 359 days. Survival is reconstructed by quantile interpolation with a truncated tail; resulting flat cost tails must not be treated as preferred service intervals. Modelled active days and downtime also inherit the uncertainty of the last-image endpoint and the realised workload profiles. See `docs/servicing_cost_interpretation.md` for the derivation and scope.
 
 ```{r}
 fig_cost <- "../outputs/figures/cost_per_active_day_vs_interval.png"
 fig_down <- "../outputs/figures/downtime_fraction_vs_interval.png"
-fig_opt <- "../outputs/figures/optimal_service_interval.png"
 
 if (file.exists(fig_cost)) {
   knitr::include_graphics(fig_cost)
@@ -326,19 +307,16 @@ if (file.exists(fig_cost)) {
 if (file.exists(fig_down)) {
   knitr::include_graphics(fig_down)
 }
-if (file.exists(fig_opt)) {
-  knitr::include_graphics(fig_opt)
-}
 ```
 
 ## Discussion
 
-The Weibull AFT model is clearly preferred among the three comparable AFT distributions and therefore supplies the predictive and economics layer. The Cox model remains a separate association analysis; its global proportional-hazards diagnostic indicates non-proportionality, so coefficient estimates require qualified interpretation rather than use as the prediction engine. SW provides a useful but support-limited held-region check within the same project and protocol. Service recommendations remain explicit scenarios, and Bayesian results remain corroborating evidence rather than a prerequisite for the primary argument.
+The Weibull AFT model is clearly preferred among the three comparable AFT distributions and supplies conditional survival and cost--downtime scenarios. The Cox model remains a separate association analysis; its global proportional-hazards diagnostic indicates non-proportionality, so coefficient estimates require qualified interpretation rather than use as the prediction engine. SW provides a support-limited held-region check within the same project and protocol, with material prediction error at intermediate horizons. The servicing curves require a management constraint before an interval can be chosen. Bayesian results remain corroborating evidence rather than a prerequisite for the primary argument.
 
 The remaining work is manuscript production rather than a new analytical phase:
 1. Synthesize the reviewed literature and populate publication-ready citations.
 2. Draft the Results and Discussion around the fixed frequentist, SW, Bayesian-corroboration, and economics evidence hierarchy.
-3. Finalize author metadata, journal style, and the active Makedoc build configuration.
+3. Finalize author metadata and journal style; the Makedoc backbone build is a private drafting proof.
 
 ## Reproducibility
 

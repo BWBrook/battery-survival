@@ -91,7 +91,6 @@ list(
       interval_by = cfg$economics$interval_by
     )
   ),
-  tar_target(econ_optima, summarize_economic_optima(econ_grid)),
   tar_target(km_medians, extract_km_medians(km_fit)),
   tar_target(data_overview, summarize_data_overview(analysis_train)),
   tar_target(
@@ -109,7 +108,6 @@ list(
   tar_target(fig_bayes, plot_bayesian_coefficients(bayesian_coef_tbl, cfg), format = "file"),
   tar_target(fig_econ_cost, plot_cost_per_active_day(econ_grid, cfg), format = "file"),
   tar_target(fig_econ_down, plot_downtime_fraction(econ_grid, cfg), format = "file"),
-  tar_target(fig_econ_opt, plot_optimal_intervals(econ_optima, cfg), format = "file"),
   tar_target(model_table_files, write_model_tables(aft_model_comparison, cox_terms, aft_terms, cfg), format = "file"),
   tar_target(
     partition_table_files,
@@ -148,7 +146,7 @@ list(
     ),
     format = "file"
   ),
-  tar_target(econ_table_files, write_economics_tables(econ_grid, econ_optima, cfg), format = "file"),
+  tar_target(econ_table_files, write_economics_tables(econ_grid, cfg), format = "file"),
   tar_target(
     artifact_manifest,
     write_artifact_manifest(
@@ -166,7 +164,6 @@ list(
         fig_bayes,
         fig_econ_cost,
         fig_econ_down,
-        fig_econ_opt,
         model_table_files,
         partition_table_files,
         analysis_table_files,
@@ -194,7 +191,6 @@ list(
         fig_bayes,
         fig_econ_cost,
         fig_econ_down,
-        fig_econ_opt,
         model_table_files,
         partition_table_files,
         analysis_table_files,
