@@ -1,3 +1,268 @@
-# Populate from Barry's canonical bibliography export.
+# Minimal DOI-verified starter bibliography for the manuscript backbone.
+# Reconcile against the authors' canonical library export before publication.
 
-references: []
+references:
+- id: Barlow1963
+  citation-key: Barlow1963
+  type: article-journal
+  author:
+    - family: Barlow
+      given: Richard E.
+    - family: Hunter
+      given: Larry C.
+    - family: Proschan
+      given: Frank
+  title: Optimum checking procedures
+  container-title: Journal of the Society for Industrial and Applied Mathematics
+  issued:
+    date-parts:
+      - [1963, 12]
+  volume: 11
+  issue: 4
+  page: 1078-1095
+  DOI: 10.1137/0111080
+  URL: https://doi.org/10.1137/0111080
+
+- id: Burton2015
+  citation-key: Burton2015
+  type: article-journal
+  author:
+    - family: Burton
+      given: A. Cole
+    - family: Neilson
+      given: Eric
+    - family: Moreira
+      given: Dario
+    - family: Ladle
+      given: Andrew
+    - family: Steenweg
+      given: Robin
+    - family: Fisher
+      given: Jason T.
+    - family: Bayne
+      given: Erin
+    - family: Boutin
+      given: Stan
+  title: "Wildlife camera trapping: a review and recommendations for linking surveys to ecological processes"
+  container-title: Journal of Applied Ecology
+  issued:
+    date-parts:
+      - [2015, 4, 11]
+  volume: 52
+  issue: 3
+  page: 675-685
+  DOI: 10.1111/1365-2664.12432
+  URL: https://doi.org/10.1111/1365-2664.12432
+
+- id: Steenweg2017
+  citation-key: Steenweg2017
+  type: article-journal
+  author:
+    - family: Steenweg
+      given: Robin
+    - family: Hebblewhite
+      given: Mark
+    - family: Kays
+      given: Roland
+    - family: Ahumada
+      given: Jorge
+    - family: Fisher
+      given: Jason T.
+    - family: Burton
+      given: Cole
+    - family: Townsend
+      given: Susan E.
+    - family: Carbone
+      given: Chris
+    - family: Rowcliffe
+      given: J. Marcus
+    - family: Whittington
+      given: Jesse
+    - family: Brodie
+      given: Jedediah
+    - family: Royle
+      given: J. Andrew
+    - family: Switalski
+      given: Adam
+    - family: Clevenger
+      given: Anthony P.
+    - family: Heim
+      given: Nicole
+    - family: Rich
+      given: Lindsey N.
+  title: "Scaling-up camera traps: monitoring the planet's biodiversity with networks of remote sensors"
+  container-title: Frontiers in Ecology and the Environment
+  issued:
+    date-parts:
+      - [2017]
+  volume: 15
+  issue: 1
+  page: 26-34
+  DOI: 10.1002/fee.1448
+  URL: https://doi.org/10.1002/fee.1448
+
+- id: KaplanMeier1958
+  citation-key: KaplanMeier1958
+  type: article-journal
+  author:
+    - family: Kaplan
+      given: E. L.
+    - family: Meier
+      given: Paul
+  title: Nonparametric estimation from incomplete observations
+  container-title: Journal of the American Statistical Association
+  issued:
+    date-parts:
+      - [1958, 6]
+  volume: 53
+  issue: 282
+  page: 457-481
+  DOI: 10.1080/01621459.1958.10501452
+  URL: https://doi.org/10.1080/01621459.1958.10501452
+
+- id: Cox1972
+  citation-key: Cox1972
+  type: article-journal
+  author:
+    - family: Cox
+      given: D. R.
+  title: Regression models and life-tables
+  container-title: "Journal of the Royal Statistical Society: Series B (Methodological)"
+  issued:
+    date-parts:
+      - [1972, 1]
+  volume: 34
+  issue: 2
+  page: 187-202
+  DOI: 10.1111/j.2517-6161.1972.tb00899.x
+  URL: https://doi.org/10.1111/j.2517-6161.1972.tb00899.x
+
+- id: Wei1992
+  citation-key: Wei1992
+  type: article-journal
+  author:
+    - family: Wei
+      given: L. J.
+  title: "The accelerated failure time model: A useful alternative to the Cox regression model in survival analysis"
+  container-title: Statistics in Medicine
+  issued:
+    date-parts:
+      - [1992]
+  volume: 11
+  issue: 14-15
+  page: 1871-1879
+  DOI: 10.1002/sim.4780111409
+  URL: https://doi.org/10.1002/sim.4780111409
+
+- id: Cardona2025
+  citation-key: Cardona2025
+  type: article-journal
+  author:
+    - family: Cardona
+      given: Laura M.
+    - family: Brook
+      given: Barry W.
+    - family: Aandahl
+      given: Zach
+    - family: Buettel
+      given: Jessie C.
+  title: Survival analysis of wildlife cameras on roads exposed to theft
+  container-title: Biodiversity and Conservation
+  issued:
+    date-parts:
+      - [2025, 9, 19]
+  volume: 34
+  page: 4067-4083
+  DOI: 10.1007/s10531-025-03153-3
+  URL: https://doi.org/10.1007/s10531-025-03153-3
+
+- id: Kuhl2023
+  citation-key: Kuhl2023
+  type: article-journal
+  author:
+    - family: Kühl
+      given: Hjalmar S.
+    - family: Buckland
+      given: Stephen T.
+    - family: Henrich
+      given: Maik
+    - family: Howe
+      given: Eric J.
+    - family: Heurich
+      given: Marco
+  title: Estimating effective survey duration in camera trap distance sampling surveys
+  container-title: Ecology and Evolution
+  issued:
+    date-parts:
+      - [2023, 10]
+  volume: 13
+  issue: 10
+  page: e10599
+  DOI: 10.1002/ece3.10599
+  URL: https://doi.org/10.1002/ece3.10599
+
+- id: Newey2015
+  citation-key: Newey2015
+  type: article-journal
+  author:
+    - family: Newey
+      given: Scott
+    - family: Davidson
+      given: Paul
+    - family: Nazir
+      given: Sajid
+    - family: Fairhurst
+      given: Gorry
+    - family: Verdicchio
+      given: Fabio
+    - family: Irvine
+      given: R. Justin
+    - family: van der Wal
+      given: René
+  title: "Limitations of recreational camera traps for wildlife management and conservation research: A practitioner's perspective"
+  container-title: Ambio
+  issued:
+    date-parts:
+      - [2015]
+  volume: 44
+  issue: S4
+  page: S624-S635
+  DOI: 10.1007/s13280-015-0713-1
+  URL: https://doi.org/10.1007/s13280-015-0713-1
+
+- id: Meek2014Reporting
+  citation-key: Meek2014Reporting
+  type: article-journal
+  author:
+    - family: Meek
+      given: P. D.
+    - family: Ballard
+      given: G.
+    - family: Claridge
+      given: A.
+    - family: Kays
+      given: R.
+    - family: Moseby
+      given: K.
+    - family: O'Brien
+      given: T.
+    - family: O'Connell
+      given: A.
+    - family: Sanderson
+      given: J.
+    - family: Swann
+      given: D. E.
+    - family: Tobler
+      given: M.
+    - family: Townsend
+      given: S.
+  title: Recommended guiding principles for reporting on camera trapping research
+  container-title: Biodiversity and Conservation
+  issued:
+    date-parts:
+      - [2014, 5, 6]
+  volume: 23
+  issue: 9
+  page: 2321-2343
+  DOI: 10.1007/s10531-014-0712-8
+  URL: https://doi.org/10.1007/s10531-014-0712-8

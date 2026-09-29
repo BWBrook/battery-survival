@@ -1,6 +1,81 @@
 # Battery Survival: Successor Handover
 
-Updated: 2026-09-05
+Updated: 2026-09-19
+
+## September 19 independent-review correction — current state
+
+The current correction follows `docs/profile_support_revision_plan.md` and the
+fresh adversarial review in `docs/reviews/2026-09-18-astra-adversarial-review.md`.
+It replaces marginal-mode operating profiles with observed joint region/season
+cells and observed nearest-median workload pairs, then refreshes support counts
+and saved-fit predictions. Current derived outputs are in
+`outputs/management/2026-09-19/`; all profile-dependent September 18 numbers below
+are historical. No fits, priors or raw data change. Run `just refresh-profiles`
+then `just break-even` in the documented runtime before `just publication`.
+
+The publication explicitly treats downtime and break-even values as conditional
+illustrations of the last-image endpoint and retrospective workload scenarios.
+The SW check did not test camera dependence. The Cox figure now has readable
+labels. A signature guard stops the fitting runner before overwriting inputs
+or reusing incompatible checkpoints; unsigned legacy archives are read-only
+inputs to derivation scripts, not resumable destinations. Use a new output
+directory for authorised new fitting. Author field questions are consolidated
+in `docs/field_methods_author_questions.md`; unavailable service dates remain
+outside scope. Completion evidence is recorded in `docs/log/2026-09-19.md`.
+
+## September 18 practice-focused revision after Fable review (historical)
+
+The publication now has a concise main manuscript (two tables, four figures)
+and standalone Supplementary Information (four tables and the SW figure).
+`just publication` builds both PDF/DOCX pairs. The main cost table is derived
+from saved camera models, not the old quantile-interpolated curves. Details are
+in `docs/management_revision_plan.md` and `docs/log/2026-09-18.md`.
+
+The focused follow-up to Fable message 226 replaces the joint-optimisation
+headline with white-flash break-even lost-day values at 90/120-day visits.
+The 120-day expected-loss thresholds are approximately 0.95–1.54 illustrative
+units (2–3% of an Energizer set), with paired posterior uncertainty and regional
+risk counts. Family differences reach 25% at 90 days, but are below 5% at 120.
+Profile conditions differ, so this is not a causal battery-treatment contrast.
+The prior optimisation and posterior-tail discussion remain archived in the
+management plan/log and earlier generated results. They are not reinstated in
+the publication. No fits, priors or raw data changed.
+
+`just break-even` generates the current derivation under
+`outputs/management/2026-09-18/break_even/`; `just management` retains the earlier
+exploratory output. Wildlife Research is now the working target and the draft
+has its structured abstract. Field protocol, author metadata and canonical
+bibliography reconciliation still need completion before circulation. Source
+changes remain local and uncommitted.
+
+## September 17 sensitivity analysis
+
+The authorised bounded AFT and camera-dependence sensitivity analysis is
+complete. Read `docs/log/2026-09-17.md` and
+`docs/sensitivity_analysis_plan.md`; the generated report, tables, figures and
+model checkpoints are under `outputs/sensitivity/2026-09-17`, mirrored from
+the dated deep-server snapshot recorded in the log. All 12 frequentist fits
+and four Bayesian fits completed; all Bayesian gates and 182 tests passed.
+
+Brand-specific scales and region change the AIC preference to loglogistic.
+Camera-associated heterogeneity is appreciable, while its effect on the
+better-supported conditional servicing intervals is small. Family sensitivity
+and failed SW transfer remain consequential. Treat the last image as minimum
+confirmed runtime; service-date reconstruction is outside scope. The canonical production outputs retain the earlier baseline; the September 18
+manuscript synthesis distinguishes that baseline from the new sensitivity.
+
+## Current amendment
+
+The servicing interpretation has been corrected and a private Makedoc manuscript
+backbone now exists. Read `docs/servicing_cost_interpretation.md`,
+`docs/log/2026-09-12.md`, and `manuscript/README.md` first. The older briefing
+below preserves the accepted model evidence and history, but its template-only
+Makedoc status and grid-minimum interpretation are superseded. The active
+pipeline reports cost and downtime curves without unconstrained optima. The
+backbone uses saved full-data outputs and a small verified starter bibliography;
+field details, complete references, authorship and journal decisions remain open.
+
+## September 5 briefing
 
 This is a current-state briefing, not a chronology. Read it with the repository
 instructions and verify live state before changing anything.

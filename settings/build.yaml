@@ -1,0 +1,62 @@
+# Private integrated manuscript proof. Author metadata is intentionally omitted until confirmed.
+# Build from $HOME/work/makedoc with CONFIG pointing to this file.
+default_profile: battery_survival_integrated
+
+profiles:
+  battery_survival_integrated:
+    description: "Private practice-focused manuscript; technical sensitivity in separate supplement."
+    manuscript_sources:
+      - ../manuscript/text/main.md
+      - ../manuscript/text/figures.md
+    bibliography: ../references/refs.yaml
+    csl: ../csl/author-date.csl
+    journal: "Wildlife Research working target; neutral author-date draft"
+    csl_search_dirs:
+      - ../csl
+    output_dir: ../outputs/publication
+    output_stem: battery-survival-integrated
+    page_numbers: lower_right
+    line_spacing: 1.5
+    line_numbering: continuous
+    review_markup:
+      enabled: false
+    figures:
+      placement: captions_page
+      caption_position: top
+      placeholder_id: figures
+    margins:
+      unit: cm
+      paper_size: a4
+      top: 2.5
+      right: 2.5
+      bottom: 2.5
+      left: 2.5
+
+  battery_survival_supplement:
+    description: "Supporting methods, sensitivity results and management calculations."
+    manuscript_sources:
+      - ../manuscript/text/supplement.md
+      - ../manuscript/text/supplement_figures.md
+    bibliography: ../references/refs.yaml
+    csl: ../csl/author-date.csl
+    journal: "Wildlife Research working target; neutral author-date draft"
+    csl_search_dirs:
+      - ../csl
+    output_dir: ../outputs/publication
+    output_stem: battery-survival-supplement
+    page_numbers: lower_right
+    line_spacing: 1.5
+    line_numbering: continuous
+    review_markup:
+      enabled: false
+    figures:
+      placement: inline
+      caption_position: top
+      placeholder_id: figures
+    margins:
+      unit: cm
+      paper_size: a4
+      top: 2.5
+      right: 2.5
+      bottom: 2.5
+      left: 2.5

@@ -12,8 +12,12 @@ This repository now uses a modern analysis stack:
 
 `manuscript/paper.qmd` is the executable Quarto analysis/review document.
 `manuscript/text/main.md` is the Pandoc Markdown publication manuscript for the
-future external Makedoc build. Makedoc remains template-only until the
-bibliography, journal CSL, authorship, and active build settings are complete.
+external Makedoc build. The active private main and supplementary profiles use a verified working
+bibliography and neutral author-date style, omitting unconfirmed author metadata.
+The 18 September revision leads with field effects and fixed-interval white-flash break-even comparisons,
+with the detailed model/camera sensitivity in a standalone supplement; see
+`manuscript/README.md` for PDF/DOCX build instructions. It is a private working
+draft, not a circulation-ready or submission-ready paper.
 
 ## Current Analysis Scope
 Phase 1 focuses on:
@@ -27,10 +31,52 @@ Phase 1 focuses on:
 
 1. The endpoint is time to last confirmed camera operation, not exact latent failure time.
 2. Kaplan-Meier curves are descriptive; Cox provides camera-cluster robust association evidence.
-3. AIC ranks only the Weibull, lognormal, and loglogistic AFT distributions.
-4. The selected AFT model supports prediction and service-interval economics.
+3. AIC ranks comparable AFT likelihoods; the expanded sensitivity also varies brand-specific scale and region. The Cox partial likelihood is excluded.
+4. The original Weibull supplies baseline curves; the integrated draft also reports flexible Weibull/loglogistic and camera-dependent scenarios. SW calibration limits prospective advice.
 5. SW is a support-limited held-region check from the same project and protocol, not independent external validation.
-6. Bayesian results are corroborating evidence; service costs and battery prices remain scenario inputs.
+6. Matched Bayesian models assess camera dependence under the existing endpoint. Service costs, battery prices and lost-camera-day values remain scenario inputs.
+7. Fixed cycle cost per expected active day cannot increase with the service interval. Report cost and downtime curves together; no unconstrained economic optimum is identified. See `docs/servicing_cost_interpretation.md`.
+
+## Bounded sensitivity analysis (17 September 2026)
+
+The separately authorised analysis tests 12 AFT specifications and four matched
+Bayesian fits with/without a camera effect. Read
+[`docs/sensitivity_analysis_plan.md`](docs/sensitivity_analysis_plan.md) for the
+endpoint, comparison, prior, support and diagnostic definitions. It uses direct
+CmdStan for matched Weibull and loglogistic camera models, with brand-specific
+scales and region effects. It does not replace the canonical production fits or
+the manuscript automatically. Barry authorised a separate synthesis on 18 September,
+now incorporated into `manuscript/text/main.md` without changing production fits.
+
+Run model stages on deep-server in tmux, using a compatible R library and
+CmdStan installation:
+
+```bash
+just sensitivity prepare
+just sensitivity aft
+just sensitivity camera
+just sensitivity summarise
+Rscript --vanilla scripts/plot_sensitivity.R
+Rscript --vanilla scripts/report_sensitivity.R
+```
+
+`just sensitivity all` runs the four analysis stages. Configuration and priors
+are in `config/sensitivity.yml`; tables, draws, figures and a generated report
+are written under its `output_dir`. Completed camera fits are checkpoints:
+reuse them only within an unchanged run snapshot, and choose a new output
+directory for a new specification. No fitting stage should overwrite a running
+snapshot's source files.
+
+The September run uses an isolated library, not an exact restoration of the
+original lockfile. Its runtime versions, source hashes and run notes accompany
+the outputs; `docs/log/2026-09-17.md` records provenance and interpretation.
+For that provisioned library, the full test command is
+`R_PROFILE_USER=/dev/null R_LIBS_USER=<isolated-library> just test`.
+
+Servicing optima in this sensitivity analysis refer only to the explicitly
+valued-downtime objective `J(T) = (K/c_d)/T + 1 - A(T)/T`. They are conditional
+scenarios with uncertainty and follow-up limits, not recovered optima of the
+original cost-per-active-day criterion or validated field schedules.
 
 ## Quick Start
 
@@ -165,10 +211,11 @@ Generated outputs:
 
 Additional phase-1 economics outputs:
 1. `outputs/tables/service_interval_economics.csv`
-2. `outputs/tables/service_interval_optima.csv`
-3. `outputs/figures/cost_per_active_day_vs_interval.png`
-4. `outputs/figures/downtime_fraction_vs_interval.png`
-5. `outputs/figures/optimal_service_interval.png`
+2. `outputs/figures/cost_per_active_day_vs_interval.png`
+3. `outputs/figures/downtime_fraction_vs_interval.png`
+
+The former optima table and bar chart are retired. Older ignored copies are
+historical artifacts and are not consumed by either manuscript build.
 
 Partition + validation outputs:
 1. `outputs/tables/partition_summary.csv`
@@ -200,10 +247,24 @@ Source:
 2. `manuscript/text/figures.md`
 3. `manuscript/authors.yaml`
 4. `references/refs.yaml`
-5. `settings/build.yaml.template`
+5. `settings/build.yaml`
 
-The external Makedoc build will be activated after bibliography, authorship,
-target-journal CSL, and build settings are confirmed.
+Build the private integrated draft using the existing external Makedoc tooling:
+
+```bash
+just publication
+```
+
+This produces `outputs/publication/battery-survival-integrated.pdf` and `.docx`,
+plus `battery-survival-supplement.pdf` and `.docx`, including regenerated
+publication figures and DOCX layout corrections.
+The saved SW figure, robust Cox estimates, sensitivity cohort and corrected
+19 September profile tables must already exist. `just refresh-profiles` followed
+by `just break-even` derives those current tables from the sealed camera fits,
+using the documented sensitivity runtime; neither command fits models. See
+`manuscript/README.md` for prerequisites and `docs/log/2026-09-18.md` for the
+integration record. The September 12 backbone outputs are earlier proofs.
+Build checks verify rendering and citations, not scientific or submission readiness.
 
 ## Legacy Scripts
 

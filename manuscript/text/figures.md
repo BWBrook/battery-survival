@@ -1,13 +1,10 @@
-<!-- Draft figure blocks. Paths are relative to this file. -->
+<!-- Saved analysis figures: two field displays and two compact sensitivity diagnostics;
+     the standalone supplement retains only the SW supporting figure. -->
 
-![Kaplan-Meier battery survival by brand.](../../outputs/figures/km_by_brand.png){#fig-km-brand width=90%}
+![Recorded operational lifetime by battery brand in the TAS-CAM training data. Kaplan-Meier curves retain cameras operational at service as right-censored observations and use last-image time for cameras found non-functioning. Grey curve segments have fewer than ten deployment intervals at risk; the table gives pooled interval counts. Curves describe the observed deployment mix and are not adjusted battery-treatment effects.](../../outputs/publication/figures/km_by_brand.png){#fig-km-brand width=95%}
 
-![Camera-cluster robust Cox model hazard ratios.](../../outputs/figures/cox_hazard_ratios.png){#fig-cox-hazard-ratios width=90%}
+![Covariate associations in the region-stratified Cox model. Points and intervals show hazard ratios and 95% camera-cluster robust confidence intervals. Reference categories are Ansmann, infrared flash and autumn; workload effects are per unit of log-one-plus realised flash or daylight images per recorded day. The global proportional-hazards diagnostic was non-null, so coefficients summarise associations over follow-up.](../../outputs/publication/figures/cox_hazard_ratios.png){#fig-cox-hazard-ratios width=95%}
 
-![AIC comparison among the Weibull, lognormal, and loglogistic AFT distributions.](../../outputs/figures/aft_model_aic_comparison.png){#fig-aft-model-comparison width=90%}
+![Training calibration of the original common-scale, no-region Weibull and the expanded Weibull and loglogistic models with brand-specific scales and region effects. Predictions are averaged over each brand's observed covariates, rather than evaluated at an average covariate vector. Points and bars show Kaplan-Meier estimates and pointwise 95% intervals, which do not adjust for recurring cameras. Grey KM points and bars have fewer than ten deployment intervals at risk. Risk counts correspond to the seven plotted horizons. Curves are fitted-data diagnostics; sparse late follow-up limits interpretation. These frequentist fits treat deployment rows as independent.](../../outputs/publication/figures/aft_calibration.png){#fig-aft-calibration width=95%}
 
-![Observed and predicted survival for supported strata in the SW held-region check.](../../outputs/figures/validation_observed_vs_predicted.png){#fig-sw-validation width=90%}
-
-![Cost-minimizing evaluated service interval by battery and flash profile.](../../outputs/figures/optimal_service_interval.png){#fig-optimal-service-interval width=90%}
-
-![Cost per active camera-day across evaluated service intervals.](../../outputs/figures/cost_per_active_day_vs_interval.png){#fig-cost-per-active-day width=90%}
+![Sensitivity of conditional servicing intervals to lifetime family and camera dependence. Points and bars are posterior medians and 95% credible intervals at assumed cycle-cost/lost-day-value ratios. Equal ratios are not equal-price battery comparisons (see Table 2). Grey shading exceeds the matching brand/flash/region/season follow-up; open points flag a greater than 50% probability of thin support in that joint profile cell among finite optima. Predictions integrate new-camera effects. Medians above 350 days are omitted and intervals clipped. These are model diagnostics, not recommended schedules; definitions and support limits are in Supplementary Section S4.](../../outputs/publication/figures/camera_decisions.png){#fig-camera-decisions width=95%}
