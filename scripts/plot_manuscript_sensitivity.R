@@ -11,14 +11,18 @@ cols <- c("#0072B2", "#D55E00", "#009E73", "#CC79A7")
 # signal sparse support without hiding the evidence.
 cohorts <- readRDS("outputs/sensitivity/2026-09-17/cohorts.rds")
 train <- as.data.frame(cohorts$train)
-brands <- sort(unique(as.character(train$bb)))
-brand_cols <- setNames(c("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00"), brands)
+# Brands in order of recorded endurance, with the same colours as main Fig. 2.
+brands <- c("Energizer", "Varta", "Ansmann", "Wallaby", "Procell")
+stopifnot(setequal(brands, unique(as.character(train$bb))))
+brand_cols <- c(Energizer = "#000000", Varta = "#0072B2", Ansmann = "#009E73",
+                Wallaby = "#E69F00", Procell = "#D55E00")
 risk_times <- c(0, 90, 120, 180, 270, 360)
-png(file.path(out, "km_by_brand.png"), width = 2300, height = 2500, res = 300, pointsize = 12)
-layout(matrix(c(1, 2), nrow = 2), heights = c(4.8, 1.55))
-par(mar = c(3.6, 4.4, 2.4, 1), mgp = c(2.4, .7, 0))
-plot(NA, xlim = c(0, 380), ylim = c(0, 1), xlab = "", ylab = "Recorded survival",
-     main = "Recorded survival by battery brand")
+km_xlim <- c(-12, 380)
+png(file.path(out, "km_by_brand.png"), width = 2300, height = 2300, res = 300, pointsize = 12)
+layout(matrix(c(1, 2), nrow = 2), heights = c(4.8, 1.45))
+par(mar = c(3.6, 5.6, 1, 1), mgp = c(2.4, .7, 0))
+plot(NA, xlim = km_xlim, ylim = c(0, 1), xlab = "", ylab = "Recorded survival",
+     xaxs = "i", las = 1)
 abline(v = c(90, 120), lty = 3, col = "grey65")
 for (brand in brands) {
   d <- train[as.character(train$bb) == brand, , drop = FALSE]
@@ -34,17 +38,17 @@ for (brand in brands) {
 legend("topright", legend = c(brands, "Grey: n < 10 at risk"),
        col = c(unname(brand_cols[brands]), "grey72"), lwd = 2.3,
        bty = "n", title = "Battery brand", cex = .88)
-mtext("Days", side = 1, line = 1.7, cex = .82)
+mtext("Days since deployment", side = 1, line = 2.2, cex = .9)
 
 # A compact at-risk table keeps the thin-tail cue tied to concrete support.
-par(mar = c(0.1, 5.4, 0.2, 1), mgp = c(2.4, .7, 0))
+par(mar = c(0.4, 5.6, 0.2, 1), mgp = c(2.4, .7, 0))
 plot.new()
-plot.window(xlim = c(-20, 380), ylim = c(.25, length(brands) + 1.6), xaxs = "i", yaxs = "i")
-axis(1, at = risk_times, labels = FALSE, tck = -.03)
-mtext("Number at risk", side = 2, line = 3.5, cex = .78)
-axis(2, at = rev(seq_along(brands)), labels = brands, las = 1, tick = FALSE, cex.axis = .72)
-text(risk_times, length(brands) + 1.08, labels = risk_times, cex = .78)
-text(mean(risk_times), length(brands) + 1.42, labels = "Days", cex = .76)
+plot.window(xlim = km_xlim, ylim = c(.4, length(brands) + 1.6), xaxs = "i", yaxs = "i")
+par(xpd = NA)
+text(km_xlim[1], length(brands) + 1.35, "Number at risk", adj = 0, cex = .78, font = 2)
+axis(2, at = c(rev(seq_along(brands)), length(brands) + .8), labels = c(brands, "Day"),
+     las = 1, tick = FALSE, cex.axis = .72, line = -0.4)
+text(risk_times, length(brands) + .8, labels = risk_times, cex = .75, col = "grey25")
 for (i in seq_along(brands)) {
   brand <- brands[[i]]
   d <- train[as.character(train$bb) == brand, , drop = FALSE]
@@ -71,10 +75,9 @@ stopifnot(length(unique(sw$model_id)) == 6L,
 sw_min <- vapply(sw_times, function(t) min(sw$predicted_survival[sw$horizon_days == t]), numeric(1))
 sw_max <- vapply(sw_times, function(t) max(sw$predicted_survival[sw$horizon_days == t]), numeric(1))
 png(file.path(out, "sw_transfer.png"), width = 2300, height = 1900, res = 300, pointsize = 12)
-par(mar = c(5.5, 4.5, 3, 1), mgp = c(2.5, .7, 0))
+par(mar = c(5.5, 4.5, 1, 1), mgp = c(2.5, .7, 0))
 plot(NA, xlim = range(sw_times), ylim = c(0, 1),
-     xlab = "Days since deployment", ylab = "Recorded survival",
-     main = "Held region: Varta, white flash", xaxt = "n")
+     xlab = "Days since deployment", ylab = "Recorded survival", xaxt = "n", las = 1)
 polygon(c(sw_times, rev(sw_times)), c(sw_min, rev(sw_max)),
         col = "grey86", border = NA)
 for (id in unique(sw$model_id)) {
@@ -96,8 +99,6 @@ legend("bottomleft", inset = .025,
        lwd = c(2, 2.3, 7), pch = c(16, NA, NA), bty = "n", cex = .78)
 mtext(paste("Intervals at risk:", paste(sw_original$n_at_risk, collapse = " / ")),
       side = 1, line = 4.1, cex = .8)
-mtext("183 held-region deployments; independent-row predictions",
-      side = 3, line = .4, cex = .8)
 dev.off()
 
 cal <- read.csv(file.path(input, "aft_calibration_bb.csv"))

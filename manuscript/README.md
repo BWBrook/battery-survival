@@ -45,7 +45,9 @@ The continuous observation-time figure and tolerance table use
 `R/lost_day_curves.R`, `scripts/plot_lost_day_curves.R`, and
 `scripts/summarise_tolerance_intervals.R`. `just lost-day-curves` regenerates
 them from the saved camera-model draws; `just publication` includes both steps.
-Outputs and separate figure/tolerance input manifests are in
+The main figure (`lost_day_curves.png`) shows the Weibull model alone; the
+supplementary `lost_day_curves_detail.png` adds the loglogistic model and paired
+differences from Energizer. Outputs and separate figure/tolerance input manifests are in
 `outputs/management/2026-10-18/lost_day_curves/`. Tolerance summaries retain
 right-censored crossings beyond follow-up and include joint-cell risk counts.
 
