@@ -6,7 +6,7 @@ Zotero/Better BibTeX export. Before circulation or submission, reconcile it
 against the authors' library and add the sources needed for the final framing,
 methods, data provenance, and discussion.
 
-The five entries were checked against Crossref metadata and the publisher or
+The initial five entries were checked against Crossref metadata and the publisher or
 journal landing page on 2026-09-12. The requested identifiers and citation
 keys are retained exactly:
 
@@ -26,3 +26,17 @@ stable citation links.
 The bibliography is not activated as a target-journal bibliography yet. The
 CSL in `csl/author-date.csl` is a journal-neutral development style; select and
 verify the target journal style after the venue decision.
+
+## October 18 editorial additions
+
+Two sources were checked against the journal/publisher records and accessible
+article text on 18 October 2026:
+
+| Key | Verified source | Use in this manuscript |
+| --- | --- | --- |
+| `RoystonParmar2013` | [Royston and Parmar (2013)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3922847/), *BMC Medical Research Methodology* 13:152; DOI 10.1186/1471-2288-13-152 | Identifies the finite-horizon area under a survival curve as restricted mean survival time. The manuscript does not claim this identity as a new method or import causal interpretation from the article's trial setting. |
+| `Solow2005` | [Solow (2005)](https://www.sciencedirect.com/science/article/pii/S0025556405000350), *Mathematical Biosciences* 195(1):47–55; DOI 10.1016/j.mbs.2005.02.001 | Supports the distinction between last observation and an unobserved endpoint, and the relevance of the observation process. Used as a brief analogy; no extinction estimator is applied to the camera records. |
+
+Solow (1993) was proposed during discussion but only its bibliographic record
+was verified in this pass. The text instead cites the accessible 2005 paper.
+No claim that this is the first survival analysis of camera batteries is made.

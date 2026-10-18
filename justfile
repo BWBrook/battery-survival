@@ -49,6 +49,7 @@ sensitivity stage="all":
 # Private integrated publication draft; saved model outputs must already exist.
 publication:
   Rscript --vanilla scripts/plot_manuscript_sensitivity.R
+  Rscript --vanilla scripts/plot_editorial_lost_camera_days.R
   make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" check
   python3 scripts/format_manuscript_docx.py outputs/publication/battery-survival-integrated.docx
   python3 "$HOME/work/makedoc/scripts/build_manifest.py" --config "$PWD/settings/build.yaml" --profile battery_survival_integrated --output outputs/publication/battery-survival-integrated_build_manifest.json --pdf outputs/publication/battery-survival-integrated.pdf --docx outputs/publication/battery-survival-integrated.docx

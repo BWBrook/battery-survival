@@ -2,6 +2,41 @@
 # Reconcile against the authors' canonical library export before publication.
 
 references:
+- id: RoystonParmar2013
+  citation-key: RoystonParmar2013
+  type: article-journal
+  author:
+    - family: Royston
+      given: Patrick
+    - family: Parmar
+      given: Mahesh K. B.
+  title: "Restricted mean survival time: an alternative to the hazard ratio for the design and analysis of randomized trials with a time-to-event outcome"
+  container-title: BMC Medical Research Methodology
+  issued:
+    date-parts:
+      - [2013, 12, 7]
+  volume: 13
+  page: 152
+  DOI: 10.1186/1471-2288-13-152
+  URL: https://doi.org/10.1186/1471-2288-13-152
+
+- id: Solow2005
+  citation-key: Solow2005
+  type: article-journal
+  author:
+    - family: Solow
+      given: Andrew R.
+  title: Inferring extinction from a sighting record
+  container-title: Mathematical Biosciences
+  issued:
+    date-parts:
+      - [2005, 5]
+  volume: 195
+  issue: 1
+  page: 47-55
+  DOI: 10.1016/j.mbs.2005.02.001
+  URL: https://doi.org/10.1016/j.mbs.2005.02.001
+
 - id: Barlow1963
   citation-key: Barlow1963
   type: article-journal

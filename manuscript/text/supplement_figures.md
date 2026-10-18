@@ -1,13 +1,7 @@
-```{=latex}
-\clearpage
-```
+<!-- Supplementary diagnostics; captions and figures use Makedoc placement. -->
 
-```{=openxml}
-<w:p><w:r><w:br w:type="page"/></w:r></w:p>
-```
+![Covariate associations in the region-stratified Cox model, shown as hazard ratios with 95% camera-cluster robust confidence intervals on a logarithmic axis. Values above one indicate a higher rate for the recorded endpoint than the reference category: Ansmann for brand, infrared for flash and autumn for season. Workload effects are per unit of log-one-plus realised flash or daylight images per recorded day. The global proportional-hazards test was non-null, so these ratios summarise associations over follow-up rather than constant effects.](../../outputs/publication/figures/cox_hazard_ratios.png){#fig-cox-s1 width=95%}
 
-Fig. S1. Original Weibull support-limited SW held-region check. Observed Kaplan-Meier survival is compared with mean predictions at the labelled horizons in days; the diagonal indicates agreement. Only 183 Varta deployments with white flash contribute predictions. This baseline check uses the same project and reveals substantial underprediction at 180 and 270 days. The expanded no-region comparison also fails to reproduce SW survival at 180 days, as reported in the main text.
+![Training calibration of the original common-scale, no-region Weibull model and expanded Weibull and loglogistic models with brand-specific scales and region effects. Predictions average over each brand's observed covariates. Points and bars are Kaplan–Meier estimates and ordinary pointwise 95% intervals, which do not adjust for recurring cameras. Grey points have fewer than ten intervals at risk; panel counts correspond to the seven plotted horizons. These frequentist fits treat rows as independent and supply fitted-data diagnostics; late follow-up is sparse.](../../outputs/publication/figures/aft_calibration.png){#fig-calibration-s2 width=95%}
 
-<div id="figures"></div>
-
-![](../../outputs/figures/validation_observed_vs_predicted.png){#fig-sw-s1 width=95%}
+![Sensitivity of conditional servicing intervals to lifetime family and camera dependence. Points and bars are posterior medians and 95% credible intervals at assumed ratios of cycle cost to lost-day value. Equal ratios are not equal-price comparisons. Grey shading exceeds follow-up in the matching brand/flash/region/season cell; open points flag a greater than 50% probability of thin support among finite optima. Predictions integrate over new-camera effects. Medians above 350 days are omitted and intervals clipped. These are model diagnostics, not recommended schedules (Section S4).](../../outputs/publication/figures/camera_decisions.png){#fig-decisions-s3 width=95%}

@@ -1,11 +1,13 @@
 # Battery Survival manuscript
 
-## Private practice-focused draft
+## Private editorial reconstruction, 18 October 2026
 
-`text/main.md` contains the field and management narrative, two main tables
-and four figures supplied by `text/figures.md`. The technical sensitivity
-analysis is in `text/supplement.md`, with five supplementary tables and the SW
-figure from `text/supplement_figures.md`. The obsolete quantile-truncated cost
+`text/main.md` connects battery endurance to expected observation time and
+revisit schedules, with two main tables and three figures supplied by
+`text/figures.md`: brand survival, additional expected lost days at 90/120 days,
+and the six-model SW comparison. The technical sensitivity analysis is in
+`text/supplement.md`, with five tables and three supplementary figures (Cox
+associations, training calibration and conditional-interval diagnostics). The obsolete quantile-truncated cost
 and downtime figures are excluded from the publication; their archive remains.
 
 The September 19 correction, specified in `../docs/profile_support_revision_plan.md`,
@@ -28,13 +30,23 @@ Run `just publication` from this repository. It generates:
 - `outputs/publication/battery-survival-supplement.pdf` and `.docx`
 - a provenance/build manifest for each pair.
 
-The command regenerates four publication figures from the saved sensitivity
-cohort, robust Cox estimates and corrected profile tables, runs Makedoc checks for both profiles, formats DOCX pages and
-tables, and refreshes final output hashes from the research repository.
-The saved SW figure, sensitivity inputs, field-effect estimates and corrected
-19 September profile tables must already exist; this
+The command regenerates the displays from the saved sensitivity cohort and
+calibration tables, robust Cox estimates and corrected 19 September profile
+and break-even tables. It then runs Makedoc checks for both profiles, formats
+DOCX pages and tables, and refreshes final output hashes. These saved inputs
+must already exist; this
 command does not refit models. The source text records numbers derived from
 saved output tables, so future data changes require a fresh evidence synthesis.
+
+The observation-time figure uses `R/editorial_lost_camera_days.R` through
+`scripts/plot_editorial_lost_camera_days.R`. It multiplies the saved paired
+downtime-gap means and interval limits by 90 or 120; it reads no posterior
+draws and withholds unsupported scenarios. Its PDF, PNG, derived CSV and
+provenance are in `outputs/management/2026-10-18/editorial/`.
+The SW figure uses all six saved no-region specifications; their range is
+model variation, not an uncertainty band. The October editorial exchange and
+claim decisions are recorded in Correspondence thread 91 and
+`../docs/reviews/2026-10-18-editorial-reconstruction.md`.
 
 `just refresh-profiles` regenerates the corrected joint operating profiles and
 camera-dependence diagnostics. `just break-even` then regenerates the current
@@ -47,7 +59,7 @@ KM intervals, chemistry, camera overlap, SW contrasts and coefficient extracts.
 Generated outputs are ignored by Git; restore them from the documented archive
 before building a fresh clone. The earlier backbone proofs are superseded.
 
-The bibliography now contains ten verified references and uses a neutral
+The bibliography includes verified methodological and ecological references and uses a neutral
 author-date CSL. Canonical-library reconciliation and venue-specific formatting
 remain open. Unconfirmed `authors.yaml` metadata is intentionally not injected.
 See `../docs/journal_options.md` for a provisional venue comparison.

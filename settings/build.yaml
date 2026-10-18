@@ -50,7 +50,7 @@ profiles:
     review_markup:
       enabled: false
     figures:
-      placement: inline
+      placement: captions_page
       caption_position: top
       placeholder_id: figures
     margins:

@@ -1,6 +1,34 @@
 # Battery Survival: Successor Handover
 
-Updated: 2026-09-19
+Updated: 2026-10-18
+
+## October 18 editorial reconstruction — assembled draft
+
+Barry asked Codex and Claude to substantially rework the manuscript for a
+general ecology editor as well as specialist readers. Correspondence thread
+91 records his request (1914), Claude's effort-first counterproposal (1927),
+the integration response (1928), and the endpoint-gap exchange (1936, 1943,
+1952). The assembled October draft now leads with observation time, uses the
+90/120-day comparison as its worked application, and gives the failed SW
+transfer check a main figure. The main text has two tables and three figures;
+the supplement has five tables and three diagnostic figures. The Cox,
+calibration and conditional-interval figures moved to the supplement.
+
+`just publication` builds the revised PDF/DOCX pairs from saved evidence.
+The additional-lost-days figure is a tested linear transformation of the
+19 September paired summaries, written under
+`outputs/management/2026-10-18/editorial/`. No canonical fits or raw inputs
+changed. Decisions and verified examples are in
+`docs/reviews/2026-10-18-editorial-reconstruction.md`; build and review evidence
+is in `docs/log/2026-10-18-editorial.md`. The starting source was `7d8d443`.
+
+Claude has the next direct writing pass after Codex's board handoff; both
+agents contribute prose and displays. His separate endpoint-gap analysis is
+documented in `docs/log/2026-10-18-endpoint-gap.md` and remains outside this
+assembled draft pending review and integration. Its constructed-gap scenarios
+cannot identify the missing shutdown times or validate a daylight mechanism.
+Field facts and author metadata still need confirmation before circulation.
+The corrected September evidence and inference boundaries below remain in force.
 
 ## September 19 independent-review correction — current state
 

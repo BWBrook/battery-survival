@@ -13,12 +13,13 @@ cohorts <- readRDS("outputs/sensitivity/2026-09-17/cohorts.rds")
 train <- as.data.frame(cohorts$train)
 brands <- sort(unique(as.character(train$bb)))
 brand_cols <- setNames(c("#0072B2", "#D55E00", "#009E73", "#CC79A7", "#E69F00"), brands)
-risk_times <- c(0, 90, 180, 270, 360)
+risk_times <- c(0, 90, 120, 180, 270, 360)
 png(file.path(out, "km_by_brand.png"), width = 2300, height = 2500, res = 300, pointsize = 12)
 layout(matrix(c(1, 2), nrow = 2), heights = c(4.8, 1.55))
 par(mar = c(3.6, 4.4, 2.4, 1), mgp = c(2.4, .7, 0))
 plot(NA, xlim = c(0, 380), ylim = c(0, 1), xlab = "", ylab = "Recorded survival",
      main = "Recorded survival by battery brand")
+abline(v = c(90, 120), lty = 3, col = "grey65")
 for (brand in brands) {
   d <- train[as.character(train$bb) == brand, , drop = FALSE]
   fit <- survival::survfit(survival::Surv(rd, event) ~ 1, data = d)
@@ -51,6 +52,52 @@ for (i in seq_along(brands)) {
   text(risk_times, length(brands) - i + 1, labels = n_risk, cex = .72,
        col = ifelse(n_risk < 10, "grey55", "black"))
 }
+dev.off()
+
+# Held-region predictions from the saved six-model check. The grey envelope
+# is variation across model specifications, not a confidence interval.
+sw <- read.csv(file.path(input, "aft_sw_calibration.csv"))
+sw_original <- sw[sw$model_id == "weibull__common__noregion", ]
+sw_original <- sw_original[order(sw_original$horizon_days), ]
+sw_times <- sort(unique(sw$horizon_days))
+stopifnot(length(unique(sw$model_id)) == 6L,
+          all(sw$bb == "Varta"), all(sw$ft == "w"),
+          all(sw$n_obs_rows == 183L),
+          all(vapply(split(sw, sw$horizon_days), function(d) {
+            length(unique(d$observed_survival)) == 1L &&
+              length(unique(d$km_low)) == 1L &&
+              length(unique(d$km_high)) == 1L && nrow(d) == 6L
+          }, logical(1))))
+sw_min <- vapply(sw_times, function(t) min(sw$predicted_survival[sw$horizon_days == t]), numeric(1))
+sw_max <- vapply(sw_times, function(t) max(sw$predicted_survival[sw$horizon_days == t]), numeric(1))
+png(file.path(out, "sw_transfer.png"), width = 2300, height = 1900, res = 300, pointsize = 12)
+par(mar = c(5.5, 4.5, 3, 1), mgp = c(2.5, .7, 0))
+plot(NA, xlim = range(sw_times), ylim = c(0, 1),
+     xlab = "Days since deployment", ylab = "Recorded survival",
+     main = "Held region: Varta, white flash", xaxt = "n")
+polygon(c(sw_times, rev(sw_times)), c(sw_min, rev(sw_max)),
+        col = "grey86", border = NA)
+for (id in unique(sw$model_id)) {
+  g <- sw[sw$model_id == id, ]; g <- g[order(g$horizon_days), ]
+  lines(g$horizon_days, g$predicted_survival, col = "grey65", lwd = 1)
+}
+with(sw_original, {
+  lines(horizon_days, predicted_survival, col = "#0072B2", lwd = 2.3, lty = 2)
+  arrows(horizon_days, km_low, horizon_days, km_high,
+         length = .035, angle = 90, code = 3, col = "black")
+  lines(horizon_days, observed_survival, col = "black", lwd = 2)
+  points(horizon_days, observed_survival, col = "black", pch = 16, cex = .8)
+})
+axis(1, at = sw_times)
+legend("bottomleft", inset = .025,
+       legend = c("Observed KM (95% pointwise intervals)",
+                  "Original Weibull specification", "Range of six no-region models"),
+       col = c("black", "#0072B2", "grey65"), lty = c(1, 2, 1),
+       lwd = c(2, 2.3, 7), pch = c(16, NA, NA), bty = "n", cex = .78)
+mtext(paste("Intervals at risk:", paste(sw_original$n_at_risk, collapse = " / ")),
+      side = 1, line = 4.1, cex = .8)
+mtext("183 held-region deployments; independent-row predictions",
+      side = 3, line = .4, cex = .8)
 dev.off()
 
 cal <- read.csv(file.path(input, "aft_calibration_bb.csv"))
