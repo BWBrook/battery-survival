@@ -9,8 +9,9 @@ SW comparison. Main Table 2 gives conditional crossings of 5%/10% expected-loss
 tolerances; Table 3 retains the fixed-interval break-even comparison. Thin
 joint-cell support is marked in curves and tables, especially Varta at 10%.
 The technical sensitivity analysis is in `text/supplement.md`, with six tables
-and four supplementary figures (Cox associations, training calibration,
-conditional-interval diagnostics, and paired 90/120-day lost-time contrasts).
+and five supplementary figures (Cox associations, training calibration,
+conditional-interval diagnostics, paired 90/120-day lost-time contrasts,
+and continuous losses under both lifetime families).
 The obsolete quantile-truncated cost and downtime figures remain archived.
 
 The September 19 correction, specified in `../docs/profile_support_revision_plan.md`,
@@ -36,7 +37,10 @@ Run `just publication` from this repository. It generates:
 The command regenerates the displays from the saved sensitivity cohort and
 calibration tables, robust Cox estimates and corrected 19 September profile
 and break-even tables. It then runs Makedoc checks for both profiles, formats
-DOCX pages and tables, and refreshes final output hashes. These saved inputs
+DOCX pages and tables, checks PDF integrity with `qpdf`, and refreshes final
+output hashes. Each document uses its own LaTeX build directory under
+`outputs/publication/` to avoid sharing the Makedoc-wide compiler workspace.
+These saved inputs
 must already exist; this
 command does not refit models. The source text records numbers derived from
 saved output tables, so future data changes require a fresh evidence synthesis.

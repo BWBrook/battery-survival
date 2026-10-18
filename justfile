@@ -52,11 +52,13 @@ publication:
   Rscript --vanilla scripts/plot_editorial_lost_camera_days.R
   Rscript --vanilla scripts/plot_lost_day_curves.R
   Rscript --vanilla scripts/summarise_tolerance_intervals.R
-  make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" check
+  make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" PDF_ENGINE_OUTPUT_DIR="$PWD/outputs/publication/.latex-main" check
   python3 scripts/format_manuscript_docx.py outputs/publication/battery-survival-integrated.docx
+  qpdf --check outputs/publication/battery-survival-integrated.pdf
   python3 "$HOME/work/makedoc/scripts/build_manifest.py" --config "$PWD/settings/build.yaml" --profile battery_survival_integrated --output outputs/publication/battery-survival-integrated_build_manifest.json --pdf outputs/publication/battery-survival-integrated.pdf --docx outputs/publication/battery-survival-integrated.docx
-  make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" PROFILE=battery_survival_supplement check
+  make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" PROFILE=battery_survival_supplement PDF_ENGINE_OUTPUT_DIR="$PWD/outputs/publication/.latex-supplement" check
   python3 scripts/format_manuscript_docx.py outputs/publication/battery-survival-supplement.docx
+  qpdf --check outputs/publication/battery-survival-supplement.pdf
   python3 "$HOME/work/makedoc/scripts/build_manifest.py" --config "$PWD/settings/build.yaml" --profile battery_survival_supplement --output outputs/publication/battery-survival-supplement_build_manifest.json --pdf outputs/publication/battery-survival-supplement.pdf --docx outputs/publication/battery-survival-supplement.docx
 
 # Derived management results only; saved camera fits and their runtime required.

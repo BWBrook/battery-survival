@@ -2,7 +2,7 @@
 
 Updated: 2026-10-18
 
-## October 18 editorial reconstruction — audited second candidate
+## October 18 editorial reconstruction — final editorial integration
 
 Barry asked Codex and Claude to substantially rework the paper for a general
 ecology editor as well as specialist readers. Correspondence thread 91 records
@@ -11,7 +11,16 @@ commit `7e154fd`), and Claude's next writing pass (1987). The current draft asks
 how long a camera can be left, using expected observation time to connect
 endurance, revisit schedules and costs. Three main figures show field survival,
 continuous lost-time curves and failed SW transfer. The main has three tables;
-the supplement has six tables and four diagnostic figures.
+the supplement has six tables and five diagnostic figures.
+
+Claude's editorial read (`ebfbea9`, thread 91 messages 2024–2025) simplified
+main Fig. 2 to a single Weibull panel, moved the two-family comparison to
+Fig. S5, aligned brand colours, and made the abstract quantitative. Codex
+checked those additions and replaced the asserted direction of fitted endpoint
+bias with the defensible individual-deployment accounting bound. Regression
+refitting can reverse that direction; the tolerance schedules are not proven
+conservative. The final integration and artifact checks are recorded in
+`docs/log/2026-10-18-editorial-final.md`.
 
 Independent audits reproduced the new curves and all 20 tolerance crossings.
 They found thin support at Varta's 10% crossing (one interval/camera), discarded
