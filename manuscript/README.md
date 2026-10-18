@@ -3,12 +3,15 @@
 ## Private editorial reconstruction, 18 October 2026
 
 `text/main.md` connects battery endurance to expected observation time and
-revisit schedules, with two main tables and three figures supplied by
-`text/figures.md`: brand survival, additional expected lost days at 90/120 days,
-and the six-model SW comparison. The technical sensitivity analysis is in
-`text/supplement.md`, with five tables and three supplementary figures (Cox
-associations, training calibration and conditional-interval diagnostics). The obsolete quantile-truncated cost
-and downtime figures are excluded from the publication; their archive remains.
+revisit schedules, with three main tables and three figures supplied by
+`text/figures.md`: brand survival, continuous lost-time curves, and the six-model
+SW comparison. Main Table 2 gives conditional crossings of 5%/10% expected-loss
+tolerances; Table 3 retains the fixed-interval break-even comparison. Thin
+joint-cell support is marked in curves and tables, especially Varta at 10%.
+The technical sensitivity analysis is in `text/supplement.md`, with six tables
+and four supplementary figures (Cox associations, training calibration,
+conditional-interval diagnostics, and paired 90/120-day lost-time contrasts).
+The obsolete quantile-truncated cost and downtime figures remain archived.
 
 The September 19 correction, specified in `../docs/profile_support_revision_plan.md`,
 uses observed region/season cells and observed workload pairs, with support
@@ -38,15 +41,37 @@ must already exist; this
 command does not refit models. The source text records numbers derived from
 saved output tables, so future data changes require a fresh evidence synthesis.
 
-The observation-time figure uses `R/editorial_lost_camera_days.R` through
-`scripts/plot_editorial_lost_camera_days.R`. It multiplies the saved paired
-downtime-gap means and interval limits by 90 or 120; it reads no posterior
-draws and withholds unsupported scenarios. Its PDF, PNG, derived CSV and
-provenance are in `outputs/management/2026-10-18/editorial/`.
+The continuous observation-time figure and tolerance table use
+`R/lost_day_curves.R`, `scripts/plot_lost_day_curves.R`, and
+`scripts/summarise_tolerance_intervals.R`. `just lost-day-curves` regenerates
+them from the saved camera-model draws; `just publication` includes both steps.
+Outputs and separate figure/tolerance input manifests are in
+`outputs/management/2026-10-18/lost_day_curves/`. Tolerance summaries retain
+right-censored crossings beyond follow-up and include joint-cell risk counts.
+
+The supplementary 90/120-day display uses `R/editorial_lost_camera_days.R`
+through `scripts/plot_editorial_lost_camera_days.R`, multiplying the saved
+paired downtime-gap summaries by each horizon. It withholds Procell at
+120 days. Its outputs and provenance remain in
+`outputs/management/2026-10-18/editorial/`.
+
+`just endpoint-gap` reproduces the separate exploratory response perturbation
+using 200 frequentist refits per setting and model family. It is not run by the publication recipe. Its output
+under `outputs/endpoint_gap/2026-10-18/` includes simulation Monte Carlo errors
+and gap-tail summaries; those errors are not sampling or posterior uncertainty.
+The exercise does not validate the tolerance schedules or diagnose the
+observed daylight association. The current result is explicitly
+`complete_with_withheld_groups`: the entire uncapped largest-gap Weibull
+setting is excluded because two fits failed. Read `analysis_status.csv` and
+`scenario_family_status.csv` alongside the numerical summaries; an exit-zero
+run does not mean every setting was estimable. All reported supported 120-day
+thresholds meet the 5% relative Monte Carlo SE criterion (maximum 0.89%).
+
 The SW figure uses all six saved no-region specifications; their range is
-model variation, not an uncertainty band. The October editorial exchange and
-claim decisions are recorded in Correspondence thread 91 and
-`../docs/reviews/2026-10-18-editorial-reconstruction.md`.
+model variation, not an uncertainty band. Correspondence thread 91 and
+`../docs/reviews/2026-10-18-editorial-reconstruction.md` record the editorial
+exchange. Numerical and wording repairs to the added calculations are recorded
+in `../docs/log/2026-10-18-editorial-audit.md`.
 
 `just refresh-profiles` regenerates the corrected joint operating profiles and
 camera-dependence diagnostics. `just break-even` then regenerates the current

@@ -2,33 +2,43 @@
 
 Updated: 2026-10-18
 
-## October 18 editorial reconstruction — assembled draft
+## October 18 editorial reconstruction — audited second candidate
 
-Barry asked Codex and Claude to substantially rework the manuscript for a
-general ecology editor as well as specialist readers. Correspondence thread
-91 records his request (1914), Claude's effort-first counterproposal (1927),
-the integration response (1928), and the endpoint-gap exchange (1936, 1943,
-1952). The assembled October draft now leads with observation time, uses the
-90/120-day comparison as its worked application, and gives the failed SW
-transfer check a main figure. The main text has two tables and three figures;
-the supplement has five tables and three diagnostic figures. The Cox,
-calibration and conditional-interval figures moved to the supplement.
+Barry asked Codex and Claude to substantially rework the paper for a general
+ecology editor as well as specialist readers. Correspondence thread 91 records
+the request (1914), argument exchange, Codex's first assembled draft (1960,
+commit `7e154fd`), and Claude's next writing pass (1987). The current draft asks
+how long a camera can be left, using expected observation time to connect
+endurance, revisit schedules and costs. Three main figures show field survival,
+continuous lost-time curves and failed SW transfer. The main has three tables;
+the supplement has six tables and four diagnostic figures.
 
-`just publication` builds the revised PDF/DOCX pairs from saved evidence.
-The additional-lost-days figure is a tested linear transformation of the
-19 September paired summaries, written under
-`outputs/management/2026-10-18/editorial/`. No canonical fits or raw inputs
-changed. Decisions and verified examples are in
-`docs/reviews/2026-10-18-editorial-reconstruction.md`; build and review evidence
-is in `docs/log/2026-10-18-editorial.md`. The starting source was `7d8d443`.
+Independent audits reproduced the new curves and all 20 tolerance crossings.
+They found thin support at Varta's 10% crossing (one interval/camera), discarded
+beyond-follow-up mass in the original uncertainty summary, and omitted exact
+curve endpoints. These are corrected: support appears along curves and at
+crossings, censored draws retain their percentile ranks, and curves include
+exact cell maxima. The reported schedules remain conditional illustrations,
+not prospective battery-switching recommendations. The 90/120-day cost results
+and their paired summaries remain unchanged.
 
-Claude has the next direct writing pass after Codex's board handoff; both
-agents contribute prose and displays. His separate endpoint-gap analysis is
-documented in `docs/log/2026-10-18-endpoint-gap.md` and remains outside this
-assembled draft pending review and integration. Its constructed-gap scenarios
-cannot identify the missing shutdown times or validate a daylight mechanism.
+The exploratory endpoint-gap analysis is now in Supplement S8. It reports
+Monte Carlo error and long-tail/cap sensitivity, uses a separate frequentist
+baseline, and does not test the new tolerance schedules. Rate-dependent
+response shifts cannot establish the cause of the daylight association.
+The 200-imputation audit completed with one entire setting/family withheld:
+two uncapped largest-gap Weibull fits failed, so none of that group's model
+summaries is reported. All reported supported 120-day thresholds have relative
+Monte Carlo SE below 0.9%. The explicit output status preserves this failure.
+`docs/log/2026-10-18-editorial-audit.md` records computational checks and final
+build evidence; the first candidate's record remains in
+`docs/log/2026-10-18-editorial.md`.
+
+`just publication` builds both document pairs from saved evidence, including
+regeneration of continuous curves and tolerance summaries. `just endpoint-gap`
+is a separate bounded sensitivity run. Derived October outputs occupy new
+October directories; raw inputs and the sealed September fits remain unchanged.
 Field facts and author metadata still need confirmation before circulation.
-The corrected September evidence and inference boundaries below remain in force.
 
 ## September 19 independent-review correction — current state
 

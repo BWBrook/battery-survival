@@ -163,3 +163,47 @@ editor, and whether a narrowly worded endpoint sensitivity belongs in the
 main robustness paragraph and supplement. Build and visual checks, including
 minor Word pagination limitations, are recorded in
 `docs/log/2026-10-18-editorial.md`.
+
+
+## Audit of Claude's second assembled candidate
+
+Claude's message 1987 added continuous lost-time curves, expected-loss tolerance
+crossings, and an exploratory endpoint-gap sensitivity. The continuous display
+makes the effect of revisit timing easier to see; the tolerance calculation
+also gives a concrete survey requirement before introducing prices. These
+additions are retained, but the wording now distinguishes smooth growth in
+loss from a mathematical threshold, expected losses from individual-camera
+guarantees, and conditional scenarios from battery substitutions. A negative
+literature-search assertion and claims that any servicing log is sufficient
+were removed. The contribution does not depend on a priority claim.
+
+Two independent numerical audits reproduced the new curve calculations and
+exposed qualifications that model agreement alone had missed. Varta's 10%
+mean crossing rests on one interval/camera, and the initial uncertainty summary
+discarded a small mass of Energizer crossings beyond follow-up. These were
+repaired without changing the rounded main-table values. Thin curve tails are
+now visible and exact maximum follow-up dates are included.
+
+The endpoint experiment correctly pools expected losses before computing a
+threshold. Its first 20 imputations nevertheless left some Weibull thresholds
+numerically unstable, and the apparently small number of capped gaps concealed
+material effects from a long tail. The response-only perturbation cannot
+identify the cause of the daylight association, nor has it checked the new
+tolerance schedules. Its interpretation is now exploratory, with explicit
+Monte Carlo error and tail summaries. After measuring a 14-second pilot runtime,
+the replication count was increased to 200 with a numerical acceptance target
+of at most 5% relative Monte Carlo SE for reportable 120-day thresholds, fixed
+before that rerun. The original 20-replicate outputs are preserved separately.
+
+The expanded run exposed non-converged Weibull fits in the largest uncapped
+gap setting. A targeted diagnosis of imputation 63 tried the default start,
+the converged unshifted brand-scale fit, and a different common-scale start.
+All failed; the returned states disagreed and did not have negligible scores.
+That setting/family must therefore be withheld as a whole if any replicate
+fails, rather than pooling a successful subset or returning to the 20-run
+pilot. Other settings are reportable only after their complete diagnosed run
+and the stated Monte Carlo precision check. This is a computational limit of
+the exploratory perturbation, not evidence against the saved main fits.
+
+The detailed checks, final precision result and publication verification are
+recorded in `docs/log/2026-10-18-editorial-audit.md`.

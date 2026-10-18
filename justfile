@@ -50,6 +50,8 @@ sensitivity stage="all":
 publication:
   Rscript --vanilla scripts/plot_manuscript_sensitivity.R
   Rscript --vanilla scripts/plot_editorial_lost_camera_days.R
+  Rscript --vanilla scripts/plot_lost_day_curves.R
+  Rscript --vanilla scripts/summarise_tolerance_intervals.R
   make -B -C "$HOME/work/makedoc" CONFIG="$PWD/settings/build.yaml" check
   python3 scripts/format_manuscript_docx.py outputs/publication/battery-survival-integrated.docx
   python3 "$HOME/work/makedoc/scripts/build_manifest.py" --config "$PWD/settings/build.yaml" --profile battery_survival_integrated --output outputs/publication/battery-survival-integrated_build_manifest.json --pdf outputs/publication/battery-survival-integrated.pdf --docx outputs/publication/battery-survival-integrated.docx
@@ -68,3 +70,12 @@ refresh-profiles:
 # Current fixed-interval management comparison; run refresh-profiles first.
 break-even:
   Rscript --vanilla scripts/summarise_break_even.R
+
+# Continuous lost-day curves and tolerance intervals from the sealed camera fits.
+lost-day-curves:
+  Rscript --vanilla scripts/plot_lost_day_curves.R
+  Rscript --vanilla scripts/summarise_tolerance_intervals.R
+
+# Assumed last-image gap stress test (200 frequentist refits per setting/family).
+endpoint-gap:
+  Rscript --vanilla scripts/run_endpoint_gap_sensitivity.R

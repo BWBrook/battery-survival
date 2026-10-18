@@ -1,4 +1,4 @@
-# Supporting information: How battery endurance and revisit schedules shape camera-trap effort
+# Supporting information: How long can a camera trap be left? Battery survival, revisit intervals and lost observation time
 
 Private working supplement, 18 October 2026. This document contains the model-family and camera-dependence sensitivity analysis, its empirical support, and the reproducible management calculations. It accompanies the main manuscript and is not an independent validation report.
 
@@ -78,23 +78,23 @@ Long extrapolations could change qualitatively. For Energizer/white flash at $r=
 
 The management comparison reuses the archived Weibull and loglogistic camera fits, analysed separately, without new sampling. The five white-flash profiles use observed joint region–season cells and observed workload pairs selected by the uniform rule in Section S6. Their differences therefore combine battery and operating conditions; they are not common-covariate treatment contrasts. Infrared profiles remain in the model-sensitivity diagnostic in Section S4, but do not anchor the management claim.
 
-At a fixed revisit interval $T$, let $D_{b,\theta}(T)$ be the expected downtime fraction for profile $b$, integrated over a new camera's random effect, conditional on model parameters $\theta$. Its posterior mean is $\bar D_b(T)$. For battery cost $C_b$, common service cost $C_s$, and lost-day value $c_d$, posterior expected cost per calendar day is
+At a fixed revisit interval $T$, let $D_{b,\theta}(T)$ be the expected downtime fraction for profile $b$, integrated over a new camera's random effect, conditional on model parameters $\theta$. Its posterior mean is $\overline{D}_b(T)$. For battery cost $C_b$, common service cost $C_s$, and lost-day value $c_d$, posterior expected cost per calendar day is
 
 $$
-\bar L_b(T)=\frac{C_s+C_b}{T}+c_d\bar D_b(T).
+\overline{L}_b(T)=\frac{C_s+C_b}{T}+c_d\overline{D}_b(T).
 $$
 
 For a cheaper alternative $X$ and Energizer $E$, subtracting these losses eliminates the common service cost. Their equality gives
 
 $$
-c_d^*(T)=\frac{C_{b,E}-C_{b,X}}{T[\bar D_X(T)-\bar D_E(T)]}.
+c_d^{\star}(T)=\frac{C_{b,E}-C_{b,X}}{T[\overline{D}_X(T)-\overline{D}_E(T)]}.
 $$
 
 This is the threshold for choosing between profiles on posterior expected loss. It is a ratio formed after averaging downtime, not a posterior mean or median of draw-wise ratios. The battery-set costs are 24, 36, 40, 48 and 52 illustrative units for Procell, Wallaby, Ansmann, Varta and Energizer respectively. Changing the common service cost cannot change their ranking at fixed $T$. Costs that differ between alternatives would not cancel.
 
 To describe parameter uncertainty, each retained posterior draw supplies predictions for all profiles together. We calculate the threshold within each paired draw, keeping their shared coefficients and camera-variation parameters paired; 2.5th and 97.5th percentiles describe this parameter-conditional distribution. If the cheaper profile has no greater downtime in a draw, it has lower loss at every nonnegative lost-day value: its switch threshold is recorded as infinity rather than discarded. The machine-readable output reports the frequency of these draws, and uncertainty bounds retain them. The expected-loss threshold and the bounds thus summarise different aspects of the same posterior, not interchangeable point estimators. All 1,000 retained draws had positive downtime differences in all 16 calculated comparisons (including the unsupported Procell 120-day extrapolations retained only in the machine-readable output); this establishes zero sampled mass at infinity, not an exact zero posterior probability.
 
-Predictions use direct distributional survival and partial first moments with 30-node normal quadrature for new-camera effects and 1,000 posterior draws balanced across chains. Uncertainty excludes model-family, price, profile-construction and last-image-gap uncertainty; the bounds are not individual-camera prediction intervals. Main-text Fig. 2 multiplies each saved paired downtime-gap mean and its interval limits by the positive revisit interval, yielding additional expected lost camera-days. This linear transformation preserves the paired uncertainty; unsupported rows are withheld. It requires no new fitting or posterior sampling. The two families are reported separately. At-risk counts match brand, flash, region and season jointly; pooled brand/flash and region-only counts are retained separately in machine-readable outputs. Fewer than 20 joint-cell intervals or 10 cameras is flagged as thin support. Empty categorical cells, workloads outside that cell's observed ranges, and horizons beyond its maximum follow-up have separate support flags. A supported workload pair and adequate risk count do not establish prospective validity.
+Predictions use direct distributional survival and partial first moments with 30-node normal quadrature for new-camera effects and 1,000 posterior draws balanced across chains. Uncertainty excludes model-family, price, profile-construction and last-image-gap uncertainty; the bounds are not individual-camera prediction intervals. Figure S4 multiplies each saved paired downtime-gap mean and its interval limits by the positive revisit interval, yielding additional expected lost camera-days. This linear transformation preserves the paired uncertainty; unsupported rows are withheld. The continuous version in main-text Fig. 2 uses the same draws and calculation over a grid of intervals (Section S9). Neither requires new fitting or posterior sampling. The two families are reported separately. At-risk counts match brand, flash, region and season jointly; pooled brand/flash and region-only counts are retained separately in machine-readable outputs. Fewer than 20 joint-cell intervals or 10 cameras is flagged as thin support. Empty categorical cells, workloads outside that cell's observed ranges, and horizons beyond its maximum follow-up have separate support flags. A supported workload pair and adequate risk count do not establish prospective validity.
 
 The 90- and 120-day horizons were selected during exploratory manuscript development after inspection of the existing support summaries. They are fixed comparisons, not optimised schedules or a test of prospectively specified policies. The corrected profile rule selects Central/winter for Procell/white, whose maximum follow-up is 117 days. Its 120-day numerical extrapolations are retained in the machine-readable output but withheld from the manuscript tables; even 120 days exceeds this scenario's support, despite a pooled brand/flash maximum of 148 days. The earlier nine-scenario joint optimisation and its distant-tail qualifications are retained in the project archive and decision log, but are not evidence for the fixed-interval management claim.
 
@@ -112,7 +112,7 @@ Table S4. Modelled downtime and nominal-to-active-effort ratios at 120 days unde
 | Varta | 501 / 230 | 3.8 / 3.5 | 1.04 / 1.04 | 85 / 85 | Within follow-up |
 | Wallaby | 226 / 219 | 11.0 / 11.1 | 1.12 / 1.12 | 35 / 35 | Within follow-up |
 
-For a common interval, effort inflation is $T/\bar A(T)=1/[1-\bar D(T)]$: nominal deployed days divided by posterior mean active days. It is not the posterior mean of the draw-wise inflation factors. These are scenario quantities under the last-image-as-failure convention, not measurements of physically inactive days; an unobserved period of continued operation would reduce actual downtime. The factor describes the expected-effort denominator; it is not a universal multiplier for bias in an ecological estimator. The full white-flash strata contain substantially more observations than the sparse infrared groups, but late follow-up remains limited for some brands.
+For a common interval, effort inflation is $T/\overline{A}(T)=1/[1-\overline{D}(T)]$: nominal deployed days divided by posterior mean active days. It is not the posterior mean of the draw-wise inflation factors. These are scenario quantities under the last-image-as-failure convention, not measurements of physically inactive days; an unobserved period of continued operation would reduce actual downtime. The factor describes the expected-effort denominator; it is not a universal multiplier for bias in an ecological estimator. The full white-flash strata contain substantially more observations than the sparse infrared groups, but late follow-up remains limited for some brands.
 
 
 For each brand/flash group, the profile uses the most frequent observed region–season combination. Ties are resolved lexically by region then season. Within that cell, we select the observed pair of log-one-plus flash and daylight rates minimising squared Euclidean distance from the two cell medians, resolving exact ties lexically by flash then daylight rate. Selection does not use event status or follow-up duration separately from the already defined workload rates. Thus both the categorical combination and the workload pair occurred in the data. Scenario differences still combine brand with region, season and realised workload; they are not standardised brand contrasts. Table S5 makes the scenarios explicit.
@@ -135,5 +135,44 @@ Table S5. Observed operating scenarios used in the corrected predictions. W and 
 At 180 days, SW Varta/white Kaplan–Meier survival was 0.601 (112 at risk), versus 0.289 under the original Weibull specification and a highest prediction of 0.400 across six no-region models (main-text Fig. 3). The 406 other SW intervals had unsupported battery levels. These independent-row fits did not resolve the transfer failure. The region-adjusted camera models were not evaluated in SW, so this check does not test whether camera dependence explains the regional difference.
 
 In training, Energizer survival at 270 days was 0.405 by Kaplan-Meier, versus row-averaged camera predictions of 0.120 (Weibull) and 0.185 (loglogistic), with only 19 intervals still at risk. These are fitted-data diagnostics, not out-of-sample forecast checks.
+
+## S8. Exploratory sensitivity to assumed last-image gaps
+
+The last image cannot identify when a camera stopped operating. We perturbed recorded endpoints under explicit assumptions to explore sensitivity; these gaps are not estimated shutdown times.
+
+Each of the 1,735 failed training intervals received an exponential gap at its recorded images-per-day rate divided by $b$ = 1, 3 or 10. Poisson observation logic motivates the waiting-time scale but cannot establish this conditional gap law. The divisors do not estimate bursts or temporal clustering, and recorded rates depend on the observation window and image protocol. All failed intervals had positive counts; 22 had ten images or fewer. Censored durations, workload covariates and scenarios stayed fixed: only failed-row durations changed.
+
+Shifted lifetimes were uncapped. A paired variant of $b$ = 10 used the same simulated gaps but capped shifted lifetimes at 366 days, the longest recorded duration in the cohort. This is an illustrative cap, not an upper bound on any failed camera's shutdown. For each setting, 200 sets of gaps were drawn and the brand-scale, region-adjusted Weibull and loglogistic AFT models were refitted as independent-row models. Expected additional lost days were averaged across imputations before dividing the battery-set saving. Original support flags were retained, so Procell at 120 days remains withheld: simulated extensions do not create observed follow-up.
+
+Fits required convergence and finite parameters, likelihood, covariance and expected losses. Non-convergence triggered one retry at a higher iteration limit; any persistent failure withheld the entire setting/family group. Uncapped $b$ = 10 Weibull failed, including a targeted check from two alternative starting points. None of that group enters model summaries. Gap and Kaplan–Meier summaries do not depend on these fits.
+
+The unshifted frequentist fits provide a separate baseline from the main camera models: their Weibull Ansmann threshold is about 10% lower at 120 days. Imputation variation and Monte Carlo error do not represent sampling or posterior uncertainty.
+
+Table S6. Supported 120-day break-even values under assumed gaps, in illustrative units per additional lost camera-day. Values divide the saving by expected losses averaged across 200 imputations, rather than averaging thresholds. The unshifted baseline uses one fit. — The whole setting is withheld for numerical failures. Monte Carlo precision is reported below and in the accompanying CSV.
+
+| Family | Alternative | Unshifted | $b$ = 1 | $b$ = 3 | $b$ = 10 | $b$ = 10, capped |
+|---|---|---:|---:|---:|---:|---:|
+| Weibull | Ansmann | 1.48 | 1.58 | 1.71 | — | 2.06 |
+| Weibull | Varta | 1.56 | 1.56 | 1.47 | — | 1.36 |
+| Weibull | Wallaby | 1.41 | 1.51 | 1.52 | — | 1.41 |
+| Loglogistic | Ansmann | 1.64 | 1.79 | 2.07 | 3.07 | 3.09 |
+| Loglogistic | Varta | 1.55 | 1.58 | 1.65 | 1.97 | 1.97 |
+| Loglogistic | Wallaby | 1.38 | 1.48 | 1.67 | 2.20 | 2.20 |
+
+The largest uncapped setting had a median assumed gap of 6.2 days, a mean of about 15 days, and an average within-imputation 99th percentile of about 135 days. Shifted maximum lifetimes ranged from 386 to 1,858 days across imputations. Capping affected only 6.1 failed intervals on average, yet removed the Weibull convergence failures. The small fraction capped therefore does not establish that the extreme tail is unimportant.
+
+All reported 120-day thresholds had relative Monte Carlo standard errors below 0.9%, meeting the 5% numerical criterion set before the expanded run; the largest absolute Monte Carlo standard error was 0.019 units. This measures finite simulation error under the assumed gaps, not the credibility of those assumptions. The original 20-imputation pilot, failed attempts and withheld setting remain in the analysis archive.
+
+The daylight coefficient on log time changed from 0.042 in the unshifted loglogistic fit to a median of −0.013 under uncapped $b$ = 10. In the capped Weibull setting it changed from 0.041 to −0.033. The construction gives longer extensions to lower-rate records while holding rates fixed as predictors. These changes show sensitivity to that construction, not that endpoint gaps caused the original association. Main Table 2 tolerance crossings were not recomputed.
+
+Code: `R/endpoint_gap_sensitivity.R` and `scripts/run_endpoint_gap_sensitivity.R`; outputs, input hashes, numerical status and Monte Carlo summaries: `outputs/endpoint_gap/2026-10-18/`.
+
+## S9. Observation-time curves and tolerance crossings
+
+Expected lost time is $T-A(T)=\int_0^T[1-S(t)]\,dt$. For each posterior draw, the curves integrate over the fitted population distribution of camera effects. Main Fig. 2 uses 1,000 balanced draws from each saved model and evaluates revisits on a three-day grid augmented with the exact joint-cell maximum follow-up. The same draws are paired when subtracting the Energizer scenario. Bands describe uncertainty in expected time, not variation in the losses of individual cameras. Agreement between the two lifetime families does not assess endpoint error or uncertainty in scenario construction.
+
+Main Table 2 inverts the posterior mean downtime fraction on a one-day grid, with linear interpolation between adjacent values. Its point estimate is not the mean or median of draw-wise crossings. The 2.5th and 97.5th percentiles of draw-wise crossings describe parameter uncertainty. Crossings beyond the observed cell maximum remain right-censored in this summary; their mass is retained in the percentile denominator rather than discarded. For the Energizer 10% tolerance, 0.5% of Weibull draws and 0.6% of loglogistic draws did not cross within 204 days. Both reported percentile limits remain inside follow-up.
+
+Support is evaluated in the exact brand, flash, region and season cell, with the same descriptive screen used elsewhere: fewer than 20 deployment intervals or 10 cameras at risk is thin support. Varta's 10% mean crossings have only one interval and one camera at risk. The other mean crossings meet this screen, although parts of the plotted late tails and some parameter intervals do not. Maximum follow-up alone is not evidence of reliable prediction. The machine-readable curve and tolerance tables retain joint-cell counts and support classifications, including those at the uncertainty limits: `outputs/management/2026-10-18/lost_day_curves/`.
 
 ## References
