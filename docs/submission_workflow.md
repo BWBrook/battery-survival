@@ -153,6 +153,66 @@ Run in order:
 
 ---
 
+## Journal and preprint requirements (checked 23 October 2026)
+
+Read from primary pages: connectsci.au `wr/pages/wr-authors`,
+`author-instructions`, `publishing-policies`, `open-access`, and the
+EcoEvoRxiv and openRxiv policy pages. "Unverified" means the pages are silent.
+
+**Length and form**
+
+- **Wildlife Research Research Article:** at most 6,000 words and 80
+  references. Whether the limit includes references is unverified.
+- **Abstract:** at most 350 words, under the headings Context, Aims, Methods,
+  Key results, Conclusions and Implications. Ours is 348 words and compliant.
+- **Keywords:** at least eight recommended; we have six.
+- **Format-free submission:**
+  - Any consistent reference style is accepted; the house style is Harvard.
+  - Line numbers are required; the Word build already has them.
+  - Tables must be editable.
+  - Cite supplementary items as "Supplementary Table S1". The draft says
+    "Table S1".
+
+**Required statements**
+
+- **Competing interests, funding and data availability.** State "none" or
+  "no funding" explicitly if so. A data-availability statement is required,
+  but sharing data does not affect the decision.
+- **Ethics and permits.** Cite them; work done without a required permit will
+  not be considered.
+- **AI declaration**, placed in Methods. It must give each tool's name,
+  version, model and source, how it was used, and how its outputs were
+  validated. AI cannot be an author or create, alter or manipulate original
+  data or results. Editing-only use is exempt, but our use (analysis, code and
+  drafting) is not.
+- **ORCID** is required for the submitting author.
+
+**Other submission items**
+
+- Cover letter: no simultaneous submission elsewhere, and the preprint link.
+- Table-of-contents image: required, with permission and photo credit.
+- A 50–80-word non-specialist summary (worth writing even if optional).
+  Whether suggested reviewers are requested is unverified.
+- Revisions need separate high-quality figure files.
+
+**Open access.** UTAS is in CSIRO Publishing's read-and-publish agreement,
+which covers Wildlife Research, so there is no article charge if the
+corresponding author is at UTAS. Otherwise the charge is AUD 3,600.
+
+**Preprints.** The journal allows them: link the preprint in the cover letter
+and the data-availability statement. A server is chosen in stage 4.
+
+- **bioRxiv** (openRxiv) requires verifiable human authors who "shape, review,
+  stand behind" the work. Its sibling medRxiv asks for AI use to be disclosed
+  like other computational methods.
+- **EcoEvoRxiv** has no disclosure rule, but may reject or withdraw for "use
+  of AI to fully write a preprint".
+- Claude's provisional recommendation is bioRxiv (Ecology), because its stated
+  standard matches our transparent disclosure. Alternatively, send EcoEvoRxiv
+  a short eligibility inquiry first.
+
+---
+
 ## Facts sheet (Barry)
 
 | Item | Answer |
