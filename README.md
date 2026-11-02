@@ -1,5 +1,7 @@
 # battery-survival
 
+> **Status:** developed in the open as a working record. This is work in progress: contents may change, and nothing here is peer-reviewed unless stated.
+
 Reproducible survival analysis workflow for camera-trap battery performance in Tasmania.
 
 This repository now uses a modern analysis stack:
@@ -213,3 +215,7 @@ Historic exploratory scripts remain in `methods/` for reference and provenance. 
 
 Project governance and agent instructions:
 1. `AGENTS.md`
+
+## Licence
+
+Code is released under the [MIT Licence](LICENSE). Text, figures and data created for this project are released under [CC BY-SA 4.0](LICENSE-CONTENT). Third-party material keeps its own terms where stated.
